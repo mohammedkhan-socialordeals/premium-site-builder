@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Premium Site Builder Pro — generate a 50–100 page SEO/AEO/GEO website</title>
+<meta name="description" content="Answer a guided questionnaire, upload your logo and photos, and generate a complete, fast, search-optimized multi-page website you can host on GitHub Pages.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111'/%3E%3Ctext x='32' y='44' font-family='Georgia' font-size='34' font-weight='700' text-anchor='middle' fill='%23e9c46a'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>:root{--bg:#f4f1ea;--panel:#fffdf8;--ink:#15171a;--muted:#6b6f76;--line:#e2ddd2;--brand:#15171a;--gold:#d9a441;--teal:#0f5f5a;--err:#b42318;--ok:#1b7f4d;--mono:"IBM Plex Mono",ui-monospace,monospace;--sans:"IBM Plex Sans",system-ui,sans-serif;--serif:"Fraunces",Georgia,serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#121416;--panel:#1a1d20;--ink:#eee9df;--muted:#9a9ea5;--line:#2c3035;--brand:#eee9df;color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+h1{font:500 clamp(1.8rem,3vw,2.6rem)/1.1 var(--serif);letter-spacing:-.02em;margin:0 0 .4rem}
+h2{font:500 1.35rem/1.2 var(--serif);margin:2.2rem 0 .6rem}
+h3{font:600 1rem/1.3 var(--sans);margin:0 0 .5rem}
+a{color:var(--teal)}
+.hint{color:var(--muted);margin:0 0 1.2rem;max-width:70ch}
+.muted{color:var(--muted);font-size:.85rem}
+code{font-family:var(--mono);font-size:.85em;background:var(--line);padding:.1em .35em;border-radius:4px}
+/* top bar */
+.top{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.8rem 1.2rem;background:var(--panel);border-bottom:1px solid var(--line)}
+.top-brand{display:flex;align-items:center;gap:.8rem}.top-brand small{display:block;color:var(--muted);font-size:.75rem}
+.mark{width:38px;height:38px;border-radius:10px;background:var(--brand);color:var(--gold);display:grid;place-items:center;font:700 1.3rem var(--serif)}
+.top-actions{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.pagecount{font-family:var(--mono);font-size:.8rem;color:var(--muted);padding:.4rem .7rem;border:1px dashed var(--line);border-radius:999px}
+/* layout */
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100% - 64px)}
+@media (max-width:860px){.layout{grid-template-columns:1fr}.steps{position:static;display:flex;overflow-x:auto;padding:.6rem!important}.steps button{flex:none}.steps-foot{display:none}}
+.steps{position:sticky;top:64px;align-self:start;display:flex;flex-direction:column;gap:.25rem;padding:1.2rem .8rem;height:calc(100vh - 64px)}
+.steps button{display:flex;align-items:center;gap:.7rem;width:100%;text-align:left;padding:.65rem .8rem;border:0;background:transparent;color:var(--ink);border-radius:10px;font:500 .95rem var(--sans);cursor:pointer}
+.steps button:hover{background:var(--line)}.steps button.is-active{background:var(--brand);color:var(--bg)}
+.steps button i{font:500 .75rem var(--mono);width:22px;height:22px;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;font-style:normal;opacity:.7}
+.steps button.is-done i{background:var(--ok);border-color:var(--ok);color:#fff;opacity:1}
+.steps-foot{margin-top:auto;display:grid;gap:.6rem;font-size:.85rem}
+.panel{padding:2rem clamp(1rem,4vw,3.5rem) 6rem;max-width:1100px}
+.panel>section{display:none}.panel>section.is-active{display:block}
+/* forms */
+label{display:block;font-weight:500;margin-bottom:1rem;font-size:.9rem}
+input:not([type=checkbox]):not([type=radio]):not([type=color]):not([type=file]),select,textarea{display:block;width:100%;margin-top:.3rem;padding:.65rem .8rem;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:9px;font:inherit}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px color-mix(in srgb,var(--teal) 22%,transparent)}
+input[type=color]{display:block;width:100%;height:42px;margin-top:.3rem;border:1px solid var(--line);border-radius:9px;background:var(--panel);padding:.2rem}
+input[type=file]{margin-top:.3rem}
+textarea{resize:vertical;min-height:80px}
+label:has(input[type=checkbox]){display:flex;align-items:center;gap:.5rem;font-weight:400}
+.grid2,.grid3{display:grid;gap:0 1rem}.grid2{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}.grid3{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.hours-row{display:grid;grid-template-columns:1.6fr 1fr 1fr auto;gap:.5rem;align-items:center;margin-bottom:.5rem}.hours-row label{margin:0}
+button{font:inherit;cursor:pointer}
+.primary,.ghost{padding:.65rem 1.1rem;border-radius:999px;border:1px solid var(--brand);font-weight:600;font-size:.9rem}
+.primary{background:var(--brand);color:var(--bg)}.primary:disabled{opacity:.4;cursor:not-allowed}
+.ghost{background:transparent;color:var(--ink);border-color:var(--line)}.ghost:hover{border-color:var(--brand)}.ghost:disabled{opacity:.4;cursor:not-allowed}
+.ghost.danger{color:var(--err)}
+.big{padding:.95rem 1.8rem;font-size:1.05rem}
+.toolbar{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:.6rem 0 1.2rem}
+.nav-row{display:flex;justify-content:space-between;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line)}
+.toggles{display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;margin-bottom:1.5rem}.toggles label{margin:0}
+.switch{font-size:.85rem;margin:0}
+details{border:1px solid var(--line);border-radius:12px;padding:0 1rem;margin-bottom:1rem;background:var(--panel)}
+details summary{cursor:pointer;padding:.9rem 0;font:500 1.05rem var(--serif);list-style:none;display:flex;justify-content:space-between}
+details summary::after{content:"+";color:var(--muted)}details[open] summary::after{content:"–"}
+details>:not(summary){margin-top:.5rem}
+/* cards */
+.cards{display:grid;gap:.8rem}
+.card{position:relative;border:1px solid var(--line);border-radius:12px;padding:1rem 1rem .2rem;background:var(--panel)}
+.card .rm{position:absolute;top:.6rem;right:.6rem;border:0;background:transparent;color:var(--muted);font-size:1.2rem;line-height:1;padding:.3rem}.card .rm:hover{color:var(--err)}
+.card .mv{position:absolute;top:.6rem;right:2.4rem;border:0;background:transparent;color:var(--muted);padding:.3rem}
+.card .ai{position:absolute;top:.55rem;right:4.2rem;font-size:.75rem;padding:.3rem .6rem}
+.card h3{padding-right:7rem}
+/* images */
+.drop{position:relative;border:2px dashed var(--line);border-radius:14px;padding:2.5rem 1rem;text-align:center;background:var(--panel);margin-bottom:1rem}
+.drop input{position:absolute;inset:0;opacity:0;cursor:pointer}.drop.is-over{border-color:var(--teal)}
+.img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:.8rem}
+.img-card{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.img-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.img-card input{margin:0;border-radius:0;border:0;border-top:1px solid var(--line);font-size:.8rem}
+.img-card .bar{display:flex;justify-content:space-between;align-items:center;padding:.2rem .4rem;font-size:.75rem;color:var(--muted)}
+.img-card .bar button{border:0;background:transparent;color:var(--muted);padding:.2rem .4rem}
+.logo-preview{margin:.5rem 0 1rem;padding:1.5rem;border:1px solid var(--line);border-radius:12px;background:repeating-conic-gradient(var(--line) 0 25%,transparent 0 50%) 0 0/20px 20px;display:grid;place-items:center;min-height:120px;color:var(--muted);font-size:.85rem}
+.logo-preview img{max-height:90px;max-width:100%}
+.swatch{margin-top:1rem;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+.sw-hero{padding:2rem;background:var(--sw-primary,#0f5f5a);color:#fff}.sw-hero strong{font:600 3rem/1 var(--sw-display,Georgia)}.sw-hero span{display:block;font-family:var(--sw-body,sans-serif);opacity:.8}
+.sw-btn{display:inline-block;margin:1rem;padding:.7rem 1.3rem;border-radius:999px;background:var(--sw-accent,#d8a85b);color:#111;font:600 .9rem var(--sw-body,sans-serif)}
+/* build */
+.checks{display:grid;gap:.4rem;margin-bottom:1.2rem}
+.checks div{padding:.5rem .8rem;border-radius:8px;font-size:.9rem;background:var(--panel);border:1px solid var(--line)}
+.checks .fail{border-color:var(--err);color:var(--err)}.checks .warn{border-color:var(--gold)}.checks .ok{color:var(--ok)}
+.plan{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.6rem;margin-bottom:1.5rem}
+.plan div{padding:.8rem;border:1px solid var(--line);border-radius:10px;background:var(--panel)}.plan strong{display:block;font:500 1.8rem/1 var(--serif)}.plan span{font-size:.8rem;color:var(--muted)}
+.log{font:400 .8rem/1.5 var(--mono);background:#111;color:#e5e1d8;padding:1rem;border-radius:10px;max-height:260px;overflow:auto;white-space:pre-wrap;margin:1rem 0}
+.preview{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:1rem 0;background:var(--panel)}
+.preview-bar{display:flex;gap:.5rem;padding:.5rem;border-bottom:1px solid var(--line);align-items:center}.preview-bar select{margin:0;flex:1;width:auto}
+.preview iframe{width:100%;height:70vh;border:0;background:#fff;display:block;margin:0 auto;transition:width .3s}.preview.is-mobile iframe{width:390px}
+dialog{border:1px solid var(--line);border-radius:14px;padding:1.5rem;max-width:560px;width:calc(100% - 2rem);background:var(--panel);color:var(--ink)}
+dialog::backdrop{background:rgba(0,0,0,.5)}dialog h3{font:500 1.3rem var(--serif);margin:0 0 .3rem}
+.toast{position:fixed;left:50%;bottom:1.5rem;transform:translateX(-50%);background:var(--brand);color:var(--bg);padding:.7rem 1.2rem;border-radius:999px;z-index:99;font-weight:500;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+</head>
+<body>
+<header class="top">
+  <div class="top-brand"><span class="mark">P</span><div><strong>Premium Site Builder</strong><small>Pro · multi-page · SEO · AEO · GEO</small></div></div>
+  <div class="top-actions">
+    <span class="pagecount" id="pagecount">0 pages planned</span>
+    <button class="ghost" id="btn-load">Load project</button>
+    <button class="ghost" id="btn-save">Save project</button>
+    <button class="primary" id="btn-go-build">Build site →</button>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="steps" aria-label="Steps">
+    <button data-step="business" class="is-active"><i>1</i>Business</button>
+    <button data-step="brand"><i>2</i>Brand &amp; logo</button>
+    <button data-step="images"><i>3</i>Photos</button>
+    <button data-step="services"><i>4</i>Services</button>
+    <button data-step="areas"><i>5</i>Service areas</button>
+    <button data-step="content"><i>6</i>Content</button>
+    <button data-step="seo"><i>7</i>SEO &amp; forms</button>
+    <button data-step="build"><i>8</i>Build &amp; deploy</button>
+    <div class="steps-foot">
+      <label class="switch"><input type="checkbox" id="autosave" checked> Autosave in this browser</label>
+      <button class="ghost danger" id="btn-reset">Start over</button>
+    </div>
+  </nav>
+
+  <main class="panel">
+    <!-- 1 BUSINESS -->
+    <section data-panel="business" class="is-active">
+      <h1>Tell us about the business</h1>
+      <p class="hint">Everything here is used verbatim in the site and in structured data. Only enter facts you can stand behind: nothing is invented for you.</p>
+      <div class="grid2">
+        <label>Business name *<input data-bind="business.name" required placeholder="Aventura Dental Arts"></label>
+        <label>Business type (schema.org)<select data-bind="business.category">
+          <option value="LocalBusiness">LocalBusiness (generic)</option><option>Dentist</option><option>MedicalClinic</option><option>Physician</option><option>Optician</option><option>VeterinaryCare</option><option>ChildCare</option><option>Plumber</option><option>Electrician</option><option>HVACBusiness</option><option>RoofingContractor</option><option>GeneralContractor</option><option>HomeAndConstructionBusiness</option><option>MovingCompany</option><option>AutoRepair</option><option>AutoDealer</option><option>HairSalon</option><option>BeautySalon</option><option>DaySpa</option><option>NailSalon</option><option>Restaurant</option><option>Bakery</option><option>CafeOrCoffeeShop</option><option>LegalService</option><option>Attorney</option><option>AccountingService</option><option>InsuranceAgency</option><option>RealEstateAgent</option><option>FinancialService</option><option>ExerciseGym</option><option>SportsActivityLocation</option><option>Photographer</option><option>Florist</option><option>DryCleaningOrLaundry</option><option>PetStore</option><option>ProfessionalService</option><option>Store</option>
+        </select></label>
+      </div>
+      <label>Tagline (one line)<input data-bind="business.tagline" placeholder="Modern dentistry, calm and unhurried"></label>
+      <label>About the business (several paragraphs; used on Home, About and llms.txt)<textarea data-bind="business.description" rows="7" placeholder="Who you are, what makes you different, who you serve. Separate paragraphs with a blank line."></textarea></label>
+      <div class="grid3">
+        <label>Phone<input data-bind="business.phone" type="tel" placeholder="(626) 555-0100"></label>
+        <label>Email<input data-bind="business.email" type="email" placeholder="hello@example.com"></label>
+        <label>Online booking URL (optional)<input data-bind="business.booking" type="url" placeholder="https://..."></label>
+      </div>
+      <h2>Address &amp; map</h2>
+      <div class="grid2">
+        <label>Street address *<input data-bind="business.address.street" placeholder="123 N Glendora Ave"></label>
+        <label>City *<input data-bind="business.address.city" placeholder="Glendora"></label>
+      </div>
+      <div class="grid3">
+        <label>State / region *<input data-bind="business.address.state" placeholder="CA"></label>
+        <label>ZIP / postal code<input data-bind="business.address.zip" placeholder="91741"></label>
+        <label>Country code<input data-bind="business.address.country" placeholder="US"></label>
+      </div>
+      <div class="grid2">
+        <label>Google Maps link (for "Get directions")<input data-bind="business.mapLink" type="url" placeholder="https://maps.app.goo.gl/..."></label>
+        <label>Google Maps embed URL (optional, contact page map)<input data-bind="business.mapEmbed" type="url" placeholder="https://www.google.com/maps/embed?pb=..."></label>
+      </div>
+      <div class="grid3">
+        <label>Latitude (GEO)<input data-bind="business.lat" placeholder="34.1362"></label>
+        <label>Longitude (GEO)<input data-bind="business.lng" placeholder="-117.8653"></label>
+        <label>Year founded<input data-bind="business.yearFounded" placeholder="2008"></label>
+      </div>
+      <h2>Hours</h2>
+      <p class="hint">Used for "Open now" status and schema.org opening hours. 24-hour times (09:00). Leave open/close blank for closed days.</p>
+      <div id="hours"></div>
+      <h2>Social &amp; profiles</h2>
+      <div class="grid3">
+        <label>Google Business Profile<input data-bind="business.social.google" type="url"></label>
+        <label>Facebook<input data-bind="business.social.facebook" type="url"></label>
+        <label>Instagram<input data-bind="business.social.instagram" type="url"></label>
+        <label>Yelp<input data-bind="business.social.yelp" type="url"></label>
+        <label>LinkedIn<input data-bind="business.social.linkedin" type="url"></label>
+        <label>YouTube / TikTok<input data-bind="business.social.youtube" type="url"></label>
+      </div>
+      <label>Price range (schema, e.g. $$)<input data-bind="business.priceRange" placeholder="$$"></label>
+      <div class="nav-row"><span></span><button class="primary" data-next="brand">Next: Brand &amp; logo →</button></div>
+    </section>
+
+    <!-- 2 BRAND -->
+    <section data-panel="brand">
+      <h1>Brand &amp; logo</h1>
+      <div class="grid2">
+        <div>
+          <label>Logo (PNG/SVG, transparent background works best)<input type="file" id="logo-file" accept="image/*"></label>
+          <div class="logo-preview" id="logo-preview"><span>No logo yet — a typographic wordmark will be used.</span></div>
+          <button class="ghost" id="logo-colors" hidden>Pick colors from logo</button>
+        </div>
+        <div>
+          <div class="grid2">
+            <label>Primary color<input type="color" data-bind="brand.primary"></label>
+            <label>Accent color<input type="color" data-bind="brand.accent"></label>
+            <label>Ink (text)<input type="color" data-bind="brand.ink"></label>
+            <label>Paper (background)<input type="color" data-bind="brand.paper"></label>
+          </div>
+          <div class="grid2">
+            <label>Theme<select data-bind="brand.theme"><option value="light">Light</option><option value="dark">Dark</option></select></label>
+            <label>Corner radius (px)<input type="number" data-bind="brand.radius" min="0" max="40"></label>
+          </div>
+          <div class="grid2">
+            <label>Display font (Google Fonts)<select data-bind="brand.fontDisplay"><option>Fraunces</option><option>Playfair Display</option><option>Cormorant Garamond</option><option>DM Serif Display</option><option>Instrument Serif</option><option>Libre Caslon Text</option><option>Space Grotesk</option><option>Syne</option><option>Manrope</option><option>Outfit</option><option>Bricolage Grotesque</option></select></label>
+            <label>Body font<select data-bind="brand.fontBody"><option>Inter</option><option>IBM Plex Sans</option><option>DM Sans</option><option>Manrope</option><option>Work Sans</option><option>Source Sans 3</option><option>Nunito Sans</option><option>Figtree</option></select></label>
+          </div>
+        </div>
+      </div>
+      <h2>Style &amp; effects</h2>
+      <p class="hint">Snazzy = modern motion-rich look (gradient mesh hero, shimmer buttons, border beams, bento grid, floating chips, service ticker). Editorial = the same effects, quieter typography. Minimal = effects off for conservative clients. Every effect is removed automatically for visitors with "reduce motion" turned on.</p>
+      <label>Design style<select data-bind="brand.style"><option value="snazzy">Snazzy — bold, modern, animated</option><option value="editorial">Editorial — premium and calm</option><option value="minimal">Minimal — effects off</option></select></label>
+      <div class="toggles">
+        <label><input type="checkbox" data-bind="brand.fx.mesh"> Gradient mesh hero</label>
+        <label><input type="checkbox" data-bind="brand.fx.grain"> Film grain</label>
+        <label><input type="checkbox" data-bind="brand.fx.shimmer"> Shimmer buttons</label>
+        <label><input type="checkbox" data-bind="brand.fx.beam"> Border-beam cards</label>
+        <label><input type="checkbox" data-bind="brand.fx.bento"> Bento "why us" grid</label>
+        <label><input type="checkbox" data-bind="brand.fx.chips"> Floating hero chips</label>
+        <label><input type="checkbox" data-bind="brand.fx.ticker"> Service ticker</label>
+        <label><input type="checkbox" data-bind="brand.fx.glass"> Glass header</label>
+        <label><input type="checkbox" data-bind="brand.fx.blur"> Blur-in headlines + gradient italics</label>
+        <label><input type="checkbox" data-bind="brand.fx.shine"> Photo shine sweep</label>
+        <label><input type="checkbox" data-bind="brand.fx.dots"> Dot-grid CTA bands</label>
+        <label><input type="checkbox" data-bind="brand.fx.transitions"> Page transitions</label>
+      </div>
+      <div class="swatch" id="swatch"><div class="sw-hero"><strong>Aa</strong><span>Heading preview</span></div><div class="sw-btn">Request Appointment</div></div>
+      <div class="nav-row"><button class="ghost" data-next="business">← Back</button><button class="primary" data-next="images">Next: Photos →</button></div>
+    </section>
+
+    <!-- 3 IMAGES -->
+    <section data-panel="images">
+      <h1>Photos</h1>
+      <p class="hint">Upload at least <strong>10</strong> real photos (team, premises, work, details). They are resized to 1600px and 800px JPEG in your browser and never uploaded anywhere until you deploy. Add a short alt description to each: it matters for SEO and accessibility. The first image is the home hero.</p>
+      <div class="drop" id="drop"><input type="file" id="img-files" accept="image/*" multiple><p><strong>Drop photos here</strong> or click to choose · <span id="img-count">0</span>/10 minimum</p></div>
+      <div class="img-grid" id="img-grid"></div>
+      <div class="nav-row"><button class="ghost" data-next="brand">← Back</button><button class="primary" data-next="services">Next: Services →</button></div>
+    </section>
+
+    <!-- 4 SERVICES -->
+    <section data-panel="services">
+      <h1>Services</h1>
+      <p class="hint">Each service becomes its own page, and each service × service area becomes another page: 8 services × 10 areas = 80 location pages plus the core pages. Write each description in your own words; optional AI drafting (step 7) can help you expand bullet points.</p>
+      <div class="toolbar"><button class="primary" id="svc-add">+ Add service</button><button class="ghost" id="svc-bulk">Paste a list</button><span class="muted" id="svc-count"></span></div>
+      <div id="svc-list" class="cards"></div>
+      <div class="nav-row"><button class="ghost" data-next="images">← Back</button><button class="primary" data-next="areas">Next: Service areas →</button></div>
+    </section>
+
+    <!-- 5 AREAS -->
+    <section data-panel="areas">
+      <h1>Service areas</h1>
+      <p class="hint">Cities and neighborhoods you serve. Each gets an area page plus a page for every service. Add a short local note where you can (e.g. "10 minutes from downtown via Route 66"): it keeps location pages specific.</p>
+      <div class="toolbar"><button class="primary" id="area-add">+ Add area</button><button class="ghost" id="area-bulk">Paste a list</button><span class="muted" id="area-count"></span></div>
+      <div id="area-list" class="cards"></div>
+      <div class="nav-row"><button class="ghost" data-next="services">← Back</button><button class="primary" data-next="content">Next: Content →</button></div>
+    </section>
+
+    <!-- 6 CONTENT -->
+    <section data-panel="content">
+      <h1>Content pages</h1>
+      <div class="toggles">
+        <label><input type="checkbox" data-bind="pages.about"> About</label>
+        <label><input type="checkbox" data-bind="pages.team"> Team</label>
+        <label><input type="checkbox" data-bind="pages.reviews"> Reviews</label>
+        <label><input type="checkbox" data-bind="pages.gallery"> Gallery</label>
+        <label><input type="checkbox" data-bind="pages.faq"> FAQ</label>
+        <label><input type="checkbox" data-bind="pages.financing"> Financing</label>
+        <label><input type="checkbox" data-bind="pages.insurance"> Insurance</label>
+        <label><input type="checkbox" data-bind="pages.blog"> Blog</label>
+        <label><input type="checkbox" data-bind="pages.careers"> Careers</label>
+      </div>
+
+      <details open><summary>Reviews <span class="muted" id="rev-count"></span></summary>
+        <p class="hint">Quote real reviews verbatim with the name as shown on the source. Never paraphrase or invent.</p>
+        <div class="toolbar"><button class="primary" id="rev-add">+ Add review</button></div>
+        <div id="rev-list" class="cards"></div>
+      </details>
+
+      <details><summary>FAQs <span class="muted" id="faq-count"></span></summary>
+        <p class="hint">Site-wide questions. They power the FAQ page, home FAQ, FAQPage schema (rich results) and llms.txt (AI answers). Aim for 6–12.</p>
+        <div class="toolbar"><button class="primary" id="faq-add">+ Add FAQ</button></div>
+        <div id="faq-list" class="cards"></div>
+      </details>
+
+      <details><summary>Team</summary>
+        <div class="toolbar"><button class="primary" id="team-add">+ Add team member</button></div>
+        <div id="team-list" class="cards"></div>
+      </details>
+
+      <details><summary>Financing &amp; payment</summary>
+        <label><input type="checkbox" data-bind="financing.enabled"> Enable financing page and mentions</label>
+        <label>Intro (paragraphs)<textarea data-bind="financing.intro" rows="4" placeholder="We accept all major cards and offer monthly plans through..."></textarea></label>
+        <div class="toolbar"><button class="primary" id="fin-add">+ Add payment option</button></div>
+        <div id="fin-list" class="cards"></div>
+        <label>Financing FAQs (question line, answer line, blank line between)<textarea data-bind="financing.faqs" rows="5"></textarea></label>
+      </details>
+
+      <details><summary>Insurance / Careers / Promotions</summary>
+        <label>Insurance page text<textarea data-bind="extras.insuranceText" rows="4"></textarea></label>
+        <label>Careers page text<textarea data-bind="extras.careersText" rows="4"></textarea></label>
+      </details>
+
+      <details><summary>Blog posts &amp; custom pages</summary>
+        <p class="hint">Write the article yourself (or draft with AI in step 7 and edit). Each post is a page with BlogPosting schema.</p>
+        <div class="toolbar"><button class="primary" id="post-add">+ Add blog post</button><button class="ghost" id="custom-add">+ Add custom page</button></div>
+        <div id="post-list" class="cards"></div>
+        <div id="custom-list" class="cards"></div>
+      </details>
+      <div class="nav-row"><button class="ghost" data-next="areas">← Back</button><button class="primary" data-next="seo">Next: SEO &amp; forms →</button></div>
+    </section>
+
+    <!-- 7 SEO -->
+    <section data-panel="seo">
+      <h1>SEO, forms &amp; AI assist</h1>
+      <div class="grid2">
+        <label>Final site URL (canonical, sitemap, schema) *<input data-bind="seo.siteUrl" type="url" placeholder="https://username.github.io/repo-name"></label>
+        <label>Custom domain (optional, writes CNAME)<input data-bind="seo.customDomain" placeholder="www.example.com"></label>
+      </div>
+      <label>Target keywords, one per line (first = primary, used in the H1)<textarea data-bind="seo.keywords" rows="4" placeholder="Family dentist&#10;Cosmetic dentistry&#10;Emergency dental care"></textarea></label>
+      <div class="grid3">
+        <label>Google Analytics ID<input data-bind="seo.gaId" placeholder="G-XXXXXXX"></label>
+        <label>Google Search Console verification<input data-bind="seo.googleVerification"></label>
+        <label>Bing verification<input data-bind="seo.bingVerification"></label>
+      </div>
+      <h2>Forms (contact &amp; appointment)</h2>
+      <p class="hint">GitHub Pages is static, so forms need a delivery service. <a href="https://formspree.io" target="_blank" rel="noopener">Formspree</a> is free for 50 submissions/month: create a form, paste its endpoint here.</p>
+      <div class="grid2">
+        <label>Provider<select data-bind="forms.provider"><option value="formspree">Formspree (recommended)</option><option value="netlify">Netlify Forms (if hosted on Netlify)</option><option value="mailto">Email link (fallback)</option></select></label>
+        <label>Formspree endpoint<input data-bind="forms.endpoint" placeholder="https://formspree.io/f/xxxxxxxx"></label>
+      </div>
+      <h2>AI copy assist (optional)</h2>
+      <p class="hint">Paste your own Anthropic API key to draft service descriptions, FAQs and blog posts from your notes. The key stays in this browser only. Everything drafted is marked for you to review: AI must not invent facts, prices or reviews.</p>
+      <div class="grid2">
+        <label>Anthropic API key<input id="ai-key" type="password" placeholder="sk-ant-..." autocomplete="off"></label>
+        <label>Model<select id="ai-model"><option>claude-sonnet-4-6</option><option>claude-haiku-4-5</option></select></label>
+      </div>
+      <div class="toolbar">
+        <button class="ghost" id="ai-services">Draft missing service descriptions &amp; FAQs</button>
+        <button class="ghost" id="ai-faqs">Draft 8 site FAQs</button>
+        <button class="ghost" id="ai-about">Expand the About text</button>
+        <button class="ghost" id="ai-posts">Draft 4 blog posts</button>
+      </div>
+      <pre class="log" id="ai-log" hidden></pre>
+      <div class="nav-row"><button class="ghost" data-next="content">← Back</button><button class="primary" data-next="build">Next: Build →</button></div>
+    </section>
+
+    <!-- 8 BUILD -->
+    <section data-panel="build">
+      <h1>Build &amp; deploy</h1>
+      <div id="checks" class="checks"></div>
+      <div class="plan" id="plan"></div>
+      <div class="toolbar">
+        <button class="primary big" id="btn-build">Generate website</button>
+        <button class="ghost" id="btn-zip" disabled>Download site .zip</button>
+        <button class="ghost" id="btn-preview" disabled>Preview</button>
+      </div>
+      <div id="build-log" class="log" hidden></div>
+
+      <div class="preview" id="preview" hidden>
+        <div class="preview-bar"><select id="preview-page"></select><button class="ghost" id="preview-mobile">Phone</button><button class="ghost" id="preview-close">Close</button></div>
+        <iframe id="preview-frame" title="Site preview"></iframe>
+      </div>
+
+      <h2>Publish to GitHub Pages</h2>
+      <p class="hint">Push the generated site straight into a GitHub repository and turn on Pages. You need a <a href="https://github.com/settings/tokens/new?scopes=repo&description=Premium+Site+Builder" target="_blank" rel="noopener">personal access token</a> with the <code>repo</code> scope. The token is used only in this browser for this upload. Alternatively download the zip and upload the files manually (instructions in README).</p>
+      <div class="grid3">
+        <label>GitHub token<input id="gh-token" type="password" autocomplete="off" placeholder="ghp_..."></label>
+        <label>Repository (owner/name)<input id="gh-repo" placeholder="yourname/clientsite"></label>
+        <label>Branch<input id="gh-branch" value="main"></label>
+      </div>
+      <div class="toolbar"><button class="primary" id="btn-publish" disabled>Create / update repo &amp; publish</button><label class="switch"><input type="checkbox" id="gh-create" checked> Create the repo if it doesn't exist</label></div>
+      <div id="publish-log" class="log" hidden></div>
+      <div class="nav-row"><button class="ghost" data-next="seo">← Back</button><span></span></div>
+    </section>
+  </main>
+</div>
+<dialog id="dlg"><form method="dialog"><h3 id="dlg-title"></h3><p id="dlg-hint" class="hint"></p><textarea id="dlg-text" rows="8"></textarea><div class="toolbar"><button class="primary" value="ok">Add</button><button class="ghost" value="cancel">Cancel</button></div></form></dialog>
+<script>window.PSB_RUNTIME={"js": "(()=>{\"use strict\";\nconst d=document,h=d.documentElement,W=window,rm=matchMedia(\"(prefers-reduced-motion: reduce)\").matches,fine=matchMedia(\"(hover: hover) and (pointer: fine)\").matches,desk=()=>innerWidth>=900,IO=\"IntersectionObserver\"in W,$$=(s,r)=>[...(r||d).querySelectorAll(s)],clamp=(v,a,b)=>Math.min(b,Math.max(a,v));\nh.classList.add(\"js\");\n/* one shared scroll loop */\nconst loops=new Set();let tick=0;const frame=()=>{tick=0;loops.forEach(f=>f())};const req=()=>{if(!tick){tick=1;requestAnimationFrame(frame)}};\naddEventListener(\"scroll\",req,{passive:true});addEventListener(\"resize\",req);\nconst whenVisible=(el,f)=>{if(!IO){loops.add(f);return}new IntersectionObserver(es=>es.forEach(e=>{e.isIntersecting?loops.add(f):loops.delete(f);req()}),{rootMargin:\"200px 0px\"}).observe(el)};\n/* header, page progress */\nconst hd=d.querySelector(\"[data-header]\");let ly=scrollY;\nloops.add(()=>{const y=scrollY;if(hd){hd.classList.toggle(\"is-scrolled\",y>24);hd.classList.toggle(\"is-hidden\",y>ly&&y>360&&!h.classList.contains(\"nav-open\"));h.style.setProperty(\"--header-h\",hd.offsetHeight+\"px\")}ly=y;const max=d.documentElement.scrollHeight-innerHeight;h.style.setProperty(\"--page-progress\",max>0?(y/max).toFixed(4):0)});\n/* mobile nav */\nconst tg=$$(\"[data-nav-toggle]\"),setNav=o=>{h.classList.toggle(\"nav-open\",o);tg.forEach(b=>b.setAttribute(\"aria-expanded\",o))};\ntg.forEach(b=>{b.setAttribute(\"aria-expanded\",\"false\");b.addEventListener(\"click\",()=>setNav(!h.classList.contains(\"nav-open\")))});\n$$(\"[data-nav] a\").forEach(a=>a.addEventListener(\"click\",()=>setNav(false)));\naddEventListener(\"keydown\",e=>{if(e.key===\"Escape\")setNav(false)});\n/* word splitting (split headlines and scrub text) */\nconst split=(el,cls)=>{let i=0;const out=[];const walk=n=>{[...n.childNodes].forEach(c=>{if(c.nodeType===3){const f=d.createDocumentFragment();c.textContent.split(/(\\s+)/).forEach(p=>{if(!p)return;if(/^\\s+$/.test(p)){f.appendChild(d.createTextNode(p));return}const s=d.createElement(\"span\");if(cls){s.className=cls;s.textContent=p;out.push(s);f.appendChild(s)}else{const w=d.createElement(\"span\");w.className=\"w\";s.textContent=p;s.style.setProperty(\"--i\",i++);w.appendChild(s);f.appendChild(w)}});c.replaceWith(f)}else if(c.nodeType===1&&!c.matches(\"br,svg,img\"))walk(c)})};walk(el);return out};\n$$(\"[data-split]\").forEach(el=>split(el));\n/* entrances */\nconst io=IO&&!rm?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add(\"is-in\");io.unobserve(e.target)}}),{rootMargin:\"0px 0px -8% 0px\",threshold:.06}):null;\n$$(\"[data-reveal],[data-split]\").forEach(el=>{if(el.dataset.reveal===\"stagger\")[...el.children].forEach((c,i)=>c.style.setProperty(\"--i\",i));io?io.observe(el):el.classList.add(\"is-in\")});\n/* scrub text */\n$$(\"[data-scrub]\").forEach(el=>{const ws=split(el,\"sw\");if(rm){ws.forEach(w=>w.classList.add(\"on\"));return}whenVisible(el,()=>{const r=el.getBoundingClientRect(),vh=innerHeight,p=clamp((vh*.85-r.top)/(r.height+vh*.35),0,1),n=Math.round(p*ws.length);ws.forEach((w,i)=>w.classList.toggle(\"on\",i<n))})});\n/* --progress for scroll-linked CSS */\n$$(\"[data-scroll]\").forEach(el=>{if(rm){el.style.setProperty(\"--progress\",0);el.style.setProperty(\"--exit\",0);return}whenVisible(el,()=>{const r=el.getBoundingClientRect(),vh=innerHeight;el.style.setProperty(\"--progress\",clamp((vh-r.top)/(vh+r.height),0,1).toFixed(4));el.style.setProperty(\"--exit\",clamp(-r.top/Math.max(1,r.height),0,1).toFixed(4))})});\n/* parallax */\nif(!rm){$$(\"[data-parallax]\").forEach(el=>whenVisible(el,()=>{if(!desk()){el.style.transform=\"\";return}const r=el.getBoundingClientRect(),f=parseFloat(el.dataset.parallax)||.12;el.style.transform=\"translate3d(0,\"+((r.top+r.height/2-innerHeight/2)*-f).toFixed(1)+\"px,0)\"}))}\n/* pinned horizontal scroll */\n$$(\"[data-hscroll]\").forEach(w=>{const tr=w.querySelector(\"[data-hscroll-track]\"),bar=w.querySelector(\"[data-hscroll-progress]\");if(!tr)return;let dist=0;\nconst setup=()=>{const on=desk()&&!rm;w.classList.toggle(\"is-pinned\",on);tr.style.transform=\"\";w.style.height=\"\";if(!on){dist=0;return}dist=Math.max(0,tr.scrollWidth-w.clientWidth);w.style.height=(innerHeight+dist)+\"px\"};\nsetup();addEventListener(\"resize\",setup);addEventListener(\"load\",setup);\nwhenVisible(w,()=>{if(!dist)return;const p=clamp(-w.getBoundingClientRect().top/dist,0,1);tr.style.transform=\"translate3d(\"+(-p*dist).toFixed(1)+\"px,0,0)\";bar&&bar.style.setProperty(\"--progress\",p.toFixed(4))})});\n/* stacking cards */\nif(!rm){$$(\"[data-stack]\").forEach(st=>{const cs=[...st.children];whenVisible(st,()=>{cs.forEach((c,i)=>{const nx=cs[i+1];if(!nx){c.style.transform=\"\";return}const gap=nx.getBoundingClientRect().top-c.getBoundingClientRect().top,p=clamp(1-gap/c.offsetHeight,0,1);c.style.transform=\"scale(\"+(1-p*.06).toFixed(4)+\")\";c.style.filter=p>0?\"brightness(\"+(1-p*.3).toFixed(3)+\")\":\"\"})})})}\n/* sticky mobile CTA (moved to <body> so a hiding or blurred header can't drag it along) */\nconst sc=$$(\"[data-sticky-cta]\");sc.forEach(el=>d.body.appendChild(el));const _sc=sc,first=d.querySelector(\"main>section\");if(sc.length&&first&&IO){new IntersectionObserver(es=>sc.forEach(b=>b.classList.toggle(\"is-visible\",!es[0].isIntersecting))).observe(first)}\n/* rotating phrases */\n$$(\"[data-rotate]\").forEach(el=>{const ws=el.dataset.rotate.split(\"|\").map(s=>s.trim()).filter(Boolean);if(ws.length<2)return;const sr=d.createElement(\"span\");sr.className=\"sr-only\";sr.textContent=ws.join(\", \");el.after(sr);el.setAttribute(\"aria-hidden\",\"true\");if(rm)return;let i=Math.max(0,ws.indexOf(el.textContent.trim()));setInterval(()=>{el.classList.add(\"is-out\");setTimeout(()=>{i=(i+1)%ws.length;el.textContent=ws[i];el.classList.remove(\"is-out\")},400)},2800)});\n/* count up */\n$$(\"[data-count]\").forEach(el=>{const raw=el.dataset.count,to=parseFloat(raw),sx=el.dataset.suffix||\"\",dec=(raw.split(\".\")[1]||\"\").length;if(isNaN(to)||rm||!IO){el.textContent=raw+sx;return}const o=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;o.disconnect();const t0=performance.now();const st=t=>{const p=Math.min(1,(t-t0)/1700);el.textContent=(to*(1-Math.pow(1-p,3))).toFixed(dec)+sx;if(p<1)requestAnimationFrame(st)};requestAnimationFrame(st)},{threshold:.4});el.textContent=(0).toFixed(dec)+sx;o.observe(el)});\n/* open now, from the business hours in the structured data */\n(()=>{const els=$$(\"[data-open-status]\");if(!els.length)return;let hrs=[];$$('script[type=\"application/ld+json\"]').forEach(s=>{try{const g=JSON.parse(s.textContent)[\"@graph\"]||[];g.forEach(n=>{if(n.openingHoursSpecification)hrs=hrs.concat(n.openingHoursSpecification)})}catch(e){}});if(!hrs.length){els.forEach(e=>e.textContent=\"\");return}\nconst days=[\"Sunday\",\"Monday\",\"Tuesday\",\"Wednesday\",\"Thursday\",\"Friday\",\"Saturday\"],m=d.querySelector('meta[name=\"psb-utc-offset\"]'),off=m?parseInt(m.content,10):null,now=new Date(),loc=off==null||isNaN(off)?now:new Date(now.getTime()+(off+now.getTimezoneOffset())*6e4),mins=t=>{const[a,b]=t.split(\":\").map(Number);return a*60+b},fmt=t=>{let[a,b]=t.split(\":\").map(Number);const pm=a>=12;a=a%12||12;return a+(b?\":\"+String(b).padStart(2,\"0\"):\"\")+(pm?\" pm\":\" am\")};\nconst today=days[loc.getDay()],cur=loc.getHours()*60+loc.getMinutes(),todays=hrs.filter(x=>[].concat(x.dayOfWeek).some(v=>String(v).endsWith(today)));const open=todays.find(x=>cur>=mins(x.opens)&&cur<mins(x.closes));let txt,cls;\nif(open){txt=\"Open now until \"+fmt(open.closes);cls=\"is-open\"}else{let nx=null;for(let k=0;k<8&&!nx;k++){const dn=days[(loc.getDay()+k)%7];const c=hrs.filter(x=>[].concat(x.dayOfWeek).some(v=>String(v).endsWith(dn))&&(k>0||mins(x.opens)>cur)).sort((a,b)=>mins(a.opens)-mins(b.opens))[0];if(c)nx={k,dn,t:c.opens}}txt=nx?\"Closed now, opens \"+(nx.k===0?\"today\":nx.k===1?\"tomorrow\":nx.dn.slice(0,3))+\" at \"+fmt(nx.t):\"Closed now\";cls=\"is-closed\"}\nels.forEach(e=>{e.textContent=txt;e.classList.add(cls)})})();\n/* marquee */\n$$(\"[data-marquee]\").forEach(el=>{const t=el.firstElementChild;if(!t||el.dataset.ready)return;const c=t.cloneNode(true);c.setAttribute(\"aria-hidden\",\"true\");c.querySelectorAll(\"a,button\").forEach(x=>x.tabIndex=-1);el.appendChild(c);el.dataset.ready=\"1\";if(el.hasAttribute(\"data-marquee-scroll\")&&!rm){let last=scrollY,boost=1;whenVisible(el,()=>{const v=Math.abs(scrollY-last);last=scrollY;boost=clamp(1+v/18,1,4);const rate=b=>[...el.children].forEach(x=>x.getAnimations&&x.getAnimations().forEach(a=>a.playbackRate=b));rate(boost);clearTimeout(el._t);el._t=setTimeout(()=>rate(1),160)})}});\n/* carousel */\n$$(\"[data-carousel]\").forEach(c=>{const tr=c.querySelector(\"[data-carousel-track]\");if(!tr)return;const it=[...tr.children],pv=c.querySelector(\"[data-carousel-prev]\"),nx=c.querySelector(\"[data-carousel-next]\"),ct=c.querySelector(\"[data-carousel-count]\"),pad=n=>String(n).padStart(2,\"0\");\nconst cur=()=>{let b=0,bd=1e9;it.forEach((x,i)=>{const dd=Math.abs(x.offsetLeft-tr.scrollLeft);if(dd<bd){bd=dd;b=i}});return b};\nconst up=()=>{const end=tr.scrollLeft+tr.clientWidth>=tr.scrollWidth-4,i=end?it.length-1:cur();if(ct)ct.textContent=pad(i+1)+\" / \"+pad(it.length);if(pv)pv.disabled=tr.scrollLeft<4;if(nx)nx.disabled=end};\nconst go=s=>{const i=clamp(cur()+s,0,it.length-1);tr.scrollTo({left:it[i].offsetLeft,behavior:rm?\"auto\":\"smooth\"})};\npv&&pv.addEventListener(\"click\",()=>go(-1));nx&&nx.addEventListener(\"click\",()=>go(1));let r=0;tr.addEventListener(\"scroll\",()=>{cancelAnimationFrame(r);r=requestAnimationFrame(up)},{passive:true});addEventListener(\"resize\",up);up()});\n/* tabs */\nlet uid=0;$$(\"[data-tabs]\").forEach(w=>{const tb=$$(\"[data-tab]\",w),pn=$$(\"[data-panel]\",w);if(!tb.length)return;tb[0].parentElement.setAttribute(\"role\",\"tablist\");\nconst sel=(t,f)=>{tb.forEach(x=>{const on=x===t;x.setAttribute(\"aria-selected\",on);x.tabIndex=on?0:-1;x.classList.toggle(\"is-active\",on)});pn.forEach(p=>{const on=p.dataset.panel===t.dataset.tab;p.hidden=!on;p.classList.toggle(\"is-active\",on)});if(f)t.focus()};\ntb.forEach((t,i)=>{uid++;t.setAttribute(\"role\",\"tab\");t.id=t.id||\"psb-tab-\"+uid;const p=pn.find(p=>p.dataset.panel===t.dataset.tab);if(p){p.setAttribute(\"role\",\"tabpanel\");p.id=p.id||\"psb-panel-\"+uid;p.setAttribute(\"aria-labelledby\",t.id);t.setAttribute(\"aria-controls\",p.id)}t.addEventListener(\"click\",()=>sel(t));t.addEventListener(\"keydown\",e=>{if(e.key!==\"ArrowRight\"&&e.key!==\"ArrowLeft\")return;e.preventDefault();sel(tb[(i+(e.key===\"ArrowRight\"?1:-1)+tb.length)%tb.length],1)})});\nsel(tb.find(t=>t.classList.contains(\"is-active\"))||tb[0])});\n/* smooth FAQ accordions */\n$$(\".faq-item\").forEach(dt=>{const sm=dt.querySelector(\"summary\");if(!sm||rm||!dt.animate)return;let an=null;sm.addEventListener(\"click\",e=>{e.preventDefault();an&&an.cancel();const start=dt.offsetHeight;if(dt.open){const end=sm.offsetHeight;an=dt.animate({height:[start+\"px\",end+\"px\"]},{duration:380,easing:\"cubic-bezier(.16,1,.3,1)\"});an.onfinish=()=>{dt.open=false;dt.style.overflow=\"\";an=null}}else{dt.style.height=start+\"px\";dt.open=true;const end=dt.scrollHeight;dt.style.height=\"\";an=dt.animate({height:[start+\"px\",end+\"px\"]},{duration:460,easing:\"cubic-bezier(.16,1,.3,1)\"});an.onfinish=()=>{dt.style.overflow=\"\";an=null}}dt.style.overflow=\"hidden\"})});\n/* before/after */\n$$(\"[data-ba]\").forEach(w=>{const r=w.querySelector(\"input[type=range]\");if(!r)return;const s=()=>w.style.setProperty(\"--ba\",r.value+\"%\");r.addEventListener(\"input\",s);s()});\n/* lightbox */\n$$(\"[data-lightbox]\").forEach(g=>{const ims=$$(\"img\",g);if(!ims.length||!W.HTMLDialogElement)return;let dl,img,cnt,i=0;const show=n=>{i=(n+ims.length)%ims.length;const s=ims[i];img.src=s.currentSrc||s.src;img.alt=s.alt;cnt.textContent=(i+1)+\" / \"+ims.length};\nconst build=()=>{dl=d.createElement(\"dialog\");dl.className=\"psb-lightbox\";dl.setAttribute(\"aria-label\",\"Photo viewer\");dl.innerHTML='<img alt=\"\"><button class=\"lb-close\" aria-label=\"Close\">\\u2715</button><button class=\"lb-prev\" aria-label=\"Previous photo\">\\u2039</button><button class=\"lb-next\" aria-label=\"Next photo\">\\u203A</button><p class=\"lb-count\"></p>';d.body.appendChild(dl);img=dl.querySelector(\"img\");cnt=dl.querySelector(\".lb-count\");dl.querySelector(\".lb-close\").onclick=()=>dl.close();dl.querySelector(\".lb-prev\").onclick=()=>show(i-1);dl.querySelector(\".lb-next\").onclick=()=>show(i+1);dl.addEventListener(\"keydown\",e=>{if(e.key===\"ArrowLeft\")show(i-1);if(e.key===\"ArrowRight\")show(i+1)});dl.addEventListener(\"click\",e=>{if(e.target===dl)dl.close()})};\nims.forEach((im,n)=>{im.tabIndex=0;im.setAttribute(\"role\",\"button\");const open=()=>{dl||build();show(n);dl.showModal()};im.addEventListener(\"click\",open);im.addEventListener(\"keydown\",e=>{if(e.key===\"Enter\"||e.key===\" \"){e.preventDefault();open()}})})});\n/* pointer effects (mouse only) */\nif(fine&&!rm){\n$$(\"[data-magnetic]\").forEach(el=>{el.addEventListener(\"pointermove\",e=>{const r=el.getBoundingClientRect();el.style.transform=\"translate(\"+((e.clientX-r.left-r.width/2)*.28).toFixed(1)+\"px,\"+((e.clientY-r.top-r.height/2)*.35).toFixed(1)+\"px)\"});el.addEventListener(\"pointerleave\",()=>el.style.transform=\"\")});\n$$(\"[data-tilt]\").forEach(el=>{el.addEventListener(\"pointermove\",e=>{const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;el.style.transform=\"perspective(900px) rotateX(\"+(-y*7).toFixed(2)+\"deg) rotateY(\"+(x*9).toFixed(2)+\"deg)\"});el.addEventListener(\"pointerleave\",()=>el.style.transform=\"\")});\n$$(\"[data-spotlight]\").forEach(el=>el.addEventListener(\"pointermove\",e=>{const r=el.getBoundingClientRect();el.style.setProperty(\"--sx\",(e.clientX-r.left)+\"px\");el.style.setProperty(\"--sy\",(e.clientY-r.top)+\"px\")}));\n$$(\"[data-hover-reveal]\").forEach(l=>{let tx=0,ty=0,x=0,y=0,raf=0;const loop=()=>{x+=(tx-x)*.16;y+=(ty-y)*.16;l.style.setProperty(\"--mx\",x.toFixed(1)+\"px\");l.style.setProperty(\"--my\",y.toFixed(1)+\"px\");raf=Math.abs(tx-x)+Math.abs(ty-y)>.5?requestAnimationFrame(loop):0};\nl.addEventListener(\"pointermove\",e=>{tx=e.clientX;ty=e.clientY;if(!x&&!y){x=tx;y=ty}raf||(raf=requestAnimationFrame(loop))});[...l.children].forEach(li=>{li.addEventListener(\"pointerenter\",()=>li.classList.add(\"is-hover\"));li.addEventListener(\"pointerleave\",()=>li.classList.remove(\"is-hover\"))})});\nconst cu=d.querySelector(\".psb-cursor\");if(cu){const lab=cu.querySelector(\"span\");let tx=-100,ty=-100,x=-100,y=-100,on=0;const lp=()=>{x+=(tx-x)*.2;y+=(ty-y)*.2;cu.style.transform=\"translate3d(\"+x.toFixed(1)+\"px,\"+y.toFixed(1)+\"px,0)\";requestAnimationFrame(lp)};requestAnimationFrame(lp);\naddEventListener(\"pointermove\",e=>{tx=e.clientX;ty=e.clientY;if(!on){on=1;x=tx;y=ty;cu.classList.add(\"is-on\")}const t=e.target.closest&&e.target.closest(\"[data-cursor],a,button,summary,[role=button],input,label\");const txt=t&&t.dataset?t.dataset.cursor:\"\";cu.classList.toggle(\"is-label\",!!txt);cu.classList.toggle(\"is-link\",!!t&&!txt);if(lab)lab.textContent=txt||\"\"},{passive:true});d.addEventListener(\"pointerleave\",()=>{cu.classList.remove(\"is-on\");on=0})}}\n/* active nav link */\nconst lk=$$(\"[data-nav] a[href^='#']\");if(lk.length&&IO){const mp=new Map(lk.map(a=>[a.getAttribute(\"href\").slice(1),a]));const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){lk.forEach(a=>a.classList.remove(\"is-current\"));lk.filter(a=>a.getAttribute(\"href\")===\"#\"+e.target.id).forEach(a=>a.classList.add(\"is-current\"))}}),{rootMargin:\"-45% 0px -50% 0px\"});mp.forEach((a,id)=>{const s=id&&d.getElementById(id);s&&so.observe(s)})}\n/* hero video */\nconst v=d.querySelector(\"video[data-hero-video][data-src]\"),cn=navigator.connection;if(v&&!rm&&!(cn&&cn.saveData)&&matchMedia(\"(min-width: 768px)\").matches){const go=()=>setTimeout(()=>{v.src=v.dataset.src;v.muted=true;v.addEventListener(\"playing\",()=>v.classList.add(\"is-playing\"),{once:true});v.play().catch(()=>{})},700);d.readyState===\"complete\"?go():addEventListener(\"load\",go)}\nreq();\n})();\n", "css": ":where(html){-webkit-text-size-adjust:100%}\n@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}\n.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}\n.skip-link{position:fixed;left:1rem;top:-4rem;z-index:1000;padding:.75rem 1rem;background:#000;color:#fff;border-radius:.5rem;text-decoration:none;transition:top .2s}\n.skip-link:focus{top:1rem}\nmain>section{scroll-margin-top:var(--header-h,80px)}\nimg{max-width:100%;height:auto}\n[data-header]{transition:transform .45s cubic-bezier(.2,.7,.2,1),background-color .45s,box-shadow .45s,color .45s}\n[data-header].is-hidden{transform:translateY(-105%)}\nhtml.nav-open{overflow:hidden}\n[data-progress]{transform-origin:0 50%;transform:scaleX(var(--page-progress,0))}\n.js [data-reveal]:not([data-reveal=stagger]):not([data-reveal=scale]):not([data-reveal^=wipe]){opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1.1s cubic-bezier(.16,1,.3,1)}\n.js [data-reveal=stagger]>*{opacity:0;transform:translateY(22px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1);transition-delay:calc(var(--i,0)*90ms)}\n.js [data-reveal=scale]{transform:scale(1.08);transition:transform 1.8s cubic-bezier(.16,1,.3,1)}\n.js [data-reveal^=wipe]{background:transparent}.js [data-reveal=wipe]>*{clip-path:inset(0 0 100% 0);transition:clip-path 1.3s cubic-bezier(.77,0,.18,1)}\n.js [data-reveal=wipe-left]>*{clip-path:inset(0 100% 0 0);transition:clip-path 1.3s cubic-bezier(.77,0,.18,1)}\n.js [data-reveal].is-in:not([data-reveal=stagger]):not([data-reveal=scale]):not([data-reveal^=wipe]),.js [data-reveal=scale].is-in,.js [data-reveal=stagger].is-in>*{opacity:1;transform:none}.js [data-reveal^=wipe].is-in>*{clip-path:inset(0)}\n.js [data-split] .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}\n.js [data-split] .w>span{display:inline-block;transform:translateY(110%);transition:transform 1.1s cubic-bezier(.16,1,.3,1);transition-delay:calc(var(--i,0)*55ms + var(--delay,0ms))}\n.js [data-split].is-in .w>span{transform:none}\n.js [data-scrub] .sw{opacity:var(--scrub-dim,.16);transition:opacity .35s ease}\n.js [data-scrub] .sw.on{opacity:1}\n[data-rotate]{display:inline-block;transition:opacity .4s,transform .4s}\n[data-rotate].is-out{opacity:0;transform:translateY(-.35em)}\n[data-open-status]:empty{display:none}\n[data-marquee]{display:flex;overflow:hidden;gap:var(--marquee-gap,3rem)}\n[data-marquee]>*{flex:none;display:flex;align-items:center;gap:var(--marquee-gap,3rem);min-width:max-content;animation:psb-marquee var(--marquee-speed,40s) linear infinite}\n[data-marquee]:hover>*{animation-play-state:paused}\n@keyframes psb-marquee{to{transform:translateX(calc(-100% - var(--marquee-gap,3rem)))}}\n[data-carousel-track]{position:relative;display:flex;gap:var(--carousel-gap,1.25rem);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}\n[data-carousel-track]::-webkit-scrollbar,[data-hscroll-track]::-webkit-scrollbar{display:none}\n[data-carousel-track]>*,[data-hscroll-track]>*{flex:none;scroll-snap-align:start}\n[data-carousel-prev]:disabled,[data-carousel-next]:disabled{opacity:.35;cursor:default}\n[data-hscroll-track]{display:flex;gap:var(--hscroll-gap,2rem);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}\n[data-hscroll].is-pinned{overflow-x:clip}\n[data-hscroll].is-pinned>[data-hscroll-track]{position:sticky;top:0;height:100vh;align-items:center;overflow:visible;width:max-content;will-change:transform}\n[data-hscroll-progress]{transform-origin:0 50%;transform:scaleX(var(--progress,0))}\n[data-stack]>*{transform-origin:50% 0;will-change:transform}\n[data-tilt]{transform-style:preserve-3d;transition:transform .5s cubic-bezier(.16,1,.3,1)}\n[data-magnetic]{transition:transform .5s cubic-bezier(.16,1,.3,1)}\n[data-spotlight]{position:relative;isolation:isolate}\n[data-spotlight]::before{content:\"\";position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;background:radial-gradient(520px circle at var(--sx,50%) var(--sy,50%),var(--spotlight-color,rgba(255,255,255,.1)),transparent 45%);opacity:0;transition:opacity .5s}\n[data-spotlight]:hover::before{opacity:1}\n@media (hover:hover) and (pointer:fine){\n  .js [data-hover-reveal] [data-hover-media]{position:fixed;left:0;top:0;z-index:40;width:var(--hover-w,320px);height:auto;aspect-ratio:4/5;object-fit:cover;pointer-events:none;opacity:0;border-radius:var(--hover-radius,14px);transform:translate3d(var(--mx,-999px),var(--my,-999px),0) translate(-50%,-55%) scale(.85) rotate(-3deg);transition:opacity .35s,transform .45s cubic-bezier(.16,1,.3,1)}\n  .js [data-hover-reveal] .is-hover [data-hover-media]{opacity:1;transform:translate3d(var(--mx),var(--my),0) translate(-50%,-55%) scale(1) rotate(0)}\n}\n.psb-cursor{position:fixed;left:0;top:0;z-index:9999;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--cursor-color,#fff);mix-blend-mode:difference;pointer-events:none;opacity:0;display:grid;place-items:center;transition:width .35s cubic-bezier(.16,1,.3,1),height .35s cubic-bezier(.16,1,.3,1),margin .35s cubic-bezier(.16,1,.3,1),opacity .3s}\n.psb-cursor.is-on{opacity:1}\n.psb-cursor.is-link{width:44px;height:44px;margin:-22px 0 0 -22px}\n.psb-cursor.is-label{width:84px;height:84px;margin:-42px 0 0 -42px;mix-blend-mode:normal;background:var(--cursor-label-bg,#fff);color:var(--cursor-label-ink,#111)}\n.psb-cursor span{font:600 12px/1 system-ui,sans-serif;opacity:0;transition:opacity .2s}\n.psb-cursor.is-label span{opacity:1}\n@media (hover:none),(pointer:coarse){.psb-cursor{display:none}}\n[data-sticky-cta]{transform:translateY(160%);transition:transform .55s cubic-bezier(.16,1,.3,1)}\n[data-sticky-cta].is-visible{transform:none}\n@media (min-width:900px){[data-sticky-cta]{display:none!important}}\n[data-ba]{position:relative;overflow:hidden;--ba:50%}\n[data-ba] img{display:block;width:100%;height:100%;object-fit:cover}\n[data-ba-before]{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--ba)) 0 0)}\n[data-ba]::after{content:\"\";position:absolute;top:0;bottom:0;left:var(--ba);width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.15);pointer-events:none}\n[data-ba] input[type=range]{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}\n[data-lightbox] img{cursor:zoom-in}\n.psb-lightbox{border:0;padding:0;max-width:100vw;max-height:100vh;width:100vw;height:100vh;background:rgba(8,9,11,.94);color:#fff}\n.psb-lightbox::backdrop{background:rgba(0,0,0,.6)}\n.psb-lightbox img{position:absolute;inset:0;margin:auto;max-width:min(92vw,1600px);max-height:86vh;width:auto;height:auto;object-fit:contain;border-radius:6px}\n.psb-lightbox button{position:absolute;width:52px;height:52px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:rgba(0,0,0,.35);color:#fff;font:400 22px/1 system-ui,sans-serif;cursor:pointer}\n.psb-lightbox .lb-close{top:20px;right:20px}.psb-lightbox .lb-prev{left:20px;top:50%;margin-top:-26px}.psb-lightbox .lb-next{right:20px;top:50%;margin-top:-26px}\n.psb-lightbox .lb-count{position:absolute;bottom:22px;left:0;right:0;text-align:center;font:500 14px/1 system-ui,sans-serif;opacity:.8}\nvideo[data-hero-video]{opacity:0;transition:opacity 1.2s ease}\nvideo[data-hero-video].is-playing{opacity:1}\n[data-parallax]{will-change:transform}\n@media (prefers-reduced-motion:reduce){\n  .js [data-reveal],.js [data-reveal]>*,.js [data-split] .w>span{opacity:1!important;transform:none!important;clip-path:none!important;transition:none!important}\n  .js [data-scrub] .sw{opacity:1}\n  [data-marquee]>*{animation:none}\n  [data-tilt],[data-magnetic],[data-stack]>*{transform:none!important}\n  *,*::before,*::after{scroll-behavior:auto!important}\n}\n"};</script>
+<script>/* Premium Site Builder Pro — generator
+   Pure functions: project JSON -> { files: {path: string|Blob}, pages:[...] }
+   Works in the browser and in Node (for tests). No frameworks. */
+(function (root) {
+  "use strict";
+
+  /* ---------- helpers ---------- */
+  const esc = (s) => String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  const attr = esc;
+  const slug = (s) => String(s || "").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80) || "page";
+  const paras = (text) => String(text || "").split(/\n\s*\n/).map(t => t.trim()).filter(Boolean)
+    .map(t => `<p>${esc(t).replace(/\n/g, "<br>")}</p>`).join("\n");
+  const lines = (text) => String(text || "").split(/\n/).map(t => t.trim()).filter(Boolean);
+  const words = (n, t) => n === 1 ? t : t + "s";
+  const telHref = (p) => "tel:" + String(p || "").replace(/[^\d+]/g, "");
+  const typo = (s) => String(s || "").replace(/'/g, "\u2019");
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const pick = (arr, i) => arr.length ? arr[((i % arr.length) + arr.length) % arr.length] : null;
+
+  /* ---------- defaults ---------- */
+  const DEFAULT = {
+    business: {
+      name: "", tagline: "", category: "LocalBusiness", description: "", phone: "", email: "",
+      address: { street: "", city: "", state: "", zip: "", country: "US" },
+      mapLink: "", mapEmbed: "", lat: "", lng: "", yearFounded: "", priceRange: "",
+      hours: [], social: { facebook: "", instagram: "", google: "", yelp: "", linkedin: "", youtube: "", tiktok: "" },
+      booking: "",
+    },
+    brand: { logo: null, primary: "#0f5f5a", accent: "#d8a85b", ink: "#101417", paper: "#f7f4ee", theme: "light",
+      fontDisplay: "Fraunces", fontBody: "Inter", style: "snazzy", radius: "18",
+      fx: { mesh: true, grain: true, shimmer: true, beam: true, bento: true, chips: true, ticker: true, glass: true, blur: true, shine: true, dots: true, transitions: true } },
+    images: [],
+    services: [],
+    areas: [],
+    reviews: [],
+    team: [],
+    faqs: [],
+    financing: { enabled: true, intro: "", options: [], faqs: [] },
+    posts: [],
+    custom: [],
+    pages: { about: true, gallery: true, reviews: true, faq: true, financing: true, blog: true, team: true, careers: false, insurance: false },
+    seo: { siteUrl: "", keywords: "", gaId: "", googleVerification: "", bingVerification: "", ogImage: "" },
+    forms: { provider: "formspree", endpoint: "" },
+    extras: { careersText: "", insuranceText: "", promoText: "", emergency: false, emergencyText: "", languages: "" },
+  };
+
+  function merge(base, over) {
+    if (Array.isArray(base)) return Array.isArray(over) ? over : base;
+    if (base && typeof base === "object") {
+      const out = {};
+      for (const k of Object.keys(base)) out[k] = merge(base[k], over && over[k]);
+      if (over) for (const k of Object.keys(over)) if (!(k in out)) out[k] = over[k];
+      return out;
+    }
+    return over === undefined || over === null ? base : over;
+  }
+  function normalize(p) {
+    p = merge(DEFAULT, p || {});
+    p.services = (p.services || []).filter(s => s && s.name).map((s, i) => ({
+      ...s, slug: s.slug || slug(s.name), image: s.image || "", bullets: s.bullets || "", faqs: s.faqs || "", id: i
+    }));
+    p.areas = (p.areas || []).filter(a => a && a.name).map(a => ({ ...a, slug: a.slug || slug(a.name) }));
+    p.posts = (p.posts || []).filter(x => x && x.title).map(x => ({ ...x, slug: x.slug || slug(x.title) }));
+    p.custom = (p.custom || []).filter(x => x && x.title).map(x => ({ ...x, slug: x.slug || slug(x.title) }));
+    p.reviews = (p.reviews || []).filter(r => r && r.text);
+    p.team = (p.team || []).filter(t => t && t.name);
+    p.faqs = (p.faqs || []).filter(f => f && f.q && f.a);
+    p.images = (p.images || []).filter(i => i && i.id);
+    return p;
+  }
+
+  /* ---------- FAQ parsing: "Q?\nA" blocks ---------- */
+  function parseFaqs(text) {
+    const out = [];
+    String(text || "").split(/\n\s*\n/).forEach(block => {
+      const ls = block.split(/\n/).map(x => x.trim()).filter(Boolean);
+      if (ls.length >= 2) out.push({ q: ls[0].replace(/^Q[:.]\s*/i, ""), a: ls.slice(1).join(" ").replace(/^A[:.]\s*/i, "") });
+    });
+    return out;
+  }
+
+  /* ---------- page plan ---------- */
+  function plan(p) {
+    const pages = [];
+    const add = (o) => { pages.push(o); return o; };
+    const city = p.business.address.city;
+    add({ path: "index.html", kind: "home", title: `${p.business.name} | ${primaryKeyword(p)} in ${city}`, nav: "Home", priority: "1.0" });
+    if (p.pages.about) add({ path: "about/index.html", kind: "about", title: `About ${p.business.name}`, nav: "About", priority: "0.8" });
+    add({ path: "services/index.html", kind: "services", title: `Services | ${p.business.name}`, nav: "Services", priority: "0.9" });
+    p.services.forEach(s => {
+      add({ path: `services/${s.slug}/index.html`, kind: "service", service: s, title: `${s.name} in ${city}, ${p.business.address.state} | ${p.business.name}`, priority: "0.9" });
+      p.areas.forEach(a => add({ path: `services/${s.slug}/${a.slug}/index.html`, kind: "service-area", service: s, area: a, title: `${s.name} in ${a.name}, ${a.state || p.business.address.state} | ${p.business.name}`, priority: "0.7" }));
+    });
+    if (p.areas.length) {
+      add({ path: "areas/index.html", kind: "areas", title: `Service Areas | ${p.business.name}`, nav: "Areas", priority: "0.7" });
+      p.areas.forEach(a => add({ path: `areas/${a.slug}/index.html`, kind: "area", area: a, title: `${primaryKeyword(p)} in ${a.name}, ${a.state || p.business.address.state} | ${p.business.name}`, priority: "0.7" }));
+    }
+    if (p.pages.reviews) add({ path: "reviews/index.html", kind: "reviews", title: `Reviews | ${p.business.name}`, nav: "Reviews", priority: "0.6" });
+    if (p.pages.gallery && p.images.length) add({ path: "gallery/index.html", kind: "gallery", title: `Gallery | ${p.business.name}`, nav: "Gallery", priority: "0.5" });
+    if (p.pages.team && p.team.length) add({ path: "team/index.html", kind: "team", title: `Our Team | ${p.business.name}`, nav: "Team", priority: "0.6" });
+    if (p.pages.financing && p.financing.enabled) add({ path: "financing/index.html", kind: "financing", title: `Financing & Payment Options | ${p.business.name}`, nav: "Financing", priority: "0.7" });
+    if (p.pages.insurance && p.extras.insuranceText) add({ path: "insurance/index.html", kind: "insurance", title: `Insurance | ${p.business.name}`, priority: "0.6" });
+    if (p.pages.faq) add({ path: "faq/index.html", kind: "faq", title: `Frequently Asked Questions | ${p.business.name}`, nav: "FAQ", priority: "0.7" });
+    if (p.pages.blog && p.posts.length) {
+      add({ path: "blog/index.html", kind: "blog", title: `Blog & Resources | ${p.business.name}`, nav: "Blog", priority: "0.6" });
+      p.posts.forEach(x => add({ path: `blog/${x.slug}/index.html`, kind: "post", post: x, title: `${x.title} | ${p.business.name}`, priority: "0.5", date: x.date }));
+    }
+    p.custom.forEach(x => add({ path: `${x.slug}/index.html`, kind: "custom", custom: x, title: `${x.title} | ${p.business.name}`, priority: "0.5" }));
+    if (p.pages.careers && p.extras.careersText) add({ path: "careers/index.html", kind: "careers", title: `Careers | ${p.business.name}`, priority: "0.4" });
+    add({ path: "appointment/index.html", kind: "appointment", title: `Request an Appointment | ${p.business.name}`, nav: "Book", priority: "0.9" });
+    add({ path: "contact/index.html", kind: "contact", title: `Contact ${p.business.name} in ${city}`, nav: "Contact", priority: "0.9" });
+    add({ path: "privacy/index.html", kind: "privacy", title: `Privacy Policy | ${p.business.name}`, priority: "0.2" });
+    add({ path: "terms/index.html", kind: "terms", title: `Terms of Use | ${p.business.name}`, priority: "0.2" });
+    add({ path: "accessibility/index.html", kind: "accessibility", title: `Accessibility Statement | ${p.business.name}`, priority: "0.2" });
+    add({ path: "sitemap/index.html", kind: "sitemap", title: `Site Map | ${p.business.name}`, priority: "0.3" });
+    add({ path: "thank-you/index.html", kind: "thanks", title: `Thank You | ${p.business.name}`, priority: "0.1", noindex: true });
+    add({ path: "404.html", kind: "404", title: `Page not found | ${p.business.name}`, noindex: true, nositemap: true });
+    pages.forEach(pg => { pg.url = pg.path.replace(/index\.html$/, ""); pg.depth = pg.path.split("/").length - 1; pg.rel = "../".repeat(pg.depth); });
+    return pages;
+  }
+  function primaryKeyword(p) {
+    const kw = lines(p.seo.keywords.replace(/,/g, "\n"))[0];
+    return kw || (p.services[0] ? p.services[0].name : p.business.category.replace(/([A-Z])/g, " $1").trim());
+  }
+
+  /* ---------- images ---------- */
+  function imgTag(p, pg, id, opts = {}) {
+    const im = p.images.find(i => i.id === id) || (typeof id === "number" ? pick(p.images, id) : null) || pick(p.images, 0);
+    if (!im) return `<div class="ph" aria-hidden="true"></div>`;
+    const base = pg.rel + "assets/img/" + im.id;
+    const sizes = opts.sizes || "(min-width: 900px) 50vw, 100vw";
+    return `<img src="${base}.jpg" srcset="${base}-800.jpg 800w, ${base}.jpg 1600w" sizes="${sizes}" width="${im.w || 1600}" height="${im.h || 1067}" alt="${attr(opts.alt || im.alt || "")}" loading="${opts.eager ? "eager" : "lazy"}" decoding="async"${opts.extra || ""}>`;
+  }
+  function logoTag(p, pg, cls) {
+    if (p.brand.logo) return `<img src="${pg.rel}assets/logo.${p.brand.logoExt || "png"}" alt="${attr(p.business.name)} logo" class="${cls}" width="${p.brand.logoW || 160}" height="${p.brand.logoH || 48}" loading="eager" decoding="async">`;
+    return `<span class="wordmark ${cls}">${esc(p.business.name)}</span>`;
+  }
+
+  /* ---------- schema / JSON-LD ---------- */
+  function schema(p, pg, extra = []) {
+    const b = p.business, url = (p.seo.siteUrl || "").replace(/\/+$/, "") + "/";
+    const org = {
+      "@type": [b.category || "LocalBusiness"], "@id": url + "#business", name: b.name, url,
+      telephone: b.phone || undefined, email: b.email || undefined, description: b.description || undefined,
+      image: p.images[0] ? url + "assets/img/" + p.images[0].id + ".jpg" : undefined,
+      logo: p.brand.logo ? url + "assets/logo." + (p.brand.logoExt || "png") : undefined,
+      priceRange: b.priceRange || undefined, foundingDate: b.yearFounded || undefined,
+      address: { "@type": "PostalAddress", streetAddress: b.address.street, addressLocality: b.address.city, addressRegion: b.address.state, postalCode: b.address.zip, addressCountry: b.address.country || "US" },
+      geo: (b.lat && b.lng) ? { "@type": "GeoCoordinates", latitude: +b.lat, longitude: +b.lng } : undefined,
+      hasMap: b.mapLink || undefined,
+      areaServed: p.areas.length ? p.areas.map(a => ({ "@type": "City", name: a.name })) : (b.address.city ? [{ "@type": "City", name: b.address.city }] : undefined),
+      openingHoursSpecification: (b.hours || []).filter(h => h.days && h.open && h.close).map(h => ({ "@type": "OpeningHoursSpecification", dayOfWeek: h.days, opens: h.open, closes: h.close })),
+      sameAs: Object.values(b.social || {}).filter(Boolean),
+      makesOffer: p.services.map(s => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: s.name, url: url + "services/" + s.slug + "/" } })),
+    };
+    if (p.reviews.length) {
+      const rated = p.reviews.filter(r => +r.rating);
+      if (rated.length) org.aggregateRating = { "@type": "AggregateRating", ratingValue: (rated.reduce((a, r) => a + (+r.rating), 0) / rated.length).toFixed(1), reviewCount: rated.length };
+    }
+    const site = { "@type": "WebSite", "@id": url + "#website", url, name: b.name, publisher: { "@id": url + "#business" } };
+    const crumbs = breadcrumbs(p, pg);
+    const bc = { "@type": "BreadcrumbList", itemListElement: crumbs.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: url + c.url })) };
+    const page = { "@type": "WebPage", "@id": url + pg.url + "#webpage", url: url + pg.url, name: pg.title, isPartOf: { "@id": url + "#website" }, about: { "@id": url + "#business" }, description: pg.description, inLanguage: "en" };
+    const graph = [org, site, page, bc, ...extra].filter(Boolean);
+    const clean = (o) => JSON.parse(JSON.stringify(o));
+    return `<script type="application/ld+json">${JSON.stringify(clean({ "@context": "https://schema.org", "@graph": graph }))}<\/script>`;
+  }
+  function faqSchema(faqs) {
+    if (!faqs.length) return null;
+    return { "@type": "FAQPage", mainEntity: faqs.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) };
+  }
+  function breadcrumbs(p, pg) {
+    const out = [{ name: "Home", url: "" }];
+    const parts = pg.url.split("/").filter(Boolean);
+    let acc = "";
+    parts.forEach((part, i) => {
+      acc += part + "/";
+      let name = part.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      if (pg.service && part === pg.service.slug) name = pg.service.name;
+      if (pg.area && part === pg.area.slug) name = pg.area.name;
+      if (pg.post && part === pg.post.slug) name = pg.post.title;
+      if (pg.custom && part === pg.custom.slug) name = pg.custom.title;
+      out.push({ name, url: acc });
+    });
+    return out;
+  }
+
+  /* ---------- chrome ---------- */
+  function header(p, pg, pages) {
+    const b = p.business;
+    const navPages = pages.filter(x => x.nav && x.kind !== "home" && x.kind !== "appointment" && x.kind !== "contact");
+    const link = (x) => `<a href="${pg.rel}${x.url || "./"}"${x.url === pg.url ? ' aria-current="page"' : ""}>${esc(x.nav)}</a>`;
+    const svcMenu = p.services.slice(0, 12).map(s => `<li><a href="${pg.rel}services/${s.slug}/">${esc(s.name)}</a></li>`).join("");
+    return `<a class="skip-link" href="#main">Skip to content</a>
+<header data-header class="site-header">
+  <div class="hdr-inner">
+    <a class="brand" href="${pg.rel}" aria-label="${attr(b.name)} home">${logoTag(p, pg, "brand-logo")}</a>
+    <nav data-nav aria-label="Main" class="nav-desktop">
+      ${navPages.map(x => x.kind === "services" ? `<div class="has-menu"><a href="${pg.rel}services/">Services</a><ul class="menu">${svcMenu}<li><a href="${pg.rel}services/">All services →</a></li></ul></div>` : link(x)).join("\n      ")}
+    </nav>
+    <div class="hdr-actions">
+      ${b.phone ? `<a class="hdr-tel" href="${telHref(b.phone)}">${esc(b.phone)}</a>` : ""}
+      <a class="btn btn-primary" data-magnetic href="${pg.rel}appointment/">Request Appointment</a>
+      <button data-nav-toggle class="nav-toggle" aria-label="Menu"><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="progress" data-progress aria-hidden="true"></div>
+  <div class="nav-overlay" aria-label="Mobile menu">
+    <nav data-nav class="nav-mobile">
+      ${[pages[0], ...navPages, pages.find(x => x.kind === "appointment"), pages.find(x => x.kind === "contact")].filter(Boolean).map(link).join("\n      ")}
+    </nav>
+    <div class="nav-overlay-meta">
+      ${b.phone ? `<a href="${telHref(b.phone)}">${esc(b.phone)}</a>` : ""}
+      <p>${esc([b.address.street, b.address.city, b.address.state, b.address.zip].filter(Boolean).join(", "))}</p>
+      <p data-open-status></p>
+    </div>
+  </div>
+</header>
+<div class="sticky-cta" data-sticky-cta>
+  ${b.phone ? `<a href="${telHref(b.phone)}">Call</a>` : ""}
+  <a class="primary" href="${pg.rel}appointment/">Book</a>
+  ${b.mapLink ? `<a href="${attr(b.mapLink)}" target="_blank" rel="noopener">Directions</a>` : ""}
+</div>`;
+  }
+
+  function footer(p, pg, pages) {
+    const b = p.business, year = new Date().getFullYear();
+    const col = (title, items) => items.length ? `<div class="ft-col"><h3>${title}</h3><ul>${items.join("")}</ul></div>` : "";
+    const svc = p.services.slice(0, 10).map(s => `<li><a href="${pg.rel}services/${s.slug}/">${esc(s.name)}</a></li>`);
+    const areas = p.areas.slice(0, 10).map(a => `<li><a href="${pg.rel}areas/${a.slug}/">${esc(a.name)}</a></li>`);
+    const company = pages.filter(x => ["about", "team", "reviews", "gallery", "financing", "insurance", "faq", "blog", "careers", "contact", "appointment"].includes(x.kind)).map(x => `<li><a href="${pg.rel}${x.url}">${esc(x.nav || x.title.split("|")[0].trim())}</a></li>`);
+    const social = Object.entries(b.social || {}).filter(([, v]) => v).map(([k, v]) => `<a href="${attr(v)}" target="_blank" rel="noopener">${k[0].toUpperCase() + k.slice(1)}</a>`).join("");
+    return `<footer class="site-footer">
+  <div class="ft-cta" data-reveal>
+    <h2 data-split>Ready when you are.</h2>
+    <p>Request an appointment online or call us${b.address.city ? ` in ${esc(b.address.city)}` : ""} today.</p>
+    <div class="btn-row"><a class="btn btn-light" data-magnetic href="${pg.rel}appointment/">Request Appointment</a>${b.phone ? `<a class="btn btn-ghost" href="${telHref(b.phone)}">Call ${esc(b.phone)}</a>` : ""}</div>
+  </div>
+  <div class="ft-grid">
+    <div class="ft-col ft-brand">
+      ${logoTag(p, pg, "ft-logo")}
+      <p>${esc(b.tagline || b.description.slice(0, 160))}</p>
+      <address>${esc(b.address.street)}<br>${esc([b.address.city, b.address.state].filter(Boolean).join(", "))} ${esc(b.address.zip)}</address>
+      ${b.phone ? `<a href="${telHref(b.phone)}">${esc(b.phone)}</a><br>` : ""}${b.email ? `<a href="mailto:${attr(b.email)}">${esc(b.email)}</a>` : ""}
+      <p data-open-status class="open-status"></p>
+      <div class="social">${social}</div>
+    </div>
+    ${col("Services", svc)}${col("Service areas", areas)}${col("Company", company)}
+  </div>
+  <div class="ft-legal">
+    <p>© ${year} ${esc(b.name)}. All rights reserved.</p>
+    <p><a href="${pg.rel}privacy/">Privacy</a> · <a href="${pg.rel}terms/">Terms</a> · <a href="${pg.rel}accessibility/">Accessibility</a> · <a href="${pg.rel}sitemap/">Site map</a></p>
+  </div>
+</footer>
+<div class="psb-cursor" aria-hidden="true"><span></span></div>`;
+  }
+
+  /* ---------- reusable section builders ---------- */
+  const eyebrow = (t) => `<p class="eyebrow">${esc(t)}</p>`;
+  function hero(p, pg, { eyebrowText, h1, lead, imgId, small }) {
+    return `<section class="hero${small ? " hero-sm" : ""}" data-scroll>
+  <div class="hero-bg">${imgTag(p, pg, imgId, { sizes: "100vw", eager: true, alt: "" })}</div>
+  <div class="hero-inner">
+    ${eyebrowText ? eyebrow(eyebrowText) : ""}
+    <h1 data-split>${h1}</h1>
+    ${lead ? `<p class="lead" data-reveal style="--delay:300ms">${lead}</p>` : ""}
+    <div class="btn-row" data-reveal>
+      <a class="btn btn-primary" data-magnetic data-cursor="Book" href="${pg.rel}appointment/">Request Appointment</a>
+      ${p.business.phone ? `<a class="btn btn-ghost" href="${telHref(p.business.phone)}">Call ${esc(p.business.phone)}</a>` : ""}
+    </div>
+    <p class="hero-meta" data-reveal><span data-open-status></span></p>
+  </div>
+  ${(!small && p.brand.fx.chips) ? heroChips(p) : ""}
+  ${!small ? `<a class="scroll-cue" href="#main-content" aria-label="Scroll down"><span></span></a>` : ""}
+  ${p.brand.fx.mesh ? `<div class="mesh" aria-hidden="true"><i></i><i></i><i></i></div>` : ""}
+</section>`;
+  }
+  function heroChips(p) {
+    const b = p.business, chips = [];
+    const rated = p.reviews.filter(r => +r.rating);
+    if (rated.length) chips.push(`<span class="chip chip-a"><b>★ ${(rated.reduce((a, r) => a + +r.rating, 0) / rated.length).toFixed(1)}</b> ${rated.length} ${words(rated.length, "review")}</span>`);
+    if (b.yearFounded) chips.push(`<span class="chip chip-b"><b>Since ${esc(b.yearFounded)}</b> in ${esc(b.address.city)}</span>`);
+    if (p.services.length) chips.push(`<span class="chip chip-c"><b>${p.services.length}</b> ${words(p.services.length, "service")}</span>`);
+    if (b.booking) chips.push(`<a class="chip chip-d" href="${attr(b.booking)}" target="_blank" rel="noopener"><b>Book online</b> instant confirmation</a>`);
+    return chips.length ? `<div class="chips" aria-hidden="true">${chips.slice(0, 3).join("")}</div>` : "";
+  }
+  function bentoSection(p, pg) {
+    if (!p.brand.fx.bento) return "";
+    const b = p.business, cells = [];
+    const rated = p.reviews.filter(r => +r.rating);
+    cells.push(`<div class="bento-cell bento-big" data-spotlight><p class="eyebrow">Why ${esc(b.name)}</p><h3>${esc(b.tagline || `Care that feels personal, in ${b.address.city}`)}</h3><p>${esc(b.description.split(/\n/)[0].slice(0, 220))}</p><a class="link-arrow" href="${pg.rel}${p.pages.about ? "about/" : "services/"}">Learn more →</a></div>`);
+    if (rated.length) cells.push(`<div class="bento-cell bento-stat"><strong data-count="${(rated.reduce((a, r) => a + +r.rating, 0) / rated.length).toFixed(1)}">0.0</strong><span>average of ${rated.length} ${words(rated.length, "review")}</span><em class="stars">★★★★★</em></div>`);
+    cells.push(`<div class="bento-cell bento-open"><span class="pulse"></span><strong data-open-status>Hours</strong><span>${esc(b.address.street)}, ${esc(b.address.city)}</span>${b.mapLink ? `<a href="${attr(b.mapLink)}" target="_blank" rel="noopener">Directions →</a>` : ""}</div>`);
+    if (p.images[1]) cells.push(`<div class="bento-cell bento-img">${imgTag(p, pg, p.images[1].id, { sizes: "(min-width: 900px) 33vw, 100vw" })}</div>`);
+    if (p.financing.enabled) cells.push(`<div class="bento-cell bento-fin"><strong>Flexible payment</strong><span>Plans and options that fit real budgets.</span><a href="${pg.rel}financing/">See financing →</a></div>`);
+    cells.push(`<div class="bento-cell bento-cta" data-spotlight><strong>Ready to talk?</strong><span>We confirm every request personally.</span><a class="btn btn-primary" data-magnetic href="${pg.rel}appointment/">Request Appointment</a></div>`);
+    return `<section class="bento wrap"><div class="bento-grid" data-reveal="stagger">${cells.join("")}</div></section>`;
+  }
+  function tickerSection(p) {
+    if (!p.brand.fx.ticker || p.services.length < 3) return "";
+    return `<div class="ticker" data-marquee data-marquee-scroll aria-hidden="true"><div>${p.services.map(s => `<span><em>${esc(s.name)}</em><i>✦</i></span>`).join("")}</div></div>`;
+  }
+  function crumbsHtml(p, pg) {
+    const c = breadcrumbs(p, pg);
+    return `<nav class="crumbs" aria-label="Breadcrumb"><ol>${c.map((x, i) => i === c.length - 1 ? `<li aria-current="page">${esc(x.name)}</li>` : `<li><a href="${pg.rel}${x.url}">${esc(x.name)}</a></li>`).join("")}</ol></nav>`;
+  }
+  function faqSection(faqs, title = "Questions, answered") {
+    if (!faqs.length) return "";
+    return `<section class="faq wrap" id="faq">
+  ${eyebrow("FAQ")}<h2 data-split>${esc(title)}</h2>
+  <div class="faq-list" data-reveal="stagger">
+    ${faqs.map(f => `<details class="faq-item"><summary><span>${esc(f.q)}</span><i aria-hidden="true"></i></summary><div class="faq-a"><p>${esc(f.a)}</p></div></details>`).join("\n    ")}
+  </div>
+</section>`;
+  }
+  function servicesGrid(p, pg, items, opts = {}) {
+    if (!items.length) return "";
+    const card = (s, i) => `<a class="svc-card" data-tilt href="${pg.rel}services/${s.slug}/${opts.area ? opts.area.slug + "/" : ""}">
+      <div class="svc-media">${imgTag(p, pg, s.image || i + 1, { sizes: "(min-width: 900px) 33vw, 100vw", alt: s.name })}</div>
+      <span class="num">${String(i + 1).padStart(2, "0")}</span>
+      <h3>${esc(s.name)}</h3>
+      <p>${esc(s.short)}</p>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>`;
+    if (opts.hscroll && items.length >= 4) {
+      return `<section class="svcs" id="services"><div class="wrap">${eyebrow(opts.eyebrow || "What we do")}<h2 data-split>${opts.title || "Our services"}</h2></div>
+  <div class="hscroll" data-hscroll><div class="hscroll-track" data-hscroll-track>${items.map(card).join("")}</div><div class="hscroll-bar" data-hscroll-progress></div></div>
+</section>`;
+    }
+    return `<section class="svcs wrap" id="services">${eyebrow(opts.eyebrow || "What we do")}<h2 data-split>${opts.title || "Our services"}</h2>
+  <div class="svc-grid" data-reveal="stagger">${items.map(card).join("")}</div>
+</section>`;
+  }
+  function reviewsSection(p, pg, limit = 6) {
+    const rs = p.reviews.slice(0, limit);
+    if (!rs.length) return "";
+    const stars = (n) => n ? `<span class="stars" aria-label="${n} out of 5 stars">${"★".repeat(clamp(Math.round(+n), 0, 5))}</span>` : "";
+    return `<section class="reviews" id="reviews"><div class="wrap">${eyebrow("Reviews")}<h2 data-split>What ${esc(p.business.address.city || "our")} clients say</h2></div>
+  <div class="carousel" data-carousel>
+    <div class="carousel-track" data-carousel-track>
+      ${rs.map(r => `<figure class="review" data-spotlight>${stars(r.rating)}<blockquote>${esc(typo(r.text))}</blockquote><figcaption>${esc(r.author)}${r.source ? ` <span>· ${esc(r.source)}</span>` : ""}</figcaption></figure>`).join("")}
+    </div>
+    <div class="carousel-ctl"><button data-carousel-prev aria-label="Previous review">←</button><span data-carousel-count></span><button data-carousel-next aria-label="Next review">→</button></div>
+  </div>
+</section>`;
+  }
+  function ctaBand(p, pg, text) {
+    return `<section class="cta-band" data-spotlight><div class="wrap"><h2 data-split>${text}</h2><div class="btn-row"><a class="btn btn-light" data-magnetic href="${pg.rel}appointment/">Request Appointment</a>${p.business.phone ? `<a class="btn btn-ghost" href="${telHref(p.business.phone)}">${esc(p.business.phone)}</a>` : ""}</div></div></section>`;
+  }
+  function areasList(p, pg, serviceSlug) {
+    if (!p.areas.length) return "";
+    return `<section class="areas wrap" id="areas">${eyebrow("Where we work")}<h2 data-split>Serving ${esc(p.business.address.city)} and nearby communities</h2>
+  <ul class="chip-list" data-reveal="stagger">${p.areas.map(a => `<li><a href="${pg.rel}${serviceSlug ? `services/${serviceSlug}/${a.slug}/` : `areas/${a.slug}/`}">${esc(a.name)}</a></li>`).join("")}</ul>
+</section>`;
+  }
+  function contactBlock(p, pg) {
+    const b = p.business;
+    const hours = (b.hours || []).filter(h => h.days).map(h => `<tr><th scope="row">${esc(h.days)}</th><td>${h.open && h.close ? esc(h.open + " – " + h.close) : "Closed"}</td></tr>`).join("");
+    return `<section class="contact-block wrap" id="visit">
+  <div class="contact-grid">
+    <div data-reveal>
+      ${eyebrow("Visit us")}<h2 data-split>Find us in ${esc(b.address.city)}</h2>
+      <address>${esc(b.address.street)}<br>${esc(b.address.city)}, ${esc(b.address.state)} ${esc(b.address.zip)}</address>
+      ${b.phone ? `<p><a class="big-link" href="${telHref(b.phone)}">${esc(b.phone)}</a></p>` : ""}
+      ${b.email ? `<p><a href="mailto:${attr(b.email)}">${esc(b.email)}</a></p>` : ""}
+      <p class="open-status" data-open-status></p>
+      ${b.mapLink ? `<a class="btn btn-outline" data-magnetic href="${attr(b.mapLink)}" target="_blank" rel="noopener">Get directions</a>` : ""}
+    </div>
+    <div data-reveal>
+      ${hours ? `<table class="hours"><caption class="sr-only">Opening hours</caption><tbody>${hours}</tbody></table>` : ""}
+      ${b.mapEmbed ? `<div class="map-wrap"><iframe loading="lazy" title="Map to ${attr(b.name)}" src="${attr(b.mapEmbed)}" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>` : ""}
+    </div>
+  </div>
+</section>`;
+  }
+  function form(p, pg, kind) {
+    const f = p.forms;
+    const action = f.provider === "formspree" && f.endpoint ? f.endpoint : f.provider === "mailto" ? `mailto:${p.business.email}` : "";
+    const netlify = f.provider === "netlify" ? ` data-netlify="true" name="${kind}"` : "";
+    const svcOpts = p.services.map(s => `<option>${esc(s.name)}</option>`).join("");
+    const isAppt = kind === "appointment";
+    return `<form class="form" method="POST" action="${attr(action)}"${netlify} data-form>
+  <input type="hidden" name="_subject" value="${attr((isAppt ? "Appointment request" : "Contact") + " — " + p.business.name)}">
+  <input type="hidden" name="_next" value="${attr((p.seo.siteUrl || "").replace(/\/+$/, "") + "/thank-you/")}">
+  ${netlify ? `<input type="hidden" name="form-name" value="${kind}">` : ""}
+  <p class="hp"><label>Leave this field empty <input name="_gotcha" tabindex="-1" autocomplete="off"></label></p>
+  <div class="row2"><label>Full name<input name="name" required autocomplete="name"></label><label>Phone<input name="phone" type="tel" required autocomplete="tel"></label></div>
+  <label>Email<input name="email" type="email" required autocomplete="email"></label>
+  ${isAppt ? `<div class="row2"><label>Service<select name="service"><option value="">Select a service</option>${svcOpts}<option>Not sure yet</option></select></label><label>Preferred date<input name="date" type="date"></label></div>
+  <fieldset><legend>Preferred time</legend><label class="inline"><input type="radio" name="time" value="Morning" checked> Morning</label><label class="inline"><input type="radio" name="time" value="Afternoon"> Afternoon</label><label class="inline"><input type="radio" name="time" value="Evening"> Evening</label></fieldset>
+  <label class="inline"><input type="checkbox" name="new_patient" value="yes"> I am a new client</label>` : ""}
+  <label>${isAppt ? "Anything we should know?" : "How can we help?"}<textarea name="message" rows="5"${isAppt ? "" : " required"}></textarea></label>
+  <label class="inline consent"><input type="checkbox" name="consent" required> I agree to be contacted about my request. See our <a href="${pg.rel}privacy/">privacy policy</a>.</label>
+  <button class="btn btn-primary" data-magnetic type="submit">${isAppt ? "Send appointment request" : "Send message"}</button>
+  <p class="form-note">${action ? "We typically reply within one business day." : "Form delivery is not configured yet — connect Formspree, Netlify Forms or an email address in the builder."}</p>
+</form>`;
+  }
+  function statsBand(p) {
+    const b = p.business, items = [];
+    if (b.yearFounded) items.push({ n: new Date().getFullYear() - (+b.yearFounded), s: "+", l: "years serving " + b.address.city });
+    if (p.services.length) items.push({ n: p.services.length, s: "", l: "services offered" });
+    if (p.reviews.length) items.push({ n: p.reviews.length, s: "+", l: "client reviews" });
+    if (p.areas.length) items.push({ n: p.areas.length, s: "", l: "communities served" });
+    if (!items.length) return "";
+    return `<section class="stats wrap"><ul data-reveal="stagger">${items.map(i => `<li><strong data-count="${i.n}" data-suffix="${i.s}">${i.n}${i.s}</strong><span>${esc(i.l)}</span></li>`).join("")}</ul></section>`;
+  }
+
+  /* ---------- page bodies ---------- */
+  const bodies = {
+    home(p, pg, pages) {
+      const b = p.business, city = b.address.city;
+      const manifesto = b.description ? `<section class="manifesto wrap"><p class="scrub" data-scrub>${esc(typo(b.description))}</p></section>` : "";
+      const about = p.pages.about ? `<section class="split wrap" id="about">
+  <div class="split-media" data-reveal="wipe"><div>${imgTag(p, pg, 1, { alt: "" })}</div></div>
+  <div class="split-text" data-reveal>${eyebrow("About " + b.name)}<h2 data-split>${esc(b.tagline || `Care that feels personal, in ${city}`)}</h2>${paras(b.description.split(/\n\s*\n/).slice(0, 2).join("\n\n"))}<a class="link-arrow" href="${pg.rel}about/">Our story →</a></div>
+</section>` : "";
+      const process = p.services.length >= 3 ? `<section class="process wrap">${eyebrow("How it works")}<h2 data-split>Simple from the first call</h2>
+  <ol class="stack" data-stack>
+    <li><span>01</span><h3>Reach out</h3><p>Request an appointment online or call us. We will confirm a time that works for you.</p></li>
+    <li><span>02</span><h3>Your first visit</h3><p>We listen first, then walk you through options and clear next steps — no pressure.</p></li>
+    <li><span>03</span><h3>A plan you understand</h3><p>You get a plain-language plan${p.financing.enabled ? " and payment options that fit" : ""} before anything begins.</p></li>
+  </ol></section>` : "";
+      const gallery = p.images.length >= 4 ? `<section class="gallery-strip" data-lightbox><div class="wrap">${eyebrow("Gallery")}<h2 data-split>A look inside</h2></div><div class="marquee" data-marquee data-marquee-scroll><div>${p.images.slice(0, 8).map((im, i) => `<figure>${imgTag(p, pg, im.id, { sizes: "40vw" })}</figure>`).join("")}</div></div></section>` : "";
+      const hoverList = p.services.length ? `<section class="hover-list wrap">${eyebrow("Explore")}<h2 data-split>Find the right service</h2><ul data-hover-reveal>${p.services.slice(0, 8).map((s, i) => `<li><a href="${pg.rel}services/${s.slug}/"><span>${esc(s.name)}</span><small>${esc(s.short)}</small></a>${imgTag(p, pg, s.image || i + 1, { extra: ' data-hover-media', sizes: "320px", alt: "" })}</li>`).join("")}</ul></section>` : "";
+      return [
+        hero(p, pg, { eyebrowText: `${city}, ${b.address.state}`, h1: `${esc(primaryKeyword(p))} in <em>${esc(city)}</em>`, lead: esc(b.tagline || b.description.split(/\n/)[0].slice(0, 180)), imgId: 0 }),
+        tickerSection(p), manifesto, statsBand(p), bentoSection(p, pg), servicesGrid(p, pg, p.services.slice(0, 8), { hscroll: true, title: `${words(p.services.length, "Service")} designed around you` }),
+        about, process, hoverList, reviewsSection(p, pg), gallery, areasList(p, pg), faqSection(p.faqs.slice(0, 6)), contactBlock(p, pg), ctaBand(p, pg, `Let’s get started, ${esc(city)}.`)
+      ].join("\n");
+    },
+    about(p, pg) {
+      const b = p.business;
+      return [hero(p, pg, { eyebrowText: "About", h1: `The people behind <em>${esc(b.name)}</em>`, lead: esc(b.tagline), imgId: 1, small: true }),
+        crumbsHtml(p, pg),
+        `<section class="prose wrap narrow" data-reveal>${paras(b.description)}${b.yearFounded ? `<p>Serving ${esc(b.address.city)} since ${esc(b.yearFounded)}.</p>` : ""}</section>`,
+        statsBand(p),
+        p.team.length ? `<section class="team wrap">${eyebrow("Team")}<h2 data-split>Meet the team</h2><div class="team-grid" data-reveal="stagger">${p.team.map(t => `<article class="member" data-tilt>${t.image ? imgTag(p, pg, t.image, { sizes: "300px", alt: t.name }) : ""}<h3>${esc(t.name)}</h3><p class="role">${esc(t.role)}</p>${t.bio ? `<p>${esc(t.bio)}</p>` : ""}</article>`).join("")}</div></section>` : "",
+        reviewsSection(p, pg, 4), ctaBand(p, pg, "Come see the difference.")].join("\n");
+    },
+    services(p, pg) {
+      return [hero(p, pg, { eyebrowText: "Services", h1: `Everything we do in <em>${esc(p.business.address.city)}</em>`, lead: "Explore each service to learn what to expect, who it helps, and how to get started.", imgId: 2, small: true }),
+        crumbsHtml(p, pg), servicesGrid(p, pg, p.services, { title: "All services", eyebrow: `${p.services.length} ${words(p.services.length, "service")}` }),
+        p.financing.enabled ? `<section class="note-band wrap" data-reveal><p>Flexible payment options are available. <a href="${pg.rel}financing/">See financing →</a></p></section>` : "",
+        faqSection(p.faqs.slice(0, 5)), ctaBand(p, pg, "Not sure where to start? Ask us.")].join("\n");
+    },
+    service(p, pg) {
+      const s = pg.service, b = p.business, city = pg.area ? pg.area.name : b.address.city;
+      const bullets = lines(s.bullets), faqs = parseFaqs(s.faqs);
+      const others = p.services.filter(x => x.slug !== s.slug).slice(0, 3);
+      const areaIntro = pg.area ? `<p class="area-note">${esc(b.name)} provides ${esc(s.name.toLowerCase())} for clients in ${esc(pg.area.name)}${pg.area.note ? ` — ${esc(pg.area.note)}` : ""}. Our office is located in ${esc(b.address.city)}, ${esc(b.address.state)}${b.mapLink ? ` (<a href="${attr(b.mapLink)}" target="_blank" rel="noopener">directions</a>)` : ""}.</p>` : "";
+      return [hero(p, pg, { eyebrowText: pg.area ? `${s.name} · ${pg.area.name}` : "Service", h1: `${esc(s.name)} in <em>${esc(city)}</em>`, lead: esc(s.short), imgId: s.image || s.id + 1, small: true }),
+        crumbsHtml(p, pg),
+        `<section class="svc-detail wrap"><div class="svc-cols">
+  <article class="prose" data-reveal>${areaIntro}${paras(s.body || s.short)}
+    ${bullets.length ? `<h2>What’s included</h2><ul class="checks" data-reveal="stagger">${bullets.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+    ${s.priceFrom ? `<p class="price">Starting from <strong>${esc(s.priceFrom)}</strong></p>` : ""}
+    ${p.financing.enabled ? `<p>Flexible payment plans may be available — <a href="${pg.rel}financing/">see financing options</a>.</p>` : ""}
+  </article>
+  <aside class="svc-aside" data-reveal>
+    <div class="aside-card" data-spotlight><h3>Book ${esc(s.name)}</h3><p>Request a time online and we will confirm by phone or email.</p><a class="btn btn-primary" data-magnetic href="${pg.rel}appointment/">Request Appointment</a>${b.phone ? `<a class="aside-tel" href="${telHref(b.phone)}">${esc(b.phone)}</a>` : ""}<p class="open-status" data-open-status></p></div>
+    ${others.length ? `<div class="aside-links"><h3>Related services</h3><ul>${others.map(o => `<li><a href="${pg.rel}services/${o.slug}/${pg.area ? pg.area.slug + "/" : ""}">${esc(o.name)}</a></li>`).join("")}</ul></div>` : ""}
+  </aside></div></section>`,
+        pg.area ? "" : areasList(p, pg, s.slug),
+        pg.area ? `<section class="wrap areas">${eyebrow("Also serving")}<ul class="chip-list" data-reveal="stagger">${p.areas.filter(a => a.slug !== pg.area.slug).slice(0, 12).map(a => `<li><a href="${pg.rel}services/${s.slug}/${a.slug}/">${esc(s.name)} in ${esc(a.name)}</a></li>`).join("")}<li><a href="${pg.rel}services/${s.slug}/">${esc(s.name)} in ${esc(b.address.city)}</a></li></ul></section>` : "",
+        faqSection(faqs.length ? faqs : p.faqs.slice(0, 4), `${s.name}: common questions`),
+        reviewsSection(p, pg, 4), ctaBand(p, pg, `Ready for ${esc(s.name.toLowerCase())}?`)].join("\n");
+    },
+    "service-area"(p, pg) { return bodies.service(p, pg); },
+    areas(p, pg) {
+      return [hero(p, pg, { eyebrowText: "Service areas", h1: `Proudly serving <em>${esc(p.business.address.city)}</em> and beyond`, lead: `Our office is in ${esc(p.business.address.city)}, ${esc(p.business.address.state)}. Choose your community to see what we offer near you.`, imgId: 3, small: true }),
+        crumbsHtml(p, pg),
+        `<section class="wrap area-grid-sec"><div class="area-grid" data-reveal="stagger">${p.areas.map(a => `<a class="area-card" data-tilt href="${pg.rel}areas/${a.slug}/"><h2>${esc(a.name)}</h2><p>${esc(a.note || `${p.services.length} ${words(p.services.length, "service")} available`)}</p><span>→</span></a>`).join("")}</div></section>`,
+        contactBlock(p, pg), ctaBand(p, pg, "Closer than you think.")].join("\n");
+    },
+    area(p, pg) {
+      const a = pg.area, b = p.business;
+      return [hero(p, pg, { eyebrowText: a.name, h1: `${esc(primaryKeyword(p))} for <em>${esc(a.name)}</em>`, lead: esc(a.note || `${b.name} welcomes clients from ${a.name}. Our office is a short drive away in ${b.address.city}.`), imgId: 4, small: true }),
+        crumbsHtml(p, pg),
+        `<section class="prose wrap narrow" data-reveal><p>${esc(b.name)} is located in ${esc(b.address.city)}, ${esc(b.address.state)} and serves ${esc(a.name)} and the surrounding area. ${esc(b.tagline || "")}</p>${b.mapLink ? `<p><a class="btn btn-outline" href="${attr(b.mapLink)}" target="_blank" rel="noopener">Directions from ${esc(a.name)}</a></p>` : ""}</section>`,
+        servicesGrid(p, pg, p.services, { area: a, title: `Services for ${esc(a.name)}`, eyebrow: "What we offer" }),
+        reviewsSection(p, pg, 4), faqSection(p.faqs.slice(0, 4)), contactBlock(p, pg), ctaBand(p, pg, `Hello, ${esc(a.name)}.`)].join("\n");
+    },
+    reviews(p, pg) {
+      const stars = (n) => n ? `<span class="stars">${"★".repeat(clamp(Math.round(+n), 0, 5))}</span>` : "";
+      return [hero(p, pg, { eyebrowText: "Reviews", h1: `In their <em>own words</em>`, lead: p.reviews.length ? `${p.reviews.length} ${words(p.reviews.length, "review")} from real clients.` : "", imgId: 5, small: true }),
+        crumbsHtml(p, pg),
+        p.reviews.length ? `<section class="wrap review-wall"><div class="masonry" data-reveal="stagger">${p.reviews.map(r => `<figure class="review" data-tilt>${stars(r.rating)}<blockquote>${esc(typo(r.text))}</blockquote><figcaption>${esc(r.author)}${r.source ? ` <span>· ${esc(r.source)}</span>` : ""}</figcaption></figure>`).join("")}</div></section>` : `<section class="wrap prose narrow"><p>Reviews will appear here. Add them in the builder.</p></section>`,
+        p.business.social.google ? `<section class="wrap note-band" data-reveal><p>Read more on <a href="${attr(p.business.social.google)}" target="_blank" rel="noopener">Google</a>.</p></section>` : "",
+        ctaBand(p, pg, "Your experience matters to us.")].join("\n");
+    },
+    gallery(p, pg) {
+      return [hero(p, pg, { eyebrowText: "Gallery", h1: `A look <em>inside</em>`, imgId: 6, small: true }), crumbsHtml(p, pg),
+        `<section class="wrap gal" data-lightbox><div class="gal-grid" data-reveal="stagger">${p.images.map(im => `<figure data-tilt>${imgTag(p, pg, im.id, { sizes: "(min-width: 900px) 33vw, 50vw" })}${im.alt ? `<figcaption>${esc(im.alt)}</figcaption>` : ""}</figure>`).join("")}</div></section>`,
+        ctaBand(p, pg, "See it in person.")].join("\n");
+    },
+    team(p, pg) {
+      return [hero(p, pg, { eyebrowText: "Team", h1: `Meet the <em>people</em>`, imgId: 1, small: true }), crumbsHtml(p, pg),
+        `<section class="team wrap"><div class="team-grid" data-reveal="stagger">${p.team.map(t => `<article class="member" data-tilt>${t.image ? imgTag(p, pg, t.image, { sizes: "300px", alt: t.name }) : ""}<h2>${esc(t.name)}</h2><p class="role">${esc(t.role)}</p>${t.bio ? paras(t.bio) : ""}</article>`).join("")}</div></section>`,
+        ctaBand(p, pg, "Come say hello.")].join("\n");
+    },
+    financing(p, pg) {
+      const f = p.financing, opts = f.options || [];
+      const faqs = parseFaqs(f.faqs);
+      return [hero(p, pg, { eyebrowText: "Financing", h1: `Care that fits your <em>budget</em>`, lead: esc(f.intro.split(/\n/)[0]), imgId: 7, small: true }), crumbsHtml(p, pg),
+        `<section class="wrap prose narrow" data-reveal>${paras(f.intro)}</section>`,
+        opts.length ? `<section class="wrap fin-opts"><h2 data-split>Payment options</h2><div class="fin-grid" data-reveal="stagger">${opts.map(o => `<article class="fin-card" data-spotlight><h3>${esc(o.name)}</h3><p>${esc(o.desc)}</p>${o.link ? `<a href="${attr(o.link)}" target="_blank" rel="noopener">Learn more →</a>` : ""}</article>`).join("")}</div></section>` : "",
+        faqSection(faqs, "Financing questions"), ctaBand(p, pg, "Let’s talk about options.")].join("\n");
+    },
+    insurance(p, pg) {
+      return [hero(p, pg, { eyebrowText: "Insurance", h1: `Insurance & <em>coverage</em>`, imgId: 8, small: true }), crumbsHtml(p, pg), `<section class="wrap prose narrow" data-reveal>${paras(p.extras.insuranceText)}</section>`, ctaBand(p, pg, "Questions about coverage? Call us.")].join("\n");
+    },
+    faq(p, pg) {
+      const all = [...p.faqs, ...p.services.flatMap(s => parseFaqs(s.faqs))];
+      return [hero(p, pg, { eyebrowText: "FAQ", h1: `Your questions, <em>answered</em>`, imgId: 8, small: true }), crumbsHtml(p, pg), faqSection(all, "Everything people ask us"), ctaBand(p, pg, "Still have a question?")].join("\n");
+    },
+    blog(p, pg) {
+      return [hero(p, pg, { eyebrowText: "Blog", h1: `Resources & <em>insights</em>`, imgId: 9, small: true }), crumbsHtml(p, pg),
+        `<section class="wrap post-list" data-reveal="stagger">${p.posts.map((x, i) => `<a class="post-card" data-tilt href="${pg.rel}blog/${x.slug}/">${x.image ? imgTag(p, pg, x.image, { sizes: "400px", alt: "" }) : ""}<time datetime="${attr(x.date || "")}">${esc(x.date || "")}</time><h2>${esc(x.title)}</h2><p>${esc(x.excerpt || String(x.body || "").slice(0, 150))}</p></a>`).join("")}</section>`,
+        ctaBand(p, pg, "Want advice tailored to you?")].join("\n");
+    },
+    post(p, pg) {
+      const x = pg.post;
+      return [hero(p, pg, { eyebrowText: x.date || "Article", h1: esc(x.title), imgId: x.image || 9, small: true }), crumbsHtml(p, pg), `<article class="wrap prose narrow" data-reveal>${paras(x.body)}</article>`, ctaBand(p, pg, "Ready to take the next step?")].join("\n");
+    },
+    custom(p, pg) {
+      const x = pg.custom;
+      return [hero(p, pg, { h1: esc(x.title), imgId: x.image || 10, small: true }), crumbsHtml(p, pg), `<section class="wrap prose narrow" data-reveal>${paras(x.body)}</section>`, ctaBand(p, pg, "We’re here to help.")].join("\n");
+    },
+    careers(p, pg) {
+      return [hero(p, pg, { eyebrowText: "Careers", h1: `Join the <em>team</em>`, imgId: 1, small: true }), crumbsHtml(p, pg), `<section class="wrap prose narrow" data-reveal>${paras(p.extras.careersText)}</section>`, `<section class="wrap form-sec"><h2 data-split>Apply</h2>${form(p, pg, "careers")}</section>`].join("\n");
+    },
+    appointment(p, pg) {
+      return [hero(p, pg, { eyebrowText: "Book", h1: `Request an <em>appointment</em>`, lead: "Tell us what you need and when works best. We confirm every request personally.", imgId: 2, small: true }), crumbsHtml(p, pg),
+        `<section class="wrap form-sec"><div class="form-cols"><div data-reveal>${form(p, pg, "appointment")}</div><aside data-reveal class="form-aside">${p.business.booking ? `<div class="aside-card" data-spotlight><h3>Prefer to book instantly?</h3><a class="btn btn-primary" data-magnetic href="${attr(p.business.booking)}" target="_blank" rel="noopener">Open online booking</a></div>` : ""}<div class="aside-card"><h3>What happens next</h3><ol><li>We receive your request.</li><li>We call or email to confirm a time.</li><li>You get a reminder before your visit.</li></ol>${p.business.phone ? `<p>In a hurry? <a href="${telHref(p.business.phone)}">${esc(p.business.phone)}</a></p>` : ""}</div></aside></div></section>`,
+        faqSection(p.faqs.slice(0, 4))].join("\n");
+    },
+    contact(p, pg) {
+      return [hero(p, pg, { eyebrowText: "Contact", h1: `Let’s <em>talk</em>`, lead: `We’re happy to answer questions by phone, email or in person at our ${esc(p.business.address.city)} office.`, imgId: 3, small: true }), crumbsHtml(p, pg), contactBlock(p, pg), `<section class="wrap form-sec"><h2 data-split>Send a message</h2><div class="form-cols"><div data-reveal>${form(p, pg, "contact")}</div><aside class="form-aside" data-reveal><div class="aside-card" data-spotlight><h3>Prefer to book?</h3><p>Skip the message and request an appointment directly.</p><a class="btn btn-primary" data-magnetic href="${pg.rel}appointment/">Request Appointment</a></div></aside></div></section>`].join("\n");
+    },
+    thanks(p, pg) { return `<section class="hero hero-sm" data-scroll><div class="hero-bg">${imgTag(p, pg, 0, { sizes: "100vw", eager: true, alt: "" })}</div><div class="hero-inner"><h1 data-split>Thank you — we’ve received it.</h1><p class="lead" data-reveal>Expect to hear from us within one business day.${p.business.phone ? ` Need us sooner? Call <a href="${telHref(p.business.phone)}">${esc(p.business.phone)}</a>.` : ""}</p><div class="btn-row" data-reveal><a class="btn btn-primary" data-magnetic href="${pg.rel}">Back to home</a></div></div></section>`; },
+    "404"(p, pg) { return `<section class="hero hero-sm" data-scroll><div class="hero-bg">${imgTag(p, pg, 0, { sizes: "100vw", eager: true, alt: "" })}</div><div class="hero-inner"><p class="eyebrow">404</p><h1 data-split>That page moved on.</h1><p class="lead" data-reveal>Try the menu, or start with one of these.</p><div class="btn-row" data-reveal><a class="btn btn-primary" data-magnetic href="${pg.rel}">Home</a><a class="btn btn-ghost" href="${pg.rel}services/">Services</a><a class="btn btn-ghost" href="${pg.rel}contact/">Contact</a></div></div></section>`; },
+    privacy(p, pg) { return legal(p, pg, "Privacy Policy", privacyText(p)); },
+    terms(p, pg) { return legal(p, pg, "Terms of Use", termsText(p)); },
+    accessibility(p, pg) { return legal(p, pg, "Accessibility Statement", a11yText(p)); },
+    sitemap(p, pg, pages) {
+      const groups = {};
+      pages.filter(x => !x.nositemap && !x.noindex).forEach(x => { const g = x.url.split("/")[0] || "home"; (groups[g] = groups[g] || []).push(x); });
+      return [`<section class="hero hero-sm" data-scroll><div class="hero-bg">${imgTag(p, pg, 0, { sizes: "100vw", eager: true, alt: "" })}</div><div class="hero-inner"><h1 data-split>Site map</h1></div></section>`, crumbsHtml(p, pg),
+        `<section class="wrap sitemap-sec"><div class="sitemap-grid" data-reveal="stagger">${Object.entries(groups).map(([g, xs]) => `<div><h2>${esc(g.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase()))}</h2><ul>${xs.map(x => `<li><a href="${pg.rel}${x.url}">${esc(x.title.split("|")[0].trim())}</a></li>`).join("")}</ul></div>`).join("")}</div></section>`].join("\n");
+    },
+  };
+  function legal(p, pg, title, html) {
+    return [`<section class="hero hero-sm hero-plain" data-scroll><div class="hero-inner"><p class="eyebrow">Legal</p><h1 data-split>${esc(title)}</h1><p class="lead">Last updated ${new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p></div></section>`, crumbsHtml(p, pg), `<section class="wrap prose narrow" data-reveal>${html}</section>`].join("\n");
+  }
+  function privacyText(p) {
+    const n = esc(p.business.name), e = esc(p.business.email || "the contact details on our contact page");
+    return `<p>${n} (“we”, “us”) respects your privacy. This policy explains what information we collect through this website and how we use it.</p>
+<h2>Information we collect</h2><p>When you submit a contact or appointment form we receive the details you enter, such as your name, phone number, email address and message. Our hosting and form providers may also collect standard technical data such as IP address and browser type.</p>
+<h2>How we use it</h2><p>We use your information only to respond to your request, schedule appointments and communicate with you about our services. We do not sell your personal information.</p>
+<h2>Analytics and cookies</h2><p>${p.seo.gaId ? "We use Google Analytics to understand how visitors use this site. You can opt out with the Google Analytics opt-out browser add-on." : "This site does not use tracking cookies beyond those strictly necessary for it to function."}</p>
+<h2>Third-party services</h2><p>Forms, maps and embedded content may be provided by third parties with their own privacy policies.</p>
+<h2>Your choices</h2><p>You may request access to, correction of, or deletion of your personal information by contacting ${e}.</p>
+<h2>Contact</h2><p>Questions about this policy can be sent to ${e}.</p>`;
+  }
+  function termsText(p) {
+    const n = esc(p.business.name);
+    return `<p>By using this website you agree to these terms. If you do not agree, please do not use the site.</p>
+<h2>Information, not advice</h2><p>Content on this site is provided for general information about ${n} and its services. It is not a substitute for a consultation. Submitting a form does not create a client relationship until we confirm your appointment.</p>
+<h2>Intellectual property</h2><p>Text, images, logos and design on this site belong to ${n} or their respective owners and may not be reproduced without permission.</p>
+<h2>Accuracy</h2><p>We work to keep information current, but services, hours and pricing may change. Please confirm details when you contact us.</p>
+<h2>Limitation of liability</h2><p>To the extent permitted by law, ${n} is not liable for any damages arising from use of this website.</p>
+<h2>Changes</h2><p>We may update these terms at any time by posting a revised version here.</p>`;
+  }
+  function a11yText(p) {
+    const n = esc(p.business.name), e = esc(p.business.email || p.business.phone || "our contact page");
+    return `<p>${n} is committed to making this website usable by everyone, including people with disabilities. We aim to conform to the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA.</p>
+<h2>What we’ve done</h2><ul><li>Semantic headings, landmarks and a skip link</li><li>Keyboard access for every menu, button and form</li><li>Visible focus states and sufficient color contrast</li><li>Descriptive alternative text for meaningful images</li><li>Respect for reduced-motion preferences</li><li>Layouts that work on phones from 360px wide</li></ul>
+<h2>Feedback</h2><p>If you have trouble using any part of this site, please contact us at ${e}. We will do our best to help and to fix the problem.</p>`;
+  }
+
+  /* ---------- meta description per page ---------- */
+  function describe(p, pg) {
+    const b = p.business, city = b.address.city;
+    const tail = b.phone ? ` Call ${b.phone} or request an appointment online.` : " Request an appointment online.";
+    const cut = (s, n = 155) => s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, "") + "…" : s;
+    switch (pg.kind) {
+      case "home": return cut(`${b.name}: ${primaryKeyword(p).toLowerCase()} in ${city}, ${b.address.state}. ${b.tagline || b.description.split(/\n/)[0]}${tail}`);
+      case "service": return cut(`${pg.service.name} in ${city}, ${b.address.state} at ${b.name}. ${pg.service.short}${tail}`);
+      case "service-area": return cut(`${pg.service.name} for ${pg.area.name}, ${pg.area.state || b.address.state}. ${b.name} is nearby in ${city}. ${pg.service.short}${tail}`);
+      case "area": return cut(`${b.name} serves ${pg.area.name} with ${p.services.slice(0, 3).map(s => s.name.toLowerCase()).join(", ")} and more.${tail}`);
+      case "financing": return cut(`Payment plans and financing options at ${b.name} in ${city}. ${p.financing.intro.split(/\n/)[0]}`);
+      case "appointment": return cut(`Request an appointment with ${b.name} in ${city}. Choose a service and preferred time; we confirm personally.`);
+      case "contact": return cut(`Contact ${b.name} in ${city}, ${b.address.state}: address, hours, phone and directions.${tail}`);
+      case "post": return cut(pg.post.excerpt || String(pg.post.body || "").split(/\n/)[0]);
+      default: return cut(`${pg.title.split("|")[0].trim()} — ${b.name}, ${city}, ${b.address.state}.${tail}`);
+    }
+  }
+
+  /* ---------- assemble one page ---------- */
+  function renderPage(p, pg, pages, css, js) {
+    pg.description = describe(p, pg);
+    const base = (p.seo.siteUrl || "").replace(/\/+$/, "");
+    const canonical = base ? `<link rel="canonical" href="${base}/${pg.url}">` : "";
+    const body = bodies[pg.kind](p, pg, pages);
+    const faqs = pg.kind === "faq" ? [...p.faqs, ...p.services.flatMap(s => parseFaqs(s.faqs))]
+      : pg.kind === "home" ? p.faqs.slice(0, 6) : (pg.kind === "service" || pg.kind === "service-area") ? (parseFaqs(pg.service.faqs).length ? parseFaqs(pg.service.faqs) : p.faqs.slice(0, 4)) : pg.kind === "financing" ? parseFaqs(p.financing.faqs) : [];
+    const extra = [faqSchema(faqs)];
+    if (pg.kind === "service" || pg.kind === "service-area") extra.push({ "@type": "Service", name: pg.service.name, description: pg.service.short, provider: { "@id": base + "/#business" }, areaServed: pg.area ? { "@type": "City", name: pg.area.name } : undefined, url: base + "/" + pg.url });
+    if (pg.kind === "post") extra.push({ "@type": "BlogPosting", headline: pg.post.title, datePublished: pg.post.date || undefined, author: { "@id": base + "/#business" }, url: base + "/" + pg.url });
+    const og = p.images[0] ? `${base}/assets/img/${p.images[0].id}.jpg` : "";
+    const fonts = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(p.brand.fontDisplay).replace(/%20/g, "+")}:ital,wght@0,400;0,600;0,700;1,400&family=${encodeURIComponent(p.brand.fontBody).replace(/%20/g, "+")}:wght@400;500;600&display=swap`;
+    const ga = p.seo.gaId ? `<script async src="https://www.googletagmanager.com/gtag/js?id=${attr(p.seo.gaId)}"><\/script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${attr(p.seo.gaId)}');<\/script>` : "";
+    return `<!DOCTYPE html>
+<html lang="en" data-theme="${p.brand.theme}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>${esc(pg.title)}</title>
+<meta name="description" content="${attr(pg.description)}">
+${pg.noindex ? '<meta name="robots" content="noindex, follow">' : '<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">'}
+${canonical}
+<meta property="og:type" content="website"><meta property="og:site_name" content="${attr(p.business.name)}"><meta property="og:title" content="${attr(pg.title)}"><meta property="og:description" content="${attr(pg.description)}">${og ? `<meta property="og:image" content="${attr(og)}">` : ""}${base ? `<meta property="og:url" content="${base}/${pg.url}">` : ""}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="geo.region" content="${attr(p.business.address.country || "US")}-${attr(p.business.address.state)}"><meta name="geo.placename" content="${attr(p.business.address.city)}">${p.business.lat && p.business.lng ? `<meta name="geo.position" content="${attr(p.business.lat)};${attr(p.business.lng)}"><meta name="ICBM" content="${attr(p.business.lat)}, ${attr(p.business.lng)}">` : ""}
+${p.seo.googleVerification ? `<meta name="google-site-verification" content="${attr(p.seo.googleVerification)}">` : ""}${p.seo.bingVerification ? `<meta name="msvalidate.01" content="${attr(p.seo.bingVerification)}">` : ""}
+<meta name="theme-color" content="${attr(p.brand.primary)}">
+<link rel="icon" href="${pg.rel}assets/favicon.svg" type="image/svg+xml">${p.brand.logo ? `<link rel="apple-touch-icon" href="${pg.rel}assets/logo.${p.brand.logoExt || "png"}">` : ""}
+<link rel="manifest" href="${pg.rel}manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="${fonts}">
+<link rel="stylesheet" href="${pg.rel}assets/site.css">
+${schema(p, pg, extra)}
+${ga}
+</head>
+<body class="page-${pg.kind}">
+${header(p, pg, pages)}
+<main id="main"><span id="main-content"></span>
+${body}
+</main>
+${footer(p, pg, pages)}
+<script src="${pg.rel}assets/site.js" defer><\/script>
+</body>
+</html>`;
+  }
+
+  /* ---------- site-wide files ---------- */
+  function sitemapXml(p, pages) {
+    const base = (p.seo.siteUrl || "https://example.com").replace(/\/+$/, "");
+    const today = new Date().toISOString().slice(0, 10);
+    return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pages.filter(x => !x.nositemap && !x.noindex).map(x => `  <url><loc>${base}/${x.url}</loc><lastmod>${x.date || today}</lastmod><priority>${x.priority || "0.5"}</priority></url>`).join("\n")}\n</urlset>\n`;
+  }
+  function robots(p) {
+    const base = (p.seo.siteUrl || "").replace(/\/+$/, "");
+    return `User-agent: *\nAllow: /\nDisallow: /thank-you/\n\n# AI crawlers welcome to read our public content\nUser-agent: GPTBot\nAllow: /\nUser-agent: ClaudeBot\nAllow: /\nUser-agent: PerplexityBot\nAllow: /\nUser-agent: Google-Extended\nAllow: /\n\n${base ? `Sitemap: ${base}/sitemap.xml\n` : ""}`;
+  }
+  function llmsTxt(p, pages) {
+    const b = p.business, base = (p.seo.siteUrl || "").replace(/\/+$/, "");
+    const l = (x) => `- [${x.title.split("|")[0].trim()}](${base}/${x.url}): ${x.description || ""}`;
+    return `# ${b.name}\n\n> ${b.tagline || b.description.split(/\n/)[0]}\n\n${b.name} is a ${b.category.replace(/([A-Z])/g, " $1").trim().toLowerCase()} located at ${[b.address.street, b.address.city, b.address.state, b.address.zip].filter(Boolean).join(", ")}.${b.phone ? ` Phone: ${b.phone}.` : ""}${b.email ? ` Email: ${b.email}.` : ""}\n\n${b.description}\n\n## Services\n${pages.filter(x => x.kind === "service").map(l).join("\n")}\n\n## Service areas\n${pages.filter(x => x.kind === "area").map(l).join("\n")}\n\n## Key pages\n${pages.filter(x => ["about", "financing", "faq", "reviews", "appointment", "contact"].includes(x.kind)).map(l).join("\n")}\n\n## Facts\n${(b.hours || []).filter(h => h.days).map(h => `- Hours ${h.days}: ${h.open && h.close ? h.open + "–" + h.close : "Closed"}`).join("\n")}\n${p.faqs.map(f => `- Q: ${f.q} A: ${f.a}`).join("\n")}\n`;
+  }
+  function manifest(p) {
+    return JSON.stringify({ name: p.business.name, short_name: p.business.name.slice(0, 12), start_url: "./", display: "standalone", background_color: p.brand.paper, theme_color: p.brand.primary, icons: p.brand.logo ? [{ src: "assets/logo." + (p.brand.logoExt || "png"), sizes: "512x512", type: "image/" + (p.brand.logoExt === "svg" ? "svg+xml" : "png") }] : [] }, null, 2);
+  }
+  function favicon(p) {
+    const letter = (p.business.name || "A").trim()[0].toUpperCase();
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="${p.brand.primary}"/><text x="32" y="43" font-family="Georgia,serif" font-size="36" font-weight="700" text-anchor="middle" fill="#fff">${esc(letter)}</text></svg>`;
+  }
+
+  /* ---------- site CSS (design system) ---------- */
+  function siteCss(p, runtimeCss) {
+    const b = p.brand;
+    const dark = b.theme === "dark";
+    const paper = dark ? "#0f1214" : b.paper, ink = dark ? "#f3efe8" : b.ink;
+    return `${runtimeCss}
+:root{--primary:${b.primary};--accent:${b.accent};--ink:${ink};--paper:${paper};--paper-2:${dark ? "#171b1e" : "color-mix(in srgb,var(--paper) 92%,var(--ink))"};--line:color-mix(in srgb,var(--ink) 14%,transparent);--muted:color-mix(in srgb,var(--ink) 62%,transparent);--radius:${b.radius}px;--font-d:"${b.fontDisplay}",Georgia,serif;--font-b:"${b.fontBody}",system-ui,sans-serif;--wrap:1240px;--ease:cubic-bezier(.16,1,.3,1);--cursor-color:#fff;--cursor-label-bg:var(--accent);--cursor-label-ink:#111;--spotlight-color:color-mix(in srgb,var(--accent) 28%,transparent);--scrub-dim:.18;color-scheme:${dark ? "dark" : "light"}}
+*,*::before,*::after{box-sizing:border-box}
+html{font-size:clamp(15px,.9vw + 11px,18px)}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1rem/1.6 var(--font-b);-webkit-font-smoothing:antialiased;overflow-x:clip}
+h1,h2,h3{font-family:var(--font-d);font-weight:600;line-height:1.05;letter-spacing:-.02em;margin:0 0 .5em}
+h1{font-size:clamp(2.4rem,6.5vw,5.6rem)}h2{font-size:clamp(1.9rem,3.8vw,3.3rem)}h3{font-size:1.35rem}
+h1 em,h2 em{font-style:italic;color:var(--accent)}
+p{margin:0 0 1em}a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{width:min(var(--wrap),calc(100% - 2rem));margin-inline:auto}.narrow{max-width:760px}
+section{padding-block:clamp(3.5rem,8vw,7.5rem)}
+.eyebrow{font:600 .78rem/1 var(--font-b);letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:0 0 1.2rem}
+.lead{font-size:clamp(1.05rem,1.4vw,1.3rem);max-width:60ch;color:var(--muted)}
+.ph{aspect-ratio:3/2;background:linear-gradient(135deg,var(--paper-2),var(--line));border-radius:var(--radius)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.95rem 1.6rem;border-radius:999px;font:600 .95rem/1 var(--font-b);text-decoration:none;border:1px solid transparent;cursor:pointer;transition:background .3s,color .3s,border-color .3s,box-shadow .3s}
+.btn-primary{background:var(--primary);color:#fff;box-shadow:0 10px 30px -12px var(--primary)}.btn-primary:hover{background:color-mix(in srgb,var(--primary) 85%,#000)}
+.btn-ghost{background:transparent;color:inherit;border-color:currentColor}.btn-ghost:hover{background:color-mix(in srgb,currentColor 10%,transparent)}
+.btn-light{background:#fff;color:#111}.btn-light:hover{background:var(--accent)}
+.btn-outline{border-color:var(--ink);color:var(--ink)}.btn-outline:hover{background:var(--ink);color:var(--paper)}
+.btn-row{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center}
+.link-arrow{font-weight:600;text-decoration:none;border-bottom:1px solid var(--accent)}.link-arrow:hover{color:var(--accent)}
+/* header */
+.site-header{position:fixed;inset:0 0 auto;z-index:100;color:#fff}
+.site-header.is-scrolled{color:var(--ink)}.site-header.is-scrolled .hdr-inner{background:color-mix(in srgb,var(--paper) 86%,transparent);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.hdr-inner{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:.9rem clamp(1rem,3vw,2.5rem);transition:background .4s,box-shadow .4s}
+.brand{display:flex;align-items:center;text-decoration:none}.brand-logo{height:44px;width:auto;object-fit:contain}
+.site-header:not(.is-scrolled) .brand-logo{filter:brightness(0) invert(1)}
+.wordmark{font:600 1.4rem/1 var(--font-d);letter-spacing:-.02em}
+.nav-desktop{display:none;align-items:center;gap:1.6rem;font-weight:500;font-size:.95rem}.has-menu>a{display:inline-block}.nav-desktop a{text-decoration:none;position:relative;padding:.3rem 0}.nav-desktop a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:2px;background:var(--accent);transition:right .4s var(--ease)}.nav-desktop a:hover::after,.nav-desktop a[aria-current]::after{right:0}
+.has-menu{position:relative}.has-menu .menu{position:absolute;top:100%;left:-1rem;min-width:260px;margin:0;padding:.6rem;list-style:none;background:var(--paper);color:var(--ink);border-radius:14px;box-shadow:0 30px 60px -20px rgba(0,0,0,.35);opacity:0;transform:translateY(8px);pointer-events:none;transition:.3s var(--ease)}.has-menu:hover .menu,.has-menu:focus-within .menu{opacity:1;transform:none;pointer-events:auto}.has-menu .menu a{display:block;padding:.55rem .8rem;border-radius:8px}.has-menu .menu a:hover{background:var(--paper-2)}.has-menu .menu a::after{display:none}
+.hdr-actions{display:flex;align-items:center;gap:1rem}.hdr-tel{display:none;text-decoration:none;font-weight:600}.hdr-actions .btn{display:none}
+.nav-toggle{width:44px;height:44px;border:0;background:transparent;display:grid;place-items:center;gap:6px;cursor:pointer;color:inherit}.nav-toggle span{width:26px;height:2px;background:currentColor;transition:.35s var(--ease)}
+html.nav-open .nav-toggle span:first-child{transform:translateY(4px) rotate(45deg)}html.nav-open .nav-toggle span:last-child{transform:translateY(-4px) rotate(-45deg)}
+.progress{height:2px;background:var(--accent);margin-top:-2px}
+.nav-overlay{position:fixed;inset:0;background:var(--primary);color:#fff;padding:6rem 2rem 3rem;display:flex;flex-direction:column;justify-content:space-between;opacity:0;visibility:hidden;transition:.45s var(--ease);z-index:-1}
+html.nav-open .nav-overlay{opacity:1;visibility:visible}html.nav-open .site-header{color:#fff}html.nav-open .hdr-inner{background:transparent!important;box-shadow:none!important}html.nav-open .brand-logo{filter:brightness(0) invert(1)!important}
+.nav-mobile{display:flex;flex-direction:column;gap:.3rem}.nav-mobile a{font:600 clamp(1.6rem,6vw,2.6rem)/1.25 var(--font-d);text-decoration:none;transform:translateY(20px);opacity:0;transition:.6s var(--ease)}html.nav-open .nav-mobile a{opacity:1;transform:none}.nav-mobile a:nth-child(n){transition-delay:calc(var(--n,0)*1ms)}
+.nav-overlay-meta a{color:#fff;font-weight:600}.nav-overlay-meta p{opacity:.8;margin:.3rem 0}
+@media(min-width:1000px){.nav-desktop{display:flex}.nav-toggle{display:none}.hdr-tel,.hdr-actions .btn{display:inline-flex}.nav-overlay{display:none}}
+.sticky-cta{position:fixed;left:.75rem;right:.75rem;bottom:calc(.75rem + env(safe-area-inset-bottom,0px));z-index:90;display:flex;background:var(--ink);color:var(--paper);border-radius:999px;padding:.35rem;box-shadow:0 20px 40px -15px rgba(0,0,0,.5)}.sticky-cta a{flex:1;text-align:center;padding:.8rem;text-decoration:none;font-weight:600;border-radius:999px}.sticky-cta .primary{background:var(--accent);color:#111}
+/* hero */
+.hero{position:relative;min-height:100svh;display:grid;align-items:end;padding:8rem 0 5rem;color:#fff;overflow:hidden;isolation:isolate}
+.hero-sm{min-height:62svh;padding-top:9rem}
+.hero-bg{position:absolute;inset:0;z-index:-1;overflow:hidden}.hero-bg img{width:100%;height:100%;object-fit:cover;transform:scale(calc(1 + var(--exit,0)*.12))}
+.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.15) 40%,rgba(0,0,0,.78))}
+.hero-plain{color:var(--ink);background:var(--paper-2);min-height:40svh}
+.hero-inner{width:min(var(--wrap),calc(100% - 2rem));margin-inline:auto;transform:translateY(calc(var(--exit,0)*-60px));opacity:calc(1 - var(--exit,0)*1.5)}
+.hero .lead{color:rgba(255,255,255,.86)}.hero-plain .lead{color:var(--muted)}.hero .btn-row{margin-top:1.5rem}.hero-meta{margin-top:1.5rem;font-size:.9rem;opacity:.85}
+.hero-sm h1{font-size:clamp(2.2rem,5.4vw,4.4rem)}
+/* crumbs */
+.crumbs{width:min(var(--wrap),calc(100% - 2rem));margin:1.2rem auto -2rem;font-size:.85rem;color:var(--muted)}.crumbs ol{list-style:none;display:flex;flex-wrap:wrap;gap:.4rem;padding:0;margin:0}.crumbs li+li::before{content:"/";margin-right:.4rem;opacity:.5}.crumbs a{text-decoration:none}
+/* manifesto + stats */
+.manifesto{text-align:center}.scrub{font:400 clamp(1.4rem,3vw,2.5rem)/1.3 var(--font-d);max-width:28ch;margin-inline:auto;letter-spacing:-.01em}
+.stats{padding-block:0}.stats ul{list-style:none;margin:0;padding:2.5rem 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1.5rem;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.stats strong{display:block;font:600 clamp(2.4rem,5vw,4rem)/1 var(--font-d);color:var(--primary)}.stats span{color:var(--muted);font-size:.9rem}
+/* services */
+.svc-card{position:relative;display:flex;flex-direction:column;gap:.6rem;padding:1.2rem;background:var(--paper-2);border-radius:var(--radius);text-decoration:none;overflow:hidden;transition:box-shadow .5s var(--ease)}.svc-card:hover{box-shadow:0 30px 60px -30px rgba(0,0,0,.4)}
+.svc-media{aspect-ratio:4/3;border-radius:calc(var(--radius) - 6px);overflow:hidden}.svc-media img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}.svc-card:hover .svc-media img{transform:scale(1.06)}
+.svc-card .num{font:600 .75rem/1 var(--font-b);letter-spacing:.15em;color:var(--accent)}.svc-card h3{margin:0}.svc-card p{color:var(--muted);margin:0;font-size:.95rem}.svc-card .arrow{position:absolute;right:1.2rem;top:1.2rem;width:40px;height:40px;display:grid;place-items:center;border-radius:50%;background:var(--paper);transition:.4s var(--ease)}.svc-card:hover .arrow{background:var(--accent);transform:rotate(-45deg)}
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.4rem}
+.hscroll{position:relative}.hscroll-track{padding:1rem clamp(1rem,4vw,4rem) 2rem}.hscroll-track>*{width:min(78vw,420px)}.hscroll-bar{height:3px;background:var(--accent);margin:0 clamp(1rem,4vw,4rem)}
+/* split / process / hover list */
+.split{display:grid;gap:2.5rem;align-items:center}@media(min-width:900px){.split{grid-template-columns:1.1fr 1fr;gap:5rem}}.split-media img{width:100%;border-radius:var(--radius);aspect-ratio:4/5;object-fit:cover}
+.stack{list-style:none;padding:0;margin:0;display:grid;gap:1.2rem}.stack li{position:sticky;top:calc(var(--header-h,80px) + 1rem);background:var(--primary);color:#fff;padding:2.5rem;border-radius:var(--radius);min-height:260px}.stack li:nth-child(2){top:calc(var(--header-h,80px) + 2.5rem);background:color-mix(in srgb,var(--primary) 80%,#000)}.stack li:nth-child(3){top:calc(var(--header-h,80px) + 4rem);background:color-mix(in srgb,var(--primary) 60%,#000)}.stack span{color:var(--accent);font-weight:600;letter-spacing:.15em}.stack h3{font-size:1.9rem;margin:.4rem 0}
+.hover-list ul{list-style:none;margin:0;padding:0}.hover-list li{border-top:1px solid var(--line)}.hover-list li:last-child{border-bottom:1px solid var(--line)}.hover-list a{display:flex;align-items:baseline;justify-content:space-between;gap:2rem;padding:1.4rem 0;text-decoration:none;transition:padding .4s var(--ease)}.hover-list a:hover{padding-left:1rem;color:var(--primary)}.hover-list a span{font:600 clamp(1.4rem,3vw,2.4rem)/1.1 var(--font-d)}.hover-list a small{color:var(--muted);text-align:right;max-width:40ch}
+/* reviews */
+.reviews{background:var(--ink);color:var(--paper);overflow:hidden}.reviews .eyebrow{color:var(--accent)}
+.carousel{padding-left:max(1rem,calc((100% - var(--wrap))/2 + 1rem))}.carousel-track{padding-right:2rem}
+.review{margin:0;width:min(82vw,460px);padding:2rem;border-radius:var(--radius);background:color-mix(in srgb,var(--paper) 7%,transparent);border:1px solid color-mix(in srgb,var(--paper) 14%,transparent)}.review blockquote{margin:1rem 0;font:400 1.15rem/1.5 var(--font-d)}.review figcaption{font-weight:600}.review figcaption span{font-weight:400;opacity:.6}.stars{color:var(--accent);letter-spacing:.1em}
+.carousel-ctl{display:flex;align-items:center;gap:1rem;margin-top:1.5rem}.carousel-ctl button{width:48px;height:48px;border-radius:50%;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer;font-size:1.1rem}.carousel-ctl span{font-variant-numeric:tabular-nums;opacity:.7}
+.review-wall .review{width:auto;background:var(--paper-2);border-color:var(--line)}.masonry{columns:1;column-gap:1.4rem}.masonry .review{break-inside:avoid;margin-bottom:1.4rem}@media(min-width:700px){.masonry{columns:2}}@media(min-width:1100px){.masonry{columns:3}}
+/* gallery */
+.gallery-strip{overflow:hidden}.marquee figure{margin:0;width:min(60vw,380px);aspect-ratio:4/3;border-radius:var(--radius);overflow:hidden}.marquee img{width:100%;height:100%;object-fit:cover}
+.gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem}.gal-grid figure{margin:0;border-radius:var(--radius);overflow:hidden;background:var(--paper-2)}.gal-grid img{width:100%;aspect-ratio:4/3;object-fit:cover}.gal-grid figcaption{padding:.6rem .9rem;font-size:.85rem;color:var(--muted)}
+/* areas, chips, faq */
+.chip-list{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:.6rem}.chip-list a{display:inline-block;padding:.6rem 1.1rem;border:1px solid var(--line);border-radius:999px;text-decoration:none;transition:.3s}.chip-list a:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.area-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.2rem}.area-card{display:block;padding:1.8rem;background:var(--paper-2);border-radius:var(--radius);text-decoration:none}.area-card h2{font-size:1.5rem;margin:0 0 .3rem}.area-card p{color:var(--muted);margin:0 0 1rem}.area-card span{color:var(--accent);font-size:1.4rem}
+.faq-list{border-top:1px solid var(--line)}.faq-item{border-bottom:1px solid var(--line)}.faq-item summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 0;font:600 1.15rem/1.3 var(--font-d)}.faq-item summary::-webkit-details-marker{display:none}.faq-item summary i{width:28px;height:28px;flex:none;border-radius:50%;border:1px solid currentColor;position:relative;transition:.4s var(--ease)}.faq-item summary i::before,.faq-item summary i::after{content:"";position:absolute;inset:50% auto auto 50%;width:12px;height:1.5px;background:currentColor;transform:translate(-50%,-50%)}.faq-item summary i::after{transform:translate(-50%,-50%) rotate(90deg)}.faq-item[open] summary i{transform:rotate(45deg);background:var(--accent);color:#111}.faq-a{padding:0 0 1.4rem;color:var(--muted);max-width:70ch}
+/* cta band */
+.cta-band{background:var(--primary);color:#fff;text-align:center}.cta-band h2{max-width:20ch;margin-inline:auto}.cta-band .btn-row{justify-content:center;margin-top:1.5rem}
+.note-band{padding-block:1rem}.note-band p{padding:1.2rem 1.5rem;background:var(--paper-2);border-left:4px solid var(--accent);border-radius:8px}
+/* contact */
+.contact-grid{display:grid;gap:2.5rem}@media(min-width:900px){.contact-grid{grid-template-columns:1fr 1fr;gap:5rem}}.contact-block address{font-style:normal;font-size:1.15rem;margin:1rem 0}.big-link{font:600 clamp(1.4rem,3vw,2.2rem)/1.1 var(--font-d);text-decoration:none}.big-link:hover{color:var(--primary)}
+.hours{width:100%;border-collapse:collapse;margin-bottom:1.5rem}.hours th{text-align:left;font-weight:500;padding:.6rem 0;border-bottom:1px solid var(--line)}.hours td{text-align:right;padding:.6rem 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.map-wrap{aspect-ratio:4/3;border-radius:var(--radius);overflow:hidden;background:var(--paper-2)}.map-wrap iframe{width:100%;height:100%;border:0}
+.open-status{font-weight:600;color:var(--primary)}
+/* forms */
+.form-cols{display:grid;gap:2.5rem}@media(min-width:900px){.form-cols{grid-template-columns:1.4fr 1fr;gap:4rem}}
+.form label{display:block;font-weight:500;margin-bottom:1rem}.form label.inline{display:flex;gap:.6rem;align-items:flex-start;font-weight:400}.form input:not([type=checkbox]):not([type=radio]),.form select,.form textarea{display:block;width:100%;margin-top:.35rem;padding:.85rem 1rem;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:inherit;font:inherit}.form input:focus,.form textarea:focus,.form select:focus{border-color:var(--primary);outline:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 25%,transparent)}.form .row2{display:grid;gap:0 1rem}@media(min-width:600px){.form .row2{grid-template-columns:1fr 1fr}}.form fieldset{border:0;padding:0;margin:0 0 1rem;display:flex;flex-wrap:wrap;gap:1rem}.form legend{font-weight:500;margin-bottom:.4rem}.form .hp{position:absolute;left:-9999px}.form-note{font-size:.85rem;color:var(--muted);margin-top:1rem}.consent{font-size:.9rem}
+.aside-card{padding:1.8rem;border-radius:var(--radius);background:var(--paper-2);margin-bottom:1.2rem}.aside-card h3{margin-top:0}.aside-card .btn{width:100%;justify-content:center;margin:.5rem 0}.aside-tel{display:block;text-align:center;font-weight:600;text-decoration:none}.aside-links ul{list-style:none;padding:0;margin:0}.aside-links li{border-top:1px solid var(--line)}.aside-links a{display:block;padding:.7rem 0;text-decoration:none}.aside-links a:hover{color:var(--primary)}
+/* service detail */
+.svc-cols{display:grid;gap:3rem}@media(min-width:960px){.svc-cols{grid-template-columns:1.6fr 1fr;gap:5rem}}.svc-aside{position:sticky;top:calc(var(--header-h,80px) + 1rem);align-self:start}
+.prose{max-width:70ch}.prose h2{font-size:1.9rem;margin-top:2rem}.prose p{font-size:1.05rem}.checks{list-style:none;padding:0;margin:0 0 1.5rem;display:grid;gap:.6rem}.checks li{padding-left:1.8rem;position:relative}.checks li::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:700}.price{font-size:1.2rem}.area-note{padding:1rem 1.2rem;background:var(--paper-2);border-radius:10px;font-size:.95rem}
+/* team, financing, blog, sitemap */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem}.member{padding:1.2rem;background:var(--paper-2);border-radius:var(--radius)}.member img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:calc(var(--radius) - 6px);margin-bottom:1rem}.member h2,.member h3{font-size:1.3rem;margin:0}.member .role{color:var(--accent);font-weight:600;font-size:.9rem}
+.fin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.4rem}.fin-card{padding:2rem;border-radius:var(--radius);background:var(--ink);color:var(--paper)}.fin-card h3{margin-top:0}.fin-card a{color:var(--accent);font-weight:600;text-decoration:none}
+.post-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}.post-card{display:block;padding:1.5rem;background:var(--paper-2);border-radius:var(--radius);text-decoration:none}.post-card img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;margin-bottom:1rem}.post-card time{font-size:.8rem;color:var(--muted)}.post-card h2{font-size:1.4rem;margin:.3rem 0}.post-card p{color:var(--muted);margin:0}
+.sitemap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:2rem}.sitemap-grid h2{font-size:1.2rem}.sitemap-grid ul{list-style:none;padding:0;margin:0}.sitemap-grid a{display:block;padding:.3rem 0;text-decoration:none}
+/* footer */
+.site-footer{background:var(--ink);color:var(--paper);padding-top:1px}.ft-cta{text-align:center;padding:clamp(4rem,10vw,8rem) 1rem;background:var(--primary);color:#fff}.ft-cta .btn-row{justify-content:center;margin-top:1.5rem}
+.ft-grid{width:min(var(--wrap),calc(100% - 2rem));margin:0 auto;padding:4rem 0 3rem;display:grid;gap:2.5rem;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}.ft-brand{grid-column:1/-1}@media(min-width:900px){.ft-brand{grid-column:auto;grid-row:auto}.ft-grid{grid-template-columns:1.6fr 1fr 1fr 1fr}}
+.ft-logo{height:40px;width:auto;filter:brightness(0) invert(1);margin-bottom:1rem}.ft-brand address{font-style:normal;margin:.5rem 0}.ft-brand a{color:inherit}.social{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1rem}.social a{opacity:.75;text-decoration:none}.social a:hover{opacity:1;color:var(--accent)}
+.ft-col h3{font:600 .8rem/1 var(--font-b);letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}.ft-col ul{list-style:none;padding:0;margin:0}.ft-col li{margin-bottom:.5rem}.ft-col a{text-decoration:none;opacity:.8}.ft-col a:hover{opacity:1}
+.ft-legal{width:min(var(--wrap),calc(100% - 2rem));margin:0 auto;padding:1.5rem 0 calc(1.5rem + 70px);display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;font-size:.85rem;opacity:.7;border-top:1px solid color-mix(in srgb,var(--paper) 15%,transparent)}.ft-legal a{text-decoration:none}@media(min-width:900px){.ft-legal{padding-bottom:1.5rem}}
+@media(prefers-reduced-motion:reduce){.hero-bg img,.hero-inner{transform:none!important;opacity:1!important}.svc-media img{transition:none}}
+${fxCss(p)}
+`;
+  }
+  function fxCss(p) {
+    const f = p.brand.fx || {}, st = p.brand.style, out = [];
+    out.push(`@property --beam{syntax:"<angle>";inherits:false;initial-value:0deg}`);
+    if (f.mesh) out.push(`.mesh{position:absolute;inset:-20%;z-index:-1;pointer-events:none;filter:blur(70px) saturate(1.3);opacity:.75;mix-blend-mode:screen}.mesh i{position:absolute;border-radius:50%;width:55vmax;height:55vmax;animation:mesh 18s ease-in-out infinite alternate}.mesh i:nth-child(1){left:-10%;top:10%;background:var(--primary)}.mesh i:nth-child(2){right:-15%;top:-10%;background:var(--accent);animation-duration:23s}.mesh i:nth-child(3){left:30%;bottom:-25%;background:color-mix(in srgb,var(--primary) 60%,#fff);animation-duration:27s}@keyframes mesh{to{transform:translate(12%,8%) scale(1.15) rotate(20deg)}}.hero-bg::after{background:linear-gradient(180deg,rgba(0,0,0,.4),rgba(0,0,0,.2) 40%,rgba(0,0,0,.8))}`);
+    if (f.grain) out.push(`.hero::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.12;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}`);
+    if (f.shimmer) out.push(`.btn-primary{position:relative;overflow:hidden;isolation:isolate}.btn-primary::before{content:"";position:absolute;inset:-150%;z-index:-1;background:conic-gradient(from var(--beam),transparent 0 70%,var(--accent) 80%,transparent 90%);animation:beam 3.2s linear infinite;opacity:.9}.btn-primary::after{content:"";position:absolute;inset:1.5px;z-index:-1;border-radius:inherit;background:var(--primary)}.btn-primary:hover::after{background:color-mix(in srgb,var(--primary) 85%,#000)}@keyframes beam{to{--beam:360deg}}`);
+    if (f.beam) out.push(`.svc-card,.aside-card,.fin-card,.area-card,.post-card,.member,.bento-cell{position:relative;isolation:isolate}.svc-card::after,.aside-card::after,.fin-card::after,.area-card::after,.post-card::after,.member::after,.bento-cell::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;z-index:-1;background:conic-gradient(from var(--beam),transparent 0 80%,var(--accent) 92%,transparent 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .5s}.svc-card:hover::after,.aside-card:hover::after,.fin-card:hover::after,.area-card:hover::after,.post-card:hover::after,.member:hover::after,.bento-cell:hover::after{opacity:1;animation:beam 2.4s linear infinite}`);
+    if (f.chips) out.push(`.chips{position:absolute;right:clamp(1rem,5vw,6rem);top:50%;display:none;flex-direction:column;gap:.9rem;z-index:2}@media(min-width:1000px){.chips{display:flex}}.chip{display:inline-flex;gap:.5rem;align-items:center;padding:.7rem 1rem;border-radius:999px;background:rgba(255,255,255,.12);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:.85rem;text-decoration:none;box-shadow:0 20px 50px -20px rgba(0,0,0,.6);animation:float 6s ease-in-out infinite}.chip b{font-weight:700}.chip-b{animation-delay:-2s;margin-left:2.5rem}.chip-c{animation-delay:-4s;margin-left:1rem}.chip-d{animation-delay:-1s;margin-left:3rem}@keyframes float{50%{transform:translateY(-10px)}}`);
+    out.push(`.scroll-cue{position:absolute;left:50%;bottom:1.6rem;width:26px;height:42px;margin-left:-13px;border:2px solid rgba(255,255,255,.5);border-radius:14px;z-index:2}.scroll-cue span{position:absolute;left:50%;top:7px;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:#fff;animation:cue 1.8s ease-in-out infinite}@keyframes cue{50%{transform:translateY(14px);opacity:.3}}`);
+    if (f.ticker) out.push(`.ticker{padding:1.1rem 0;background:var(--ink);color:var(--paper);--marquee-gap:0;font:500 1.05rem var(--font-d)}.ticker span{display:inline-flex;align-items:center;gap:1.5rem;padding:0 .75rem}.ticker em{font-style:italic}.ticker i{color:var(--accent);font-style:normal;font-size:.8rem}`);
+    if (f.glass) out.push(`.site-header.is-scrolled .hdr-inner{background:color-mix(in srgb,var(--paper) 62%,transparent);backdrop-filter:blur(22px) saturate(1.5);-webkit-backdrop-filter:blur(22px) saturate(1.5)}`);
+    if (f.blur) out.push(`.js [data-split] .w>span{filter:blur(10px);opacity:0;transition:transform 1.1s cubic-bezier(.16,1,.3,1),filter .9s,opacity .6s;transition-delay:calc(var(--i,0)*55ms + var(--delay,0ms))}.js [data-split].is-in .w>span{filter:blur(0);opacity:1}h1 em,h2 em,h1 em .w>span,h2 em .w>span{background:linear-gradient(100deg,var(--accent),color-mix(in srgb,var(--accent) 55%,#fff),var(--accent));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 5s linear infinite}@keyframes sheen{to{background-position:200% 0}}`);
+    if (f.shine) out.push(`.svc-media,.gal-grid figure,.split-media>div,.bento-img{position:relative;overflow:hidden}.svc-media::after,.gal-grid figure::after,.split-media>div::after,.bento-img::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.35) 50%,transparent 65%);transform:translateX(-120%);transition:transform 1.1s var(--ease);pointer-events:none}.svc-card:hover .svc-media::after,.gal-grid figure:hover::after,.split-media:hover>div::after,.bento-img:hover::after{transform:translateX(120%)}`);
+    if (f.dots) out.push(`.cta-band,.ft-cta{position:relative;overflow:hidden}.cta-band::after,.ft-cta::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.22) 1px,transparent 1.5px);background-size:22px 22px;mask-image:radial-gradient(ellipse at center,#000 20%,transparent 75%);opacity:.6}.cta-band .wrap,.ft-cta>*{position:relative;z-index:1}`);
+    if (f.transitions) out.push(`@view-transition{navigation:auto}::view-transition-old(root){animation:vt-out .35s ease forwards}::view-transition-new(root){animation:vt-in .55s cubic-bezier(.16,1,.3,1) forwards}@keyframes vt-out{to{opacity:0;transform:scale(.985)}}@keyframes vt-in{from{opacity:0;transform:translateY(14px)}}`);
+    if (f.bento) out.push(`.bento-grid{display:grid;gap:1rem;grid-template-columns:repeat(2,1fr);grid-auto-rows:minmax(150px,auto)}@media(min-width:900px){.bento-grid{grid-template-columns:repeat(4,1fr)}.bento-big{grid-column:span 2;grid-row:span 2}.bento-img{grid-row:span 2}.bento-cta{grid-column:span 2}}.bento-cell{display:flex;flex-direction:column;gap:.4rem;justify-content:flex-end;padding:1.6rem;border-radius:var(--radius);background:var(--paper-2);overflow:hidden}.bento-cell strong{font:600 1.3rem/1.15 var(--font-d)}.bento-cell>span{color:var(--muted);font-size:.9rem}.bento-cell a:not(.btn){color:var(--primary);font-weight:600;text-decoration:none}.bento-big{background:var(--ink);color:var(--paper);justify-content:center}.bento-big h3{font-size:clamp(1.5rem,2.6vw,2.3rem);margin:.2rem 0 .6rem}.bento-big p{color:color-mix(in srgb,var(--paper) 75%,transparent)}.bento-big .link-arrow{border-color:var(--accent);color:var(--accent)}.bento-stat strong{font-size:clamp(3rem,6vw,4.6rem);color:var(--primary)}.bento-stat .stars{color:var(--accent);font-style:normal}.bento-open{position:relative}.pulse{position:absolute;top:1.3rem;right:1.3rem;width:10px;height:10px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 0 rgba(34,197,94,.6);animation:pulse 2s infinite}@keyframes pulse{70%{box-shadow:0 0 0 12px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}.bento-img{padding:0}.bento-img img{width:100%;height:100%;object-fit:cover}.bento-cta{background:var(--primary);color:#fff;align-items:flex-start}.bento-cta>span{color:rgba(255,255,255,.8)}.bento-cta .btn{margin-top:.6rem;background:#fff;color:#111}.bento-cta .btn::after{background:#fff}.bento-cta .btn:hover::after{background:var(--accent)}`);
+    if (st === "snazzy") out.push(`.hero{background:#0b0e12}h1{letter-spacing:-.035em;font-weight:700}.svc-card{background:color-mix(in srgb,var(--paper-2) 70%,var(--paper))}.site-header .btn-primary{box-shadow:0 0 0 1px rgba(255,255,255,.15),0 10px 40px -10px var(--accent)}.reviews{background:radial-gradient(900px 500px at 10% 0%,color-mix(in srgb,var(--primary) 45%,var(--ink)),var(--ink) 60%)}.stats strong{background:linear-gradient(90deg,var(--primary),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}`);
+    if (st === "minimal") out.push(`.mesh,.chips,.ticker,.scroll-cue{display:none!important}.btn-primary::before{display:none}h1 em,h2 em{animation:none;background:none;color:var(--accent);-webkit-text-fill-color:var(--accent)}`);
+    out.push(`@media(prefers-reduced-motion:reduce){.mesh i,.chip,.scroll-cue span,.btn-primary::before,.pulse,h1 em,h2 em,.ticker>*{animation:none!important}.js [data-split] .w>span{filter:none!important}::view-transition-old(root),::view-transition-new(root){animation:none!important}}`);
+    return out.join("\n");
+  }
+
+  /* ---------- the build ---------- */
+  function build(project, runtime) {
+    const p = normalize(project);
+    const pages = plan(p);
+    const files = {};
+    pages.forEach(pg => { pg.description = describe(p, pg); });
+    pages.forEach(pg => { files[pg.path] = renderPage(p, pg, pages); });
+    files["assets/site.css"] = siteCss(p, runtime.css || "");
+    files["assets/site.js"] = (runtime.js || "") + "\n/* form UX */\ndocument.querySelectorAll('[data-form]').forEach(f=>{f.addEventListener('submit',()=>{const b=f.querySelector('button[type=submit]');if(b){b.disabled=true;b.textContent='Sending…'}})});\n";
+    files["assets/favicon.svg"] = favicon(p);
+    files["sitemap.xml"] = sitemapXml(p, pages);
+    files["robots.txt"] = robots(p);
+    files["llms.txt"] = llmsTxt(p, pages);
+    files["manifest.webmanifest"] = manifest(p);
+    files[".nojekyll"] = "";
+    files["CNAME"] = p.seo.customDomain ? p.seo.customDomain : undefined;
+    if (!p.seo.customDomain) delete files["CNAME"];
+    files["README.md"] = `# ${p.business.name} — website\n\nGenerated with Premium Site Builder Pro. ${pages.length} pages, static HTML. Upload this folder to GitHub Pages, Netlify, Vercel or any host.\n`;
+    return { project: p, pages, files };
+  }
+
+  const api = { build, plan, normalize, slug, parseFaqs, DEFAULT };
+  if (typeof module !== "undefined" && module.exports) module.exports = api; else root.PSB = api;
+})(typeof window !== "undefined" ? window : globalThis);
+</script>
+<script>/* Premium Site Builder Pro — app.js (wizard, state, images, AI assist, build, zip, GitHub publish) */
+(() => {
+  "use strict";
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const RUNTIME = { js: "", css: "" };
+  const IMAGES = new Map(); // id -> { full: Blob, small: Blob, w, h, thumb: dataURL }
+  let project = structuredClone(PSB.DEFAULT);
+  let built = null; // { pages, files, blobs }
+  const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+  /* ---------- small utils ---------- */
+  const get = (o, path) => path.split(".").reduce((a, k) => (a == null ? a : a[k]), o);
+  const set = (o, path, v) => { const ks = path.split("."); const last = ks.pop(); const t = ks.reduce((a, k) => (a[k] = a[k] || {}), o); t[last] = v; };
+  const uid = () => "img-" + Math.random().toString(36).slice(2, 8);
+  const toast = (m) => { const t = document.createElement("div"); t.className = "toast"; t.textContent = m; document.body.appendChild(t); setTimeout(() => t.remove(), 2600); };
+  const log = (el, m) => { el.hidden = false; el.textContent += m + "\n"; el.scrollTop = el.scrollHeight; };
+  const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+
+  /* ---------- persistence (localStorage for data, IndexedDB for images) ---------- */
+  const db = {
+    open() { return new Promise((res, rej) => { const r = indexedDB.open("psb-pro", 1); r.onupgradeneeded = () => r.result.createObjectStore("images"); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }); },
+    async put(id, v) { const d = await this.open(); return new Promise((res, rej) => { const t = d.transaction("images", "readwrite"); t.objectStore("images").put(v, id); t.oncomplete = res; t.onerror = () => rej(t.error); }); },
+    async del(id) { const d = await this.open(); d.transaction("images", "readwrite").objectStore("images").delete(id); },
+    async all() { const d = await this.open(); return new Promise((res) => { const out = new Map(); const c = d.transaction("images").objectStore("images").openCursor(); c.onsuccess = () => { const cur = c.result; if (cur) { out.set(cur.key, cur.value); cur.continue(); } else res(out); }; c.onerror = () => res(out); }); },
+    async clear() { const d = await this.open(); d.transaction("images", "readwrite").objectStore("images").clear(); },
+  };
+  let saveT;
+  function persist() {
+    if (!$("#autosave").checked) return;
+    clearTimeout(saveT);
+    saveT = setTimeout(() => { try { localStorage.setItem("psb-pro-project", JSON.stringify(project)); } catch (e) { } }, 400);
+  }
+  async function restore() {
+    try { const j = localStorage.getItem("psb-pro-project"); if (j) project = PSB.normalize(JSON.parse(j)); } catch (e) { }
+    const imgs = await db.all();
+    imgs.forEach((v, k) => IMAGES.set(k, v));
+    project.images = project.images.filter(i => IMAGES.has(i.id));
+    if (IMAGES.has("logo")) project.brand.logo = true; else project.brand.logo = null;
+  }
+
+  /* ---------- binding ---------- */
+  function bindAll() {
+    $$("[data-bind]").forEach(el => {
+      const path = el.dataset.bind;
+      const v = get(project, path);
+      if (el.type === "checkbox") el.checked = !!v; else if (v != null) el.value = v;
+      el.addEventListener(el.tagName === "SELECT" || el.type === "checkbox" || el.type === "color" ? "change" : "input", () => {
+        set(project, path, el.type === "checkbox" ? el.checked : el.value);
+        if (path.startsWith("brand")) swatch();
+        updateCounts(); persist();
+      });
+    });
+    swatch();
+  }
+  function refreshBinds() { $$("[data-bind]").forEach(el => { const v = get(project, el.dataset.bind); if (el.type === "checkbox") el.checked = !!v; else el.value = v ?? ""; }); swatch(); }
+  function swatch() {
+    const b = project.brand, s = $("#swatch");
+    s.style.setProperty("--sw-primary", b.primary); s.style.setProperty("--sw-accent", b.accent);
+    s.style.setProperty("--sw-display", `"${b.fontDisplay}",Georgia,serif`); s.style.setProperty("--sw-body", `"${b.fontBody}",sans-serif`);
+    const link = $("#swatch-fonts") || Object.assign(document.head.appendChild(document.createElement("link")), { id: "swatch-fonts", rel: "stylesheet" });
+    link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(b.fontDisplay).replace(/%20/g, "+")}:wght@600&family=${encodeURIComponent(b.fontBody).replace(/%20/g, "+")}:wght@600&display=swap`;
+  }
+
+  /* ---------- steps ---------- */
+  function go(step) {
+    $$(".steps button[data-step]").forEach(b => b.classList.toggle("is-active", b.dataset.step === step));
+    $$(".panel>section").forEach(s => s.classList.toggle("is-active", s.dataset.panel === step));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (step === "build") renderBuildPanel();
+  }
+  $$(".steps button[data-step]").forEach(b => b.addEventListener("click", () => go(b.dataset.step)));
+  document.addEventListener("click", e => { const b = e.target.closest("[data-next]"); if (b) go(b.dataset.next); });
+  $("#btn-go-build").addEventListener("click", () => go("build"));
+
+  /* ---------- hours ---------- */
+  function renderHours() {
+    const wrap = $("#hours"); wrap.innerHTML = "";
+    if (!project.business.hours.length) project.business.hours = DAYS.map(d => ({ days: d, open: d === "Sunday" ? "" : "09:00", close: d === "Sunday" ? "" : "17:00" }));
+    project.business.hours.forEach((h, i) => {
+      const row = document.createElement("div"); row.className = "hours-row";
+      row.innerHTML = `<label><input value="${esc(h.days)}" data-h="days" placeholder="Monday"></label><label><input value="${esc(h.open)}" data-h="open" placeholder="09:00"></label><label><input value="${esc(h.close)}" data-h="close" placeholder="17:00"></label><button class="ghost" type="button" aria-label="Remove">×</button>`;
+      row.querySelectorAll("input").forEach(inp => inp.addEventListener("input", () => { h[inp.dataset.h] = inp.value; persist(); }));
+      row.querySelector("button").addEventListener("click", () => { project.business.hours.splice(i, 1); renderHours(); persist(); });
+      wrap.appendChild(row);
+    });
+    const add = document.createElement("button"); add.className = "ghost"; add.textContent = "+ Add row"; add.type = "button";
+    add.addEventListener("click", () => { project.business.hours.push({ days: "", open: "", close: "" }); renderHours(); });
+    wrap.appendChild(add);
+  }
+
+  /* ---------- generic card lists ---------- */
+  function cardList(listSel, arr, fields, opts = {}) {
+    const wrap = $(listSel); wrap.innerHTML = "";
+    arr.forEach((item, i) => {
+      const c = document.createElement("div"); c.className = "card";
+      c.innerHTML = `<h3>${esc(opts.title ? opts.title(item, i) : (item.name || item.title || item.q || "Item " + (i + 1)))}</h3>` +
+        fields.map(f => {
+          if (f.type === "image") return `<label>${f.label}<select data-f="${f.key}"><option value="">(auto)</option>${project.images.map(im => `<option value="${im.id}" ${item[f.key] === im.id ? "selected" : ""}>${esc(im.alt || im.id)}</option>`).join("")}</select></label>`;
+          if (f.type === "textarea") return `<label>${f.label}<textarea data-f="${f.key}" rows="${f.rows || 3}" placeholder="${esc(f.ph || "")}">${esc(item[f.key])}</textarea></label>`;
+          return `<label>${f.label}<input data-f="${f.key}" value="${esc(item[f.key])}" placeholder="${esc(f.ph || "")}" ${f.type ? `type="${f.type}"` : ""}></label>`;
+        }).join("") +
+        (opts.ai ? `<button class="ghost ai" type="button" title="Draft with AI">✦ AI</button>` : "") +
+        `<button class="mv" type="button" title="Move up">↑</button><button class="rm" type="button" aria-label="Remove">×</button>`;
+      c.querySelectorAll("[data-f]").forEach(el => el.addEventListener("input", () => { item[el.dataset.f] = el.value; if (el.dataset.f === "name" || el.dataset.f === "title" || el.dataset.f === "q") c.querySelector("h3").textContent = el.value || "Item"; updateCounts(); persist(); }));
+      c.querySelector(".rm").addEventListener("click", () => { arr.splice(i, 1); cardList(listSel, arr, fields, opts); updateCounts(); persist(); });
+      c.querySelector(".mv").addEventListener("click", () => { if (i > 0) { [arr[i - 1], arr[i]] = [arr[i], arr[i - 1]]; cardList(listSel, arr, fields, opts); persist(); } });
+      if (opts.ai) c.querySelector(".ai").addEventListener("click", () => opts.ai(item, () => cardList(listSel, arr, fields, opts)));
+      wrap.appendChild(c);
+    });
+    updateCounts();
+  }
+  const SVC_FIELDS = [
+    { key: "name", label: "Service name *", ph: "Dental implants" },
+    { key: "short", label: "One-sentence summary (cards, meta description) *", ph: "Permanent, natural-looking replacements for missing teeth." },
+    { key: "body", label: "Full description (paragraphs)", type: "textarea", rows: 6, ph: "What it is, who it's for, what to expect, how long it takes…" },
+    { key: "bullets", label: "What's included (one per line)", type: "textarea", rows: 3, ph: "Free consultation\n3D imaging\nSame-day temporaries" },
+    { key: "faqs", label: "Service FAQs (question line, answer line, blank line between)", type: "textarea", rows: 4, ph: "Does it hurt?\nMost patients report only mild soreness…" },
+    { key: "priceFrom", label: "Price from (optional, only if accurate)", ph: "$199" },
+    { key: "image", label: "Photo", type: "image" },
+  ];
+  const AREA_FIELDS = [{ key: "name", label: "City / neighborhood *", ph: "San Dimas" }, { key: "state", label: "State", ph: "CA" }, { key: "note", label: "Local note (optional, keeps the page specific)", ph: "About 10 minutes from our office via Arrow Hwy." }];
+  const REV_FIELDS = [{ key: "author", label: "Name as shown", ph: "Maria G." }, { key: "rating", label: "Rating (1–5)", type: "number" }, { key: "text", label: "Review text (verbatim)", type: "textarea" }, { key: "source", label: "Source", ph: "Google" }];
+  const FAQ_FIELDS = [{ key: "q", label: "Question" }, { key: "a", label: "Answer (2–4 sentences, direct — this is what AI search engines quote)", type: "textarea" }];
+  const TEAM_FIELDS = [{ key: "name", label: "Name" }, { key: "role", label: "Role / credentials" }, { key: "bio", label: "Short bio", type: "textarea" }, { key: "image", label: "Photo", type: "image" }];
+  const FIN_FIELDS = [{ key: "name", label: "Option name", ph: "CareCredit" }, { key: "desc", label: "Description", type: "textarea", rows: 2 }, { key: "link", label: "Link (optional)", type: "url" }];
+  const POST_FIELDS = [{ key: "title", label: "Title" }, { key: "date", label: "Date (YYYY-MM-DD)", type: "date" }, { key: "excerpt", label: "Excerpt" }, { key: "body", label: "Article (paragraphs)", type: "textarea", rows: 8 }, { key: "image", label: "Photo", type: "image" }];
+  const CUSTOM_FIELDS = [{ key: "title", label: "Page title" }, { key: "slug", label: "URL slug (optional)", ph: "new-patients" }, { key: "body", label: "Content (paragraphs)", type: "textarea", rows: 6 }, { key: "image", label: "Photo", type: "image" }];
+
+  function renderLists() {
+    cardList("#svc-list", project.services, SVC_FIELDS, { ai: aiDraftService });
+    cardList("#area-list", project.areas, AREA_FIELDS);
+    cardList("#rev-list", project.reviews, REV_FIELDS, { title: r => r.author || "Review" });
+    cardList("#faq-list", project.faqs, FAQ_FIELDS);
+    cardList("#team-list", project.team, TEAM_FIELDS);
+    cardList("#fin-list", project.financing.options, FIN_FIELDS);
+    cardList("#post-list", project.posts, POST_FIELDS, { ai: aiDraftPost });
+    cardList("#custom-list", project.custom, CUSTOM_FIELDS);
+  }
+  const adders = {
+    "#svc-add": () => project.services.push({ name: "", short: "", body: "", bullets: "", faqs: "", priceFrom: "", image: "" }),
+    "#area-add": () => project.areas.push({ name: "", state: project.business.address.state, note: "" }),
+    "#rev-add": () => project.reviews.push({ author: "", rating: 5, text: "", source: "Google" }),
+    "#faq-add": () => project.faqs.push({ q: "", a: "" }),
+    "#team-add": () => project.team.push({ name: "", role: "", bio: "", image: "" }),
+    "#fin-add": () => project.financing.options.push({ name: "", desc: "", link: "" }),
+    "#post-add": () => project.posts.push({ title: "", date: new Date().toISOString().slice(0, 10), excerpt: "", body: "", image: "" }),
+    "#custom-add": () => project.custom.push({ title: "", slug: "", body: "", image: "" }),
+  };
+  Object.entries(adders).forEach(([sel, fn]) => $(sel).addEventListener("click", () => { fn(); renderLists(); persist(); const last = $(sel.replace("-add", "-list")).lastElementChild; last && last.scrollIntoView({ behavior: "smooth", block: "center" }); last && last.querySelector("input,textarea").focus(); }));
+
+  function bulk(title, hint, cb) {
+    const d = $("#dlg"); $("#dlg-title").textContent = title; $("#dlg-hint").textContent = hint; $("#dlg-text").value = "";
+    d.showModal();
+    d.querySelector("form").onsubmit = (e) => { if (e.submitter && e.submitter.value === "ok") cb($("#dlg-text").value); };
+  }
+  $("#svc-bulk").addEventListener("click", () => bulk("Paste services", "One per line. Optionally add a colon and a short summary: 'Dental implants: Permanent replacements for missing teeth'", txt => {
+    txt.split(/\n/).map(l => l.trim()).filter(Boolean).forEach(l => { const [n, ...rest] = l.split(":"); project.services.push({ name: n.trim(), short: rest.join(":").trim(), body: "", bullets: "", faqs: "", priceFrom: "", image: "" }); });
+    renderLists(); persist();
+  }));
+  $("#area-bulk").addEventListener("click", () => bulk("Paste service areas", "One city or neighborhood per line.", txt => {
+    txt.split(/\n/).map(l => l.trim()).filter(Boolean).forEach(l => project.areas.push({ name: l, state: project.business.address.state, note: "" }));
+    renderLists(); persist();
+  }));
+
+  function updateCounts() {
+    const p = PSB.normalize(structuredClone(project));
+    const n = PSB.plan(p).length;
+    $("#pagecount").textContent = `${n} pages planned`;
+    $("#svc-count").textContent = `${project.services.length} services`;
+    $("#area-count").textContent = `${project.areas.length} areas → ${project.services.length * project.areas.length} location pages`;
+    $("#rev-count").textContent = `(${project.reviews.length})`; $("#faq-count").textContent = `(${project.faqs.length})`;
+    $("#img-count").textContent = project.images.length;
+  }
+
+  /* ---------- images ---------- */
+  async function resize(file, max, q = 0.82) {
+    const bmp = await createImageBitmap(file);
+    const s = Math.min(1, max / Math.max(bmp.width, bmp.height));
+    const w = Math.round(bmp.width * s), h = Math.round(bmp.height * s);
+    const c = document.createElement("canvas"); c.width = w; c.height = h;
+    c.getContext("2d").drawImage(bmp, 0, 0, w, h);
+    const blob = await new Promise(r => c.toBlob(r, "image/jpeg", q));
+    return { blob, w, h };
+  }
+  async function addImages(files) {
+    for (const f of files) {
+      if (!f.type.startsWith("image/")) continue;
+      const id = uid();
+      try {
+        const full = await resize(f, 1600), small = await resize(f, 800, 0.8), th = await resize(f, 320, 0.7);
+        const thumb = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(th.blob); });
+        const rec = { full: full.blob, small: small.blob, w: full.w, h: full.h, thumb };
+        IMAGES.set(id, rec); await db.put(id, rec);
+        project.images.push({ id, alt: f.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " "), w: full.w, h: full.h });
+      } catch (e) { toast("Could not process " + f.name); }
+    }
+    renderImages(); renderLists(); persist();
+  }
+  function renderImages() {
+    const g = $("#img-grid"); g.innerHTML = "";
+    project.images.forEach((im, i) => {
+      const rec = IMAGES.get(im.id); if (!rec) return;
+      const c = document.createElement("div"); c.className = "img-card";
+      c.innerHTML = `<img src="${rec.thumb}" alt=""><input value="${esc(im.alt)}" placeholder="Describe this photo (alt text)"><div class="bar"><span>${i === 0 ? "★ Hero" : "#" + (i + 1)} · ${rec.w}×${rec.h}</span><span><button type="button" title="Move up">↑</button><button type="button" title="Remove">×</button></span></div>`;
+      c.querySelector("input").addEventListener("input", e => { im.alt = e.target.value; persist(); });
+      const [up, rm] = c.querySelectorAll(".bar button");
+      up.addEventListener("click", () => { if (i > 0) { [project.images[i - 1], project.images[i]] = [project.images[i], project.images[i - 1]]; renderImages(); persist(); } });
+      rm.addEventListener("click", async () => { project.images.splice(i, 1); IMAGES.delete(im.id); await db.del(im.id); renderImages(); renderLists(); persist(); });
+      g.appendChild(c);
+    });
+    updateCounts();
+  }
+  $("#img-files").addEventListener("change", e => addImages([...e.target.files]));
+  const drop = $("#drop");
+  ["dragenter", "dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("is-over"); }));
+  ["dragleave", "drop"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove("is-over"); if (ev === "drop") addImages([...e.dataTransfer.files]); }));
+
+  /* logo */
+  $("#logo-file").addEventListener("change", async e => {
+    const f = e.target.files[0]; if (!f) return;
+    const ext = f.type === "image/svg+xml" ? "svg" : "png";
+    let blob = f, w = 160, h = 48;
+    if (ext === "png") {
+      const bmp = await createImageBitmap(f); const s = Math.min(1, 1024 / Math.max(bmp.width, bmp.height));
+      const c = document.createElement("canvas"); c.width = Math.round(bmp.width * s); c.height = Math.round(bmp.height * s); c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+      blob = await new Promise(r => c.toBlob(r, "image/png")); w = c.width; h = c.height;
+    }
+    const rec = { full: blob, ext, w, h, thumb: await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(blob); }) };
+    IMAGES.set("logo", rec); await db.put("logo", rec);
+    project.brand.logo = true; project.brand.logoExt = ext; project.brand.logoW = w; project.brand.logoH = h;
+    renderLogo(); persist();
+  });
+  function renderLogo() {
+    const rec = IMAGES.get("logo"), pv = $("#logo-preview");
+    if (rec) { pv.innerHTML = `<img src="${rec.thumb}" alt="Logo preview">`; $("#logo-colors").hidden = rec.ext === "svg"; }
+    else { pv.innerHTML = "<span>No logo yet — a typographic wordmark will be used.</span>"; $("#logo-colors").hidden = true; }
+  }
+  $("#logo-colors").addEventListener("click", async () => {
+    const rec = IMAGES.get("logo"); if (!rec) return;
+    const bmp = await createImageBitmap(rec.full); const c = document.createElement("canvas"); c.width = 64; c.height = 64;
+    const ctx = c.getContext("2d"); ctx.drawImage(bmp, 0, 0, 64, 64); const d = ctx.getImageData(0, 0, 64, 64).data;
+    const buckets = {};
+    for (let i = 0; i < d.length; i += 4) { if (d[i + 3] < 128) continue; const r = d[i], g = d[i + 1], b = d[i + 2]; const lum = (r + g + b) / 3; if (lum > 235 || lum < 20) continue; const k = [r >> 5, g >> 5, b >> 5].join(","); (buckets[k] = buckets[k] || { n: 0, r: 0, g: 0, b: 0 }); const bk = buckets[k]; bk.n++; bk.r += r; bk.g += g; bk.b += b; }
+    const top = Object.values(buckets).sort((a, b) => b.n - a.n).slice(0, 2).map(bk => "#" + [bk.r, bk.g, bk.b].map(v => Math.round(v / bk.n).toString(16).padStart(2, "0")).join(""));
+    if (top[0]) project.brand.primary = top[0]; if (top[1]) project.brand.accent = top[1];
+    refreshBinds(); persist(); toast("Colors picked from logo — adjust if needed");
+  });
+
+  /* ---------- AI assist (user's own key, browser only) ---------- */
+  async function ai(system, user, maxTokens = 2000) {
+    const key = $("#ai-key").value.trim(); if (!key) throw new Error("Add your Anthropic API key in step 7 first.");
+    const r = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST", headers: { "content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
+      body: JSON.stringify({ model: $("#ai-model").value, max_tokens: maxTokens, system, messages: [{ role: "user", content: user }] }),
+    });
+    if (!r.ok) throw new Error("API error " + r.status + ": " + (await r.text()).slice(0, 300));
+    const j = await r.json(); return j.content.filter(c => c.type === "text").map(c => c.text).join("");
+  }
+  const SYS = () => `You write website copy for ${project.business.name}, a ${project.business.category} in ${project.business.address.city}, ${project.business.address.state}. Tagline: ${project.business.tagline}. About: ${project.business.description}\nRules: plain, specific, warm, no hype, no superlatives like "best", no invented facts, numbers, credentials, prices, awards, guarantees or years. If a detail is unknown, leave it out. Write for a local customer who is deciding whether to call. Respond ONLY with the JSON requested, no markdown fences.`;
+  const parseJson = (t) => JSON.parse(t.replace(/```json|```/g, "").trim());
+  async function aiDraftService(s, rerender) {
+    const l = $("#ai-log"); l.hidden = false;
+    try {
+      log(l, "Drafting " + s.name + "…");
+      const out = parseJson(await ai(SYS(), `Service: ${s.name}. Notes from the owner: ${s.short} ${s.body} ${s.bullets}\nReturn JSON {"short": one sentence under 160 chars, "body": 3-4 paragraphs separated by blank lines explaining what it is, who it helps, what to expect, "bullets": 4-6 short items separated by newlines, "faqs": 4 Q&A pairs formatted as question line, answer line, blank line between pairs}`));
+      s.short = s.short || out.short; s.body = s.body || out.body; s.bullets = s.bullets || out.bullets; s.faqs = s.faqs || out.faqs;
+      log(l, "✓ " + s.name + " drafted — please review for accuracy."); rerender(); persist();
+    } catch (e) { log(l, "✗ " + e.message); }
+  }
+  async function aiDraftPost(x, rerender) {
+    const l = $("#ai-log");
+    try { log(l, "Drafting post " + x.title + "…"); const out = parseJson(await ai(SYS(), `Write a helpful 500-700 word article titled "${x.title}" for local readers. Notes: ${x.body}. Return JSON {"excerpt": one sentence, "body": paragraphs separated by blank lines, with 2-3 short H2-style lines written as plain sentences ending with a colon}`, 3000)); x.excerpt = out.excerpt; x.body = out.body; rerender(); persist(); log(l, "✓ done — review before publishing."); } catch (e) { log(l, "✗ " + e.message); }
+  }
+  $("#ai-services").addEventListener("click", async () => { for (const s of project.services) if (!s.body || !s.faqs) await aiDraftService(s, renderLists); });
+  $("#ai-faqs").addEventListener("click", async () => {
+    const l = $("#ai-log");
+    try { log(l, "Drafting FAQs…"); const out = parseJson(await ai(SYS(), `Services: ${project.services.map(s => s.name).join(", ")}. Write 8 FAQs real local customers ask (hours, first visit, parking, payment, what to bring, how to book, insurance in general terms, emergencies). Answers 2-4 direct sentences. Return JSON [{"q":"","a":""}]`)); project.faqs.push(...out); renderLists(); persist(); log(l, "✓ 8 FAQs added — edit any that aren't accurate."); } catch (e) { log(l, "✗ " + e.message); }
+  });
+  $("#ai-about").addEventListener("click", async () => {
+    const l = $("#ai-log");
+    try { log(l, "Expanding About…"); const out = parseJson(await ai(SYS(), `Expand the About text into 3 paragraphs (blank line between) without adding any new facts. Return JSON {"description": "..."}`)); project.business.description = out.description; refreshBinds(); persist(); log(l, "✓ About expanded."); } catch (e) { log(l, "✗ " + e.message); }
+  });
+  $("#ai-posts").addEventListener("click", async () => {
+    const l = $("#ai-log");
+    try { log(l, "Choosing topics…"); const out = parseJson(await ai(SYS(), `Suggest 4 evergreen blog post titles that answer real questions about: ${project.services.map(s => s.name).join(", ")}. Return JSON ["title",...]`, 500)); for (const t of out) { const x = { title: t, date: new Date().toISOString().slice(0, 10), excerpt: "", body: "", image: "" }; project.posts.push(x); await aiDraftPost(x, renderLists); } project.pages.blog = true; refreshBinds(); } catch (e) { log(l, "✗ " + e.message); }
+  });
+
+  /* ---------- build ---------- */
+  function checks() {
+    const p = project, out = [];
+    const c = (ok, warn, msg) => out.push({ cls: ok ? "ok" : warn ? "warn" : "fail", msg: (ok ? "✓ " : warn ? "⚠ " : "✗ ") + msg });
+    c(!!p.business.name, false, "Business name"); c(!!p.business.address.city && !!p.business.address.state, false, "City and state");
+    c(!!p.business.address.street, true, "Street address (LocalBusiness schema needs it)");
+    c(p.services.length >= 1, false, `${p.services.length} services (each needs at least a name and one-sentence summary)`);
+    c(p.services.every(s => s.short), true, "Every service has a summary");
+    c(p.images.length >= 10, p.images.length >= 3, `${p.images.length} photos (10+ recommended)`);
+    c(p.images.every(i => i.alt), true, "Every photo has alt text");
+    c(!!p.brand.logo, true, "Logo uploaded (otherwise a wordmark is used)");
+    c(!!p.seo.siteUrl, true, "Final site URL set (needed for canonical URLs, sitemap and Open Graph)");
+    c(p.areas.length >= 3, true, `${p.areas.length} service areas (more areas = more location pages)`);
+    c(p.faqs.length >= 4, true, `${p.faqs.length} FAQs (powers FAQ rich results and AI answers)`);
+    c(!!p.forms.endpoint || p.forms.provider !== "formspree", true, "Form delivery configured");
+    c(p.reviews.length >= 3, true, `${p.reviews.length} reviews`);
+    return out;
+  }
+  function renderBuildPanel() {
+    const cs = checks(); $("#checks").innerHTML = cs.map(x => `<div class="${x.cls}">${esc(x.msg)}</div>`).join("");
+    const pages = PSB.plan(PSB.normalize(structuredClone(project)));
+    const count = (k) => pages.filter(x => x.kind === k).length;
+    $("#plan").innerHTML = [["Total pages", pages.length], ["Service pages", count("service")], ["Service × area", count("service-area")], ["Area pages", count("area")], ["Blog posts", count("post")], ["Core pages", pages.length - count("service") - count("service-area") - count("area") - count("post")]]
+      .map(([l, n]) => `<div><strong>${n}</strong><span>${l}</span></div>`).join("");
+    $("#btn-build").disabled = cs.some(x => x.cls === "fail");
+  }
+  async function loadRuntime() {
+    if (RUNTIME.js) return;
+    if (window.PSB_RUNTIME) { RUNTIME.js = window.PSB_RUNTIME.js; RUNTIME.css = window.PSB_RUNTIME.css; return; }
+    const [js, css] = await Promise.all([fetch("app/site-runtime.js").then(r => r.text()), fetch("app/site-runtime.css").then(r => r.text())]);
+    RUNTIME.js = js; RUNTIME.css = css;
+  }
+  $("#btn-build").addEventListener("click", async () => {
+    const l = $("#build-log"); l.textContent = ""; l.hidden = false;
+    try {
+      await loadRuntime();
+      log(l, "Planning pages…");
+      const res = PSB.build(structuredClone(project), RUNTIME);
+      const blobs = {};
+      Object.entries(res.files).forEach(([k, v]) => { blobs[k] = new Blob([v], { type: k.endsWith(".html") ? "text/html" : k.endsWith(".css") ? "text/css" : k.endsWith(".js") ? "text/javascript" : k.endsWith(".svg") ? "image/svg+xml" : "text/plain" }); });
+      res.project.images.forEach(im => { const rec = IMAGES.get(im.id); if (rec) { blobs[`assets/img/${im.id}.jpg`] = rec.full; blobs[`assets/img/${im.id}-800.jpg`] = rec.small; } });
+      if (res.project.brand.logo && IMAGES.get("logo")) blobs[`assets/logo.${res.project.brand.logoExt || "png"}`] = IMAGES.get("logo").full;
+      built = { ...res, blobs };
+      log(l, `✓ Generated ${res.pages.length} pages, ${Object.keys(blobs).length} files.`);
+      log(l, "SEO: canonical + Open Graph + geo meta on every page; LocalBusiness, Service, FAQPage, BreadcrumbList, BlogPosting JSON-LD; sitemap.xml; robots.txt.");
+      log(l, "AEO/GEO: FAQ answers in schema, llms.txt for AI crawlers, direct-answer meta descriptions, city/area entity pages.");
+      $("#btn-zip").disabled = $("#btn-preview").disabled = $("#btn-publish").disabled = false;
+      const sel = $("#preview-page"); sel.innerHTML = res.pages.map(pg => `<option value="${pg.path}">${esc(pg.title.split("|")[0].trim())} — /${pg.url}</option>`).join("");
+    } catch (e) { log(l, "✗ " + e.message); console.error(e); }
+  });
+
+  /* zip */
+  $("#btn-zip").addEventListener("click", async () => {
+    const zip = new JSZip();
+    Object.entries(built.blobs).forEach(([k, v]) => zip.file(k, v));
+    zip.file("psb-project.json", JSON.stringify(project, null, 2));
+    const blob = await zip.generateAsync({ type: "blob", compression: "DEFLATE" });
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = PSB.slug(project.business.name) + "-website.zip"; a.click();
+    toast("Zip downloaded — unzip and upload to any host");
+  });
+
+  /* preview: rewrite relative asset links to blob URLs for the chosen page */
+  const urlCache = new Map();
+  const blobUrl = (k) => { if (!urlCache.has(k)) urlCache.set(k, URL.createObjectURL(built.blobs[k])); return urlCache.get(k); };
+  function showPreview() {
+    const path = $("#preview-page").value; const pg = built.pages.find(x => x.path === path);
+    let html = built.files[path];
+    html = html.replace(/(src|href|srcset)="((?:\.\.\/)*)(assets\/[^"\s,]+)([^"]*)"/g, (m, a, rel, asset, rest) => {
+      if (a === "srcset") return `${a}="${(asset + rest).split(",").map(x => x.trim()).map(x => { const [u, w] = x.split(/\s+/); const key = u.replace(/^(\.\.\/)*/, ""); return built.blobs[key] ? blobUrl(key) + " " + (w || "") : x; }).join(", ")}"`;
+      return built.blobs[asset] ? `${a}="${blobUrl(asset)}"` : m;
+    });
+    html = html.replace(/href="((?:\.\.\/)*)([^"#:]*\/|)"/g, (m, rel, p) => `href="#" data-nav-to="${p}index.html"`).replace("<head>", "<head><base target=\"_self\">");
+    const frame = $("#preview-frame"); frame.srcdoc = html + `<script>document.addEventListener('click',e=>{const a=e.target.closest('[data-nav-to]');if(a){e.preventDefault();parent.postMessage({psbNav:a.dataset.navTo},'*')}})<\/script>`;
+    $("#preview").hidden = false; $("#preview").scrollIntoView({ behavior: "smooth" });
+  }
+  addEventListener("message", e => { if (e.data && e.data.psbNav && built) { const p = e.data.psbNav === "index.html" ? "index.html" : e.data.psbNav; if (built.files[p]) { $("#preview-page").value = p; showPreview(); } } });
+  $("#btn-preview").addEventListener("click", showPreview);
+  $("#preview-page").addEventListener("change", showPreview);
+  $("#preview-mobile").addEventListener("click", () => $("#preview").classList.toggle("is-mobile"));
+  $("#preview-close").addEventListener("click", () => $("#preview").hidden = true);
+
+  /* ---------- GitHub publish via Git Data API ---------- */
+  $("#btn-publish").addEventListener("click", async () => {
+    const l = $("#publish-log"); l.textContent = ""; l.hidden = false;
+    const token = $("#gh-token").value.trim(), repo = $("#gh-repo").value.trim(), branch = $("#gh-branch").value.trim() || "main";
+    if (!token || !/^[\w.-]+\/[\w.-]+$/.test(repo)) { log(l, "✗ Enter a token and repo as owner/name"); return; }
+    const [owner, name] = repo.split("/");
+    const gh = async (path, opts = {}) => {
+      const r = await fetch("https://api.github.com" + path, { ...opts, headers: { Authorization: "Bearer " + token, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28", ...(opts.body ? { "content-type": "application/json" } : {}), ...(opts.headers || {}) } });
+      if (r.status === 204) return {}; const j = await r.json().catch(() => ({})); if (!r.ok) throw new Error(path + " → " + r.status + " " + (j.message || "")); return j;
+    };
+    const b64 = (blob) => new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result.split(",")[1]); fr.readAsDataURL(blob); });
+    try {
+      let exists = true;
+      try { await gh(`/repos/${owner}/${name}`); } catch (e) { exists = false; }
+      if (!exists) {
+        if (!$("#gh-create").checked) throw new Error("Repository not found and auto-create is off.");
+        log(l, "Creating repository…");
+        const me = await gh("/user");
+        if (me.login.toLowerCase() === owner.toLowerCase()) await gh("/user/repos", { method: "POST", body: JSON.stringify({ name, auto_init: true, description: project.business.name + " website" }) });
+        else await gh(`/orgs/${owner}/repos`, { method: "POST", body: JSON.stringify({ name, auto_init: true }) });
+        await new Promise(r => setTimeout(r, 2500));
+      }
+      let baseSha = null, baseTree = null;
+      try { const ref = await gh(`/repos/${owner}/${name}/git/ref/heads/${branch}`); baseSha = ref.object.sha; baseTree = (await gh(`/repos/${owner}/${name}/git/commits/${baseSha}`)).tree.sha; }
+      catch (e) { log(l, "Branch " + branch + " not found; it will be created."); const info = await gh(`/repos/${owner}/${name}`); if (info.default_branch) { try { const ref = await gh(`/repos/${owner}/${name}/git/ref/heads/${info.default_branch}`); baseSha = ref.object.sha; } catch (e2) { } } }
+      const entries = Object.entries(built.blobs); let i = 0; const tree = [];
+      log(l, `Uploading ${entries.length} files…`);
+      for (const [path, blob] of entries) {
+        const isText = /\.(html|css|js|txt|xml|json|svg|webmanifest|md)$/.test(path) || path === "CNAME" || path === ".nojekyll";
+        const body = isText ? { content: await blob.text(), encoding: "utf-8" } : { content: await b64(blob), encoding: "base64" };
+        const bl = await gh(`/repos/${owner}/${name}/git/blobs`, { method: "POST", body: JSON.stringify(body) });
+        tree.push({ path, mode: "100644", type: "blob", sha: bl.sha });
+        if (++i % 10 === 0) log(l, `  ${i}/${entries.length}`);
+      }
+      tree.push({ path: "psb-project.json", mode: "100644", type: "blob", sha: (await gh(`/repos/${owner}/${name}/git/blobs`, { method: "POST", body: JSON.stringify({ content: JSON.stringify(project, null, 2), encoding: "utf-8" }) })).sha });
+      const t = await gh(`/repos/${owner}/${name}/git/trees`, { method: "POST", body: JSON.stringify({ tree }) }); // fresh tree: removes stale files
+      const commit = await gh(`/repos/${owner}/${name}/git/commits`, { method: "POST", body: JSON.stringify({ message: `Publish ${project.business.name} website (${built.pages.length} pages)`, tree: t.sha, parents: baseSha ? [baseSha] : [] }) });
+      try { await gh(`/repos/${owner}/${name}/git/refs/heads/${branch}`, { method: "PATCH", body: JSON.stringify({ sha: commit.sha, force: true }) }); }
+      catch (e) { await gh(`/repos/${owner}/${name}/git/refs`, { method: "POST", body: JSON.stringify({ ref: "refs/heads/" + branch, sha: commit.sha }) }); }
+      log(l, "✓ Committed " + commit.sha.slice(0, 7));
+      log(l, "Enabling GitHub Pages…");
+      let pagesUrl = `https://${owner}.github.io/${name}/`;
+      try { const pg = await gh(`/repos/${owner}/${name}/pages`, { method: "POST", body: JSON.stringify({ source: { branch, path: "/" } }) }); pagesUrl = pg.html_url || pagesUrl; }
+      catch (e) { try { const pg = await gh(`/repos/${owner}/${name}/pages`, { method: "PUT", body: JSON.stringify({ source: { branch, path: "/" } }) }); pagesUrl = pg.html_url || pagesUrl; } catch (e2) { log(l, "  (Pages may already be enabled, or enable it in Settings → Pages: " + e2.message + ")"); } }
+      if (project.seo.customDomain) pagesUrl = "https://" + project.seo.customDomain + "/";
+      log(l, "✓ Live in ~1–2 minutes at " + pagesUrl);
+      log(l, "Tip: set that URL as the Final site URL in step 7 and rebuild if it differs, so canonical links and the sitemap match.");
+      log(l, "Next: submit " + pagesUrl + "sitemap.xml in Google Search Console and Bing Webmaster Tools.");
+    } catch (e) { log(l, "✗ " + e.message); }
+  });
+
+  /* ---------- save / load / reset ---------- */
+  $("#btn-save").addEventListener("click", async () => {
+    const zip = new JSZip(); zip.file("project.json", JSON.stringify(project, null, 2));
+    for (const [id, rec] of IMAGES) zip.file(`images/${id}.${rec.ext || "jpg"}`, rec.full);
+    const blob = await zip.generateAsync({ type: "blob" });
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = (PSB.slug(project.business.name) || "project") + "-psb-project.zip"; a.click();
+  });
+  $("#btn-load").addEventListener("click", () => {
+    const inp = document.createElement("input"); inp.type = "file"; inp.accept = ".zip,.json";
+    inp.onchange = async () => {
+      const f = inp.files[0]; if (!f) return;
+      if (f.name.endsWith(".json")) { project = PSB.normalize(JSON.parse(await f.text())); }
+      else {
+        const zip = await JSZip.loadAsync(f); project = PSB.normalize(JSON.parse(await zip.file("project.json").async("string")));
+        IMAGES.clear(); await db.clear();
+        for (const [path, entry] of Object.entries(zip.files)) {
+          if (entry.dir || !path.startsWith("images/")) continue;
+          const id = path.slice(7).replace(/\.[^.]+$/, ""); const blob = await entry.async("blob");
+          const file = new File([blob], path, { type: path.endsWith(".svg") ? "image/svg+xml" : path.endsWith(".png") ? "image/png" : "image/jpeg" });
+          if (id === "logo") { const rec = { full: file, ext: path.endsWith(".svg") ? "svg" : "png", thumb: await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(file); }) }; IMAGES.set("logo", rec); await db.put("logo", rec); }
+          else { const full = await resize(file, 1600), small = await resize(file, 800, .8), th = await resize(file, 320, .7); const rec = { full: full.blob, small: small.blob, w: full.w, h: full.h, thumb: await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(th.blob); }) }; IMAGES.set(id, rec); await db.put(id, rec); }
+        }
+      }
+      project.images = project.images.filter(i => IMAGES.has(i.id)); project.brand.logo = IMAGES.has("logo") ? true : null;
+      refreshBinds(); renderHours(); renderLists(); renderImages(); renderLogo(); persist(); toast("Project loaded");
+    };
+    inp.click();
+  });
+  $("#btn-reset").addEventListener("click", async () => { if (!confirm("Clear everything in this browser?")) return; localStorage.removeItem("psb-pro-project"); await db.clear(); location.reload(); });
+
+  /* ---------- init ---------- */
+  (async () => {
+    await restore();
+    bindAll(); renderHours(); renderLists(); renderImages(); renderLogo(); updateCounts();
+    const h = location.hash.slice(1); if (h) go(h);
+  })();
+})();
+</script>
+</body>
+</html>

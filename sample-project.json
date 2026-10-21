@@ -1,0 +1,234 @@
+{
+  "business": {
+    "name": "Sample Dental Arts",
+    "tagline": "Modern dentistry, calm and unhurried",
+    "category": "Dentist",
+    "description": "REPLACE WITH THE REAL STORY. This sample shows how the builder lays out a practice description across the Home and About pages.\n\nUse the second paragraph for what makes the practice different and who it serves.",
+    "phone": "(626) 555-0100",
+    "email": "hello@example.com",
+    "address": {
+      "street": "123 N Example Ave",
+      "city": "Glendora",
+      "state": "CA",
+      "zip": "91741",
+      "country": "US"
+    },
+    "mapLink": "https://maps.google.com/?q=Glendora+CA",
+    "lat": "34.1362",
+    "lng": "-117.8653",
+    "yearFounded": "",
+    "hours": [
+      {
+        "days": "Monday",
+        "open": "08:00",
+        "close": "17:00"
+      },
+      {
+        "days": "Tuesday",
+        "open": "08:00",
+        "close": "17:00"
+      },
+      {
+        "days": "Wednesday",
+        "open": "08:00",
+        "close": "17:00"
+      },
+      {
+        "days": "Thursday",
+        "open": "08:00",
+        "close": "17:00"
+      },
+      {
+        "days": "Friday",
+        "open": "08:00",
+        "close": "17:00"
+      },
+      {
+        "days": "Saturday",
+        "open": "",
+        "close": ""
+      },
+      {
+        "days": "Sunday",
+        "open": "",
+        "close": ""
+      }
+    ],
+    "social": {}
+  },
+  "brand": {
+    "primary": "#0f5f5a",
+    "accent": "#d8a85b",
+    "ink": "#101417",
+    "paper": "#f7f4ee",
+    "theme": "light",
+    "fontDisplay": "Fraunces",
+    "fontBody": "Inter",
+    "radius": "18"
+  },
+  "services": [
+    {
+      "name": "Dental implants",
+      "short": "Permanent, natural-looking replacements for missing teeth.",
+      "body": "",
+      "bullets": "",
+      "faqs": "",
+      "priceFrom": "",
+      "image": ""
+    },
+    {
+      "name": "Invisalign",
+      "short": "Clear aligners that straighten teeth discreetly.",
+      "body": "",
+      "bullets": "",
+      "faqs": "",
+      "priceFrom": "",
+      "image": ""
+    },
+    {
+      "name": "Teeth whitening",
+      "short": "Safe, professional whitening in about an hour.",
+      "body": "",
+      "bullets": "",
+      "faqs": "",
+      "priceFrom": "",
+      "image": ""
+    },
+    {
+      "name": "Porcelain veneers",
+      "short": "Custom shells that reshape and brighten your smile.",
+      "body": "",
+      "bullets": "",
+      "faqs": "",
+      "priceFrom": "",
+      "image": ""
+    },
+    {
+      "name": "Dental crowns",
+      "short": "Durable restorations for damaged or weakened teeth.",
+      "body": "",
+      "bullets": "",
+      "faqs": "",
+      "priceFrom": "",
+      "image": ""
+    },
+    {
+      "name": "Root canal therapy",
+      "short": "Comfortable treatment that saves an infected tooth.",
+      "body": "",
+      "bullets": "",
+      "faqs": "",
+      "priceFrom": "",
+      "image": ""
+    },
+    {
+      "name": "Emergency dentistry",
+      "short": "Same-day care for pain, breaks and lost fillings.",
+      "body": "",
+      "bullets": "",
+      "faqs": "",
+      "priceFrom": "",
+      "image": ""
+    },
+    {
+      "name": "Pediatric dentistry",
+      "short": "Gentle first visits and preventive care for kids.",
+      "body": "",
+      "bullets": "",
+      "faqs": "",
+      "priceFrom": "",
+      "image": ""
+    }
+  ],
+  "areas": [
+    {
+      "name": "San Dimas",
+      "state": "CA",
+      "note": ""
+    },
+    {
+      "name": "Covina",
+      "state": "CA",
+      "note": ""
+    },
+    {
+      "name": "Azusa",
+      "state": "CA",
+      "note": ""
+    },
+    {
+      "name": "La Verne",
+      "state": "CA",
+      "note": ""
+    },
+    {
+      "name": "Claremont",
+      "state": "CA",
+      "note": ""
+    },
+    {
+      "name": "Pomona",
+      "state": "CA",
+      "note": ""
+    },
+    {
+      "name": "West Covina",
+      "state": "CA",
+      "note": ""
+    },
+    {
+      "name": "Charter Oak",
+      "state": "CA",
+      "note": ""
+    },
+    {
+      "name": "Monrovia",
+      "state": "CA",
+      "note": ""
+    },
+    {
+      "name": "Duarte",
+      "state": "CA",
+      "note": ""
+    }
+  ],
+  "reviews": [],
+  "team": [],
+  "faqs": [
+    {
+      "q": "Are you accepting new patients?",
+      "a": "Yes. Request an appointment online or call and we will find a time that works."
+    },
+    {
+      "q": "Where do I park?",
+      "a": "REPLACE: describe parking."
+    }
+  ],
+  "financing": {
+    "enabled": true,
+    "intro": "REPLACE: explain accepted payments and plans.",
+    "options": [],
+    "faqs": ""
+  },
+  "posts": [],
+  "custom": [],
+  "pages": {
+    "about": true,
+    "gallery": true,
+    "reviews": true,
+    "faq": true,
+    "financing": true,
+    "blog": true,
+    "team": true,
+    "careers": false,
+    "insurance": false
+  },
+  "seo": {
+    "siteUrl": "https://YOUR-USER.github.io/client-site",
+    "keywords": "Family dentist\nCosmetic dentist\nEmergency dentist"
+  },
+  "forms": {
+    "provider": "formspree",
+    "endpoint": ""
+  }
+}

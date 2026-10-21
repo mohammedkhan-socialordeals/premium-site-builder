@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Premium Site Builder Pro — generate a 50–100 page SEO/AEO/GEO website</title>
+<meta name="description" content="Answer a guided questionnaire, upload your logo and photos, and generate a complete, fast, search-optimized multi-page website you can host on GitHub Pages.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111'/%3E%3Ctext x='32' y='44' font-family='Georgia' font-size='34' font-weight='700' text-anchor='middle' fill='%23e9c46a'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="app/styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
+<script src="app/generator.js" defer></script>
+<script src="app/app.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <div class="top-brand"><span class="mark">P</span><div><strong>Premium Site Builder</strong><small>Pro · multi-page · SEO · AEO · GEO</small></div></div>
+  <div class="top-actions">
+    <span class="pagecount" id="pagecount">0 pages planned</span>
+    <button class="ghost" id="btn-load">Load project</button>
+    <button class="ghost" id="btn-save">Save project</button>
+    <button class="primary" id="btn-go-build">Build site →</button>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="steps" aria-label="Steps">
+    <button data-step="business" class="is-active"><i>1</i>Business</button>
+    <button data-step="brand"><i>2</i>Brand &amp; logo</button>
+    <button data-step="images"><i>3</i>Photos</button>
+    <button data-step="services"><i>4</i>Services</button>
+    <button data-step="areas"><i>5</i>Service areas</button>
+    <button data-step="content"><i>6</i>Content</button>
+    <button data-step="seo"><i>7</i>SEO &amp; forms</button>
+    <button data-step="build"><i>8</i>Build &amp; deploy</button>
+    <div class="steps-foot">
+      <label class="switch"><input type="checkbox" id="autosave" checked> Autosave in this browser</label>
+      <button class="ghost danger" id="btn-reset">Start over</button>
+    </div>
+  </nav>
+
+  <main class="panel">
+    <!-- 1 BUSINESS -->
+    <section data-panel="business" class="is-active">
+      <h1>Tell us about the business</h1>
+      <p class="hint">Everything here is used verbatim in the site and in structured data. Only enter facts you can stand behind: nothing is invented for you.</p>
+      <div class="grid2">
+        <label>Business name *<input data-bind="business.name" required placeholder="Aventura Dental Arts"></label>
+        <label>Business type (schema.org)<select data-bind="business.category">
+          <option value="LocalBusiness">LocalBusiness (generic)</option><option>Dentist</option><option>MedicalClinic</option><option>Physician</option><option>Optician</option><option>VeterinaryCare</option><option>ChildCare</option><option>Plumber</option><option>Electrician</option><option>HVACBusiness</option><option>RoofingContractor</option><option>GeneralContractor</option><option>HomeAndConstructionBusiness</option><option>MovingCompany</option><option>AutoRepair</option><option>AutoDealer</option><option>HairSalon</option><option>BeautySalon</option><option>DaySpa</option><option>NailSalon</option><option>Restaurant</option><option>Bakery</option><option>CafeOrCoffeeShop</option><option>LegalService</option><option>Attorney</option><option>AccountingService</option><option>InsuranceAgency</option><option>RealEstateAgent</option><option>FinancialService</option><option>ExerciseGym</option><option>SportsActivityLocation</option><option>Photographer</option><option>Florist</option><option>DryCleaningOrLaundry</option><option>PetStore</option><option>ProfessionalService</option><option>Store</option>
+        </select></label>
+      </div>
+      <label>Tagline (one line)<input data-bind="business.tagline" placeholder="Modern dentistry, calm and unhurried"></label>
+      <label>About the business (several paragraphs; used on Home, About and llms.txt)<textarea data-bind="business.description" rows="7" placeholder="Who you are, what makes you different, who you serve. Separate paragraphs with a blank line."></textarea></label>
+      <div class="grid3">
+        <label>Phone<input data-bind="business.phone" type="tel" placeholder="(626) 555-0100"></label>
+        <label>Email<input data-bind="business.email" type="email" placeholder="hello@example.com"></label>
+        <label>Online booking URL (optional)<input data-bind="business.booking" type="url" placeholder="https://..."></label>
+      </div>
+      <h2>Address &amp; map</h2>
+      <div class="grid2">
+        <label>Street address *<input data-bind="business.address.street" placeholder="123 N Glendora Ave"></label>
+        <label>City *<input data-bind="business.address.city" placeholder="Glendora"></label>
+      </div>
+      <div class="grid3">
+        <label>State / region *<input data-bind="business.address.state" placeholder="CA"></label>
+        <label>ZIP / postal code<input data-bind="business.address.zip" placeholder="91741"></label>
+        <label>Country code<input data-bind="business.address.country" placeholder="US"></label>
+      </div>
+      <div class="grid2">
+        <label>Google Maps link (for "Get directions")<input data-bind="business.mapLink" type="url" placeholder="https://maps.app.goo.gl/..."></label>
+        <label>Google Maps embed URL (optional, contact page map)<input data-bind="business.mapEmbed" type="url" placeholder="https://www.google.com/maps/embed?pb=..."></label>
+      </div>
+      <div class="grid3">
+        <label>Latitude (GEO)<input data-bind="business.lat" placeholder="34.1362"></label>
+        <label>Longitude (GEO)<input data-bind="business.lng" placeholder="-117.8653"></label>
+        <label>Year founded<input data-bind="business.yearFounded" placeholder="2008"></label>
+      </div>
+      <h2>Hours</h2>
+      <p class="hint">Used for "Open now" status and schema.org opening hours. 24-hour times (09:00). Leave open/close blank for closed days.</p>
+      <div id="hours"></div>
+      <h2>Social &amp; profiles</h2>
+      <div class="grid3">
+        <label>Google Business Profile<input data-bind="business.social.google" type="url"></label>
+        <label>Facebook<input data-bind="business.social.facebook" type="url"></label>
+        <label>Instagram<input data-bind="business.social.instagram" type="url"></label>
+        <label>Yelp<input data-bind="business.social.yelp" type="url"></label>
+        <label>LinkedIn<input data-bind="business.social.linkedin" type="url"></label>
+        <label>YouTube / TikTok<input data-bind="business.social.youtube" type="url"></label>
+      </div>
+      <label>Price range (schema, e.g. $$)<input data-bind="business.priceRange" placeholder="$$"></label>
+      <div class="nav-row"><span></span><button class="primary" data-next="brand">Next: Brand &amp; logo →</button></div>
+    </section>
+
+    <!-- 2 BRAND -->
+    <section data-panel="brand">
+      <h1>Brand &amp; logo</h1>
+      <div class="grid2">
+        <div>
+          <label>Logo (PNG/SVG, transparent background works best)<input type="file" id="logo-file" accept="image/*"></label>
+          <div class="logo-preview" id="logo-preview"><span>No logo yet — a typographic wordmark will be used.</span></div>
+          <button class="ghost" id="logo-colors" hidden>Pick colors from logo</button>
+        </div>
+        <div>
+          <div class="grid2">
+            <label>Primary color<input type="color" data-bind="brand.primary"></label>
+            <label>Accent color<input type="color" data-bind="brand.accent"></label>
+            <label>Ink (text)<input type="color" data-bind="brand.ink"></label>
+            <label>Paper (background)<input type="color" data-bind="brand.paper"></label>
+          </div>
+          <div class="grid2">
+            <label>Theme<select data-bind="brand.theme"><option value="light">Light</option><option value="dark">Dark</option></select></label>
+            <label>Corner radius (px)<input type="number" data-bind="brand.radius" min="0" max="40"></label>
+          </div>
+          <div class="grid2">
+            <label>Display font (Google Fonts)<select data-bind="brand.fontDisplay"><option>Fraunces</option><option>Playfair Display</option><option>Cormorant Garamond</option><option>DM Serif Display</option><option>Instrument Serif</option><option>Libre Caslon Text</option><option>Space Grotesk</option><option>Syne</option><option>Manrope</option><option>Outfit</option><option>Bricolage Grotesque</option></select></label>
+            <label>Body font<select data-bind="brand.fontBody"><option>Inter</option><option>IBM Plex Sans</option><option>DM Sans</option><option>Manrope</option><option>Work Sans</option><option>Source Sans 3</option><option>Nunito Sans</option><option>Figtree</option></select></label>
+          </div>
+        </div>
+      </div>
+      <h2>Style &amp; effects</h2>
+      <p class="hint">Snazzy = modern motion-rich look (gradient mesh hero, shimmer buttons, border beams, bento grid, floating chips, service ticker). Editorial = the same effects, quieter typography. Minimal = effects off for conservative clients. Every effect is removed automatically for visitors with "reduce motion" turned on.</p>
+      <label>Design style<select data-bind="brand.style"><option value="snazzy">Snazzy — bold, modern, animated</option><option value="editorial">Editorial — premium and calm</option><option value="minimal">Minimal — effects off</option></select></label>
+      <div class="toggles">
+        <label><input type="checkbox" data-bind="brand.fx.mesh"> Gradient mesh hero</label>
+        <label><input type="checkbox" data-bind="brand.fx.grain"> Film grain</label>
+        <label><input type="checkbox" data-bind="brand.fx.shimmer"> Shimmer buttons</label>
+        <label><input type="checkbox" data-bind="brand.fx.beam"> Border-beam cards</label>
+        <label><input type="checkbox" data-bind="brand.fx.bento"> Bento "why us" grid</label>
+        <label><input type="checkbox" data-bind="brand.fx.chips"> Floating hero chips</label>
+        <label><input type="checkbox" data-bind="brand.fx.ticker"> Service ticker</label>
+        <label><input type="checkbox" data-bind="brand.fx.glass"> Glass header</label>
+        <label><input type="checkbox" data-bind="brand.fx.blur"> Blur-in headlines + gradient italics</label>
+        <label><input type="checkbox" data-bind="brand.fx.shine"> Photo shine sweep</label>
+        <label><input type="checkbox" data-bind="brand.fx.dots"> Dot-grid CTA bands</label>
+        <label><input type="checkbox" data-bind="brand.fx.transitions"> Page transitions</label>
+      </div>
+      <div class="swatch" id="swatch"><div class="sw-hero"><strong>Aa</strong><span>Heading preview</span></div><div class="sw-btn">Request Appointment</div></div>
+      <div class="nav-row"><button class="ghost" data-next="business">← Back</button><button class="primary" data-next="images">Next: Photos →</button></div>
+    </section>
+
+    <!-- 3 IMAGES -->
+    <section data-panel="images">
+      <h1>Photos</h1>
+      <p class="hint">Upload at least <strong>10</strong> real photos (team, premises, work, details). They are resized to 1600px and 800px JPEG in your browser and never uploaded anywhere until you deploy. Add a short alt description to each: it matters for SEO and accessibility. The first image is the home hero.</p>
+      <div class="drop" id="drop"><input type="file" id="img-files" accept="image/*" multiple><p><strong>Drop photos here</strong> or click to choose · <span id="img-count">0</span>/10 minimum</p></div>
+      <div class="img-grid" id="img-grid"></div>
+      <div class="nav-row"><button class="ghost" data-next="brand">← Back</button><button class="primary" data-next="services">Next: Services →</button></div>
+    </section>
+
+    <!-- 4 SERVICES -->
+    <section data-panel="services">
+      <h1>Services</h1>
+      <p class="hint">Each service becomes its own page, and each service × service area becomes another page: 8 services × 10 areas = 80 location pages plus the core pages. Write each description in your own words; optional AI drafting (step 7) can help you expand bullet points.</p>
+      <div class="toolbar"><button class="primary" id="svc-add">+ Add service</button><button class="ghost" id="svc-bulk">Paste a list</button><span class="muted" id="svc-count"></span></div>
+      <div id="svc-list" class="cards"></div>
+      <div class="nav-row"><button class="ghost" data-next="images">← Back</button><button class="primary" data-next="areas">Next: Service areas →</button></div>
+    </section>
+
+    <!-- 5 AREAS -->
+    <section data-panel="areas">
+      <h1>Service areas</h1>
+      <p class="hint">Cities and neighborhoods you serve. Each gets an area page plus a page for every service. Add a short local note where you can (e.g. "10 minutes from downtown via Route 66"): it keeps location pages specific.</p>
+      <div class="toolbar"><button class="primary" id="area-add">+ Add area</button><button class="ghost" id="area-bulk">Paste a list</button><span class="muted" id="area-count"></span></div>
+      <div id="area-list" class="cards"></div>
+      <div class="nav-row"><button class="ghost" data-next="services">← Back</button><button class="primary" data-next="content">Next: Content →</button></div>
+    </section>
+
+    <!-- 6 CONTENT -->
+    <section data-panel="content">
+      <h1>Content pages</h1>
+      <div class="toggles">
+        <label><input type="checkbox" data-bind="pages.about"> About</label>
+        <label><input type="checkbox" data-bind="pages.team"> Team</label>
+        <label><input type="checkbox" data-bind="pages.reviews"> Reviews</label>
+        <label><input type="checkbox" data-bind="pages.gallery"> Gallery</label>
+        <label><input type="checkbox" data-bind="pages.faq"> FAQ</label>
+        <label><input type="checkbox" data-bind="pages.financing"> Financing</label>
+        <label><input type="checkbox" data-bind="pages.insurance"> Insurance</label>
+        <label><input type="checkbox" data-bind="pages.blog"> Blog</label>
+        <label><input type="checkbox" data-bind="pages.careers"> Careers</label>
+      </div>
+
+      <details open><summary>Reviews <span class="muted" id="rev-count"></span></summary>
+        <p class="hint">Quote real reviews verbatim with the name as shown on the source. Never paraphrase or invent.</p>
+        <div class="toolbar"><button class="primary" id="rev-add">+ Add review</button></div>
+        <div id="rev-list" class="cards"></div>
+      </details>
+
+      <details><summary>FAQs <span class="muted" id="faq-count"></span></summary>
+        <p class="hint">Site-wide questions. They power the FAQ page, home FAQ, FAQPage schema (rich results) and llms.txt (AI answers). Aim for 6–12.</p>
+        <div class="toolbar"><button class="primary" id="faq-add">+ Add FAQ</button></div>
+        <div id="faq-list" class="cards"></div>
+      </details>
+
+      <details><summary>Team</summary>
+        <div class="toolbar"><button class="primary" id="team-add">+ Add team member</button></div>
+        <div id="team-list" class="cards"></div>
+      </details>
+
+      <details><summary>Financing &amp; payment</summary>
+        <label><input type="checkbox" data-bind="financing.enabled"> Enable financing page and mentions</label>
+        <label>Intro (paragraphs)<textarea data-bind="financing.intro" rows="4" placeholder="We accept all major cards and offer monthly plans through..."></textarea></label>
+        <div class="toolbar"><button class="primary" id="fin-add">+ Add payment option</button></div>
+        <div id="fin-list" class="cards"></div>
+        <label>Financing FAQs (question line, answer line, blank line between)<textarea data-bind="financing.faqs" rows="5"></textarea></label>
+      </details>
+
+      <details><summary>Insurance / Careers / Promotions</summary>
+        <label>Insurance page text<textarea data-bind="extras.insuranceText" rows="4"></textarea></label>
+        <label>Careers page text<textarea data-bind="extras.careersText" rows="4"></textarea></label>
+      </details>
+
+      <details><summary>Blog posts &amp; custom pages</summary>
+        <p class="hint">Write the article yourself (or draft with AI in step 7 and edit). Each post is a page with BlogPosting schema.</p>
+        <div class="toolbar"><button class="primary" id="post-add">+ Add blog post</button><button class="ghost" id="custom-add">+ Add custom page</button></div>
+        <div id="post-list" class="cards"></div>
+        <div id="custom-list" class="cards"></div>
+      </details>
+      <div class="nav-row"><button class="ghost" data-next="areas">← Back</button><button class="primary" data-next="seo">Next: SEO &amp; forms →</button></div>
+    </section>
+
+    <!-- 7 SEO -->
+    <section data-panel="seo">
+      <h1>SEO, forms &amp; AI assist</h1>
+      <div class="grid2">
+        <label>Final site URL (canonical, sitemap, schema) *<input data-bind="seo.siteUrl" type="url" placeholder="https://username.github.io/repo-name"></label>
+        <label>Custom domain (optional, writes CNAME)<input data-bind="seo.customDomain" placeholder="www.example.com"></label>
+      </div>
+      <label>Target keywords, one per line (first = primary, used in the H1)<textarea data-bind="seo.keywords" rows="4" placeholder="Family dentist&#10;Cosmetic dentistry&#10;Emergency dental care"></textarea></label>
+      <div class="grid3">
+        <label>Google Analytics ID<input data-bind="seo.gaId" placeholder="G-XXXXXXX"></label>
+        <label>Google Search Console verification<input data-bind="seo.googleVerification"></label>
+        <label>Bing verification<input data-bind="seo.bingVerification"></label>
+      </div>
+      <h2>Forms (contact &amp; appointment)</h2>
+      <p class="hint">GitHub Pages is static, so forms need a delivery service. <a href="https://formspree.io" target="_blank" rel="noopener">Formspree</a> is free for 50 submissions/month: create a form, paste its endpoint here.</p>
+      <div class="grid2">
+        <label>Provider<select data-bind="forms.provider"><option value="formspree">Formspree (recommended)</option><option value="netlify">Netlify Forms (if hosted on Netlify)</option><option value="mailto">Email link (fallback)</option></select></label>
+        <label>Formspree endpoint<input data-bind="forms.endpoint" placeholder="https://formspree.io/f/xxxxxxxx"></label>
+      </div>
+      <h2>AI copy assist (optional)</h2>
+      <p class="hint">Paste your own Anthropic API key to draft service descriptions, FAQs and blog posts from your notes. The key stays in this browser only. Everything drafted is marked for you to review: AI must not invent facts, prices or reviews.</p>
+      <div class="grid2">
+        <label>Anthropic API key<input id="ai-key" type="password" placeholder="sk-ant-..." autocomplete="off"></label>
+        <label>Model<select id="ai-model"><option>claude-sonnet-4-6</option><option>claude-haiku-4-5</option></select></label>
+      </div>
+      <div class="toolbar">
+        <button class="ghost" id="ai-services">Draft missing service descriptions &amp; FAQs</button>
+        <button class="ghost" id="ai-faqs">Draft 8 site FAQs</button>
+        <button class="ghost" id="ai-about">Expand the About text</button>
+        <button class="ghost" id="ai-posts">Draft 4 blog posts</button>
+      </div>
+      <pre class="log" id="ai-log" hidden></pre>
+      <div class="nav-row"><button class="ghost" data-next="content">← Back</button><button class="primary" data-next="build">Next: Build →</button></div>
+    </section>
+
+    <!-- 8 BUILD -->
+    <section data-panel="build">
+      <h1>Build &amp; deploy</h1>
+      <div id="checks" class="checks"></div>
+      <div class="plan" id="plan"></div>
+      <div class="toolbar">
+        <button class="primary big" id="btn-build">Generate website</button>
+        <button class="ghost" id="btn-zip" disabled>Download site .zip</button>
+        <button class="ghost" id="btn-preview" disabled>Preview</button>
+      </div>
+      <div id="build-log" class="log" hidden></div>
+
+      <div class="preview" id="preview" hidden>
+        <div class="preview-bar"><select id="preview-page"></select><button class="ghost" id="preview-mobile">Phone</button><button class="ghost" id="preview-close">Close</button></div>
+        <iframe id="preview-frame" title="Site preview"></iframe>
+      </div>
+
+      <h2>Publish to GitHub Pages</h2>
+      <p class="hint">Push the generated site straight into a GitHub repository and turn on Pages. You need a <a href="https://github.com/settings/tokens/new?scopes=repo&description=Premium+Site+Builder" target="_blank" rel="noopener">personal access token</a> with the <code>repo</code> scope. The token is used only in this browser for this upload. Alternatively download the zip and upload the files manually (instructions in README).</p>
+      <div class="grid3">
+        <label>GitHub token<input id="gh-token" type="password" autocomplete="off" placeholder="ghp_..."></label>
+        <label>Repository (owner/name)<input id="gh-repo" placeholder="yourname/clientsite"></label>
+        <label>Branch<input id="gh-branch" value="main"></label>
+      </div>
+      <div class="toolbar"><button class="primary" id="btn-publish" disabled>Create / update repo &amp; publish</button><label class="switch"><input type="checkbox" id="gh-create" checked> Create the repo if it doesn't exist</label></div>
+      <div id="publish-log" class="log" hidden></div>
+      <div class="nav-row"><button class="ghost" data-next="seo">← Back</button><span></span></div>
+    </section>
+  </main>
+</div>
+<dialog id="dlg"><form method="dialog"><h3 id="dlg-title"></h3><p id="dlg-hint" class="hint"></p><textarea id="dlg-text" rows="8"></textarea><div class="toolbar"><button class="primary" value="ok">Add</button><button class="ghost" value="cancel">Cancel</button></div></form></dialog>
+</body>
+</html>
