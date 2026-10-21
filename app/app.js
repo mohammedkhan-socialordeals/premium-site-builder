@@ -215,6 +215,31 @@
   ["dragenter", "dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("is-over"); }));
   ["dragleave", "drop"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove("is-over"); if (ev === "drop") addImages([...e.dataTransfer.files]); }));
 
+  /* stock photos via Pexels (user's own key, CORS-enabled API) */
+  $("#px-search").addEventListener("click", async () => {
+    const key = $("#px-key").value.trim(), q = $("#px-q").value.trim(), out = $("#px-results");
+    if (!key || !q) { toast("Enter a Pexels key and a search"); return; }
+    localStorage.setItem("psb-px-key", key);
+    out.innerHTML = "<p class='muted'>Searching…</p>";
+    try {
+      const r = await fetch("https://api.pexels.com/v1/search?per_page=18&orientation=landscape&query=" + encodeURIComponent(q), { headers: { Authorization: key } });
+      if (!r.ok) throw new Error("Pexels " + r.status);
+      const j = await r.json(); out.innerHTML = "";
+      j.photos.forEach(ph => {
+        const c = document.createElement("div"); c.className = "img-card px-card";
+        c.innerHTML = `<img src="${ph.src.medium}" alt="${esc(ph.alt || "")}"><div class="bar"><span>Photo by ${esc(ph.photographer)} · click to add</span></div>`;
+        c.addEventListener("click", async () => {
+          if (c.classList.contains("is-added")) return;
+          c.querySelector(".bar span").textContent = "Adding…";
+          try { const b = await (await fetch(ph.src.large2x)).blob(); const f = new File([b], "stock-" + ph.id + ".jpg", { type: "image/jpeg" }); await addImages([f]); const im = project.images[project.images.length - 1]; im.alt = ph.alt || q; im.credit = "Photo by " + ph.photographer + " on Pexels"; renderImages(); persist(); c.classList.add("is-added"); c.querySelector(".bar span").textContent = "Added ✓"; }
+          catch (e) { c.querySelector(".bar span").textContent = "Could not add: " + e.message; }
+        });
+        out.appendChild(c);
+      });
+      if (!j.photos.length) out.innerHTML = "<p class='muted'>No results.</p>";
+    } catch (e) { out.innerHTML = "<p class='muted'>" + esc(e.message) + "</p>"; }
+  });
+  $("#px-key").value = localStorage.getItem("psb-px-key") || "";
   /* logo */
   $("#logo-file").addEventListener("change", async e => {
     const f = e.target.files[0]; if (!f) return;
@@ -424,10 +449,8 @@
     const blob = await zip.generateAsync({ type: "blob" });
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = (PSB.slug(project.business.name) || "project") + "-psb-project.zip"; a.click();
   });
-  $("#btn-load").addEventListener("click", () => {
-    const inp = document.createElement("input"); inp.type = "file"; inp.accept = ".zip,.json";
-    inp.onchange = async () => {
-      const f = inp.files[0]; if (!f) return;
+  async function importFile(f) {
+      if (!f) return;
       if (f.name.endsWith(".json")) { project = PSB.normalize(JSON.parse(await f.text())); }
       else {
         const zip = await JSZip.loadAsync(f); project = PSB.normalize(JSON.parse(await zip.file("project.json").async("string")));
@@ -441,10 +464,13 @@
         }
       }
       project.images = project.images.filter(i => IMAGES.has(i.id)); project.brand.logo = IMAGES.has("logo") ? true : null;
-      refreshBinds(); renderHours(); renderLists(); renderImages(); renderLogo(); persist(); toast("Project loaded");
-    };
-    inp.click();
-  });
+      refreshBinds(); renderHours(); renderLists(); renderImages(); renderLogo(); updateCounts(); persist(); toast("Project loaded — " + project.services.length + " services, " + project.areas.length + " areas");
+  }
+  $("#btn-load").addEventListener("click", () => { const inp = document.createElement("input"); inp.type = "file"; inp.accept = ".zip,.json"; inp.onchange = () => importFile(inp.files[0]); inp.click(); });
+  $("#import-file").addEventListener("change", e => importFile(e.target.files[0]));
+  const idrop = $("#import-drop");
+  ["dragenter", "dragover"].forEach(ev => idrop.addEventListener(ev, e => { e.preventDefault(); idrop.classList.add("is-over"); }));
+  ["dragleave", "drop"].forEach(ev => idrop.addEventListener(ev, e => { e.preventDefault(); idrop.classList.remove("is-over"); if (ev === "drop") importFile(e.dataTransfer.files[0]); }));
   $("#btn-reset").addEventListener("click", async () => { if (!confirm("Clear everything in this browser?")) return; localStorage.removeItem("psb-pro-project"); await db.clear(); location.reload(); });
 
   /* ---------- init ---------- */

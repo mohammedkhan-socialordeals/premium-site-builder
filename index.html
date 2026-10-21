@@ -45,6 +45,7 @@
     <section data-panel="business" class="is-active">
       <h1>Tell us about the business</h1>
       <p class="hint">Everything here is used verbatim in the site and in structured data. Only enter facts you can stand behind: nothing is invented for you.</p>
+      <div class="drop import-drop" id="import-drop"><input type="file" id="import-file" accept=".json,.zip"><p><strong>Have a project file?</strong> Drop a <code>.json</code> or saved project <code>.zip</code> here and every step fills in automatically. (You'll still add photos and the logo for a .json.)</p></div>
       <div class="grid2">
         <label>Business name *<input data-bind="business.name" required placeholder="Aventura Dental Arts"></label>
         <label>Business type (schema.org)<select data-bind="business.category">
@@ -146,6 +147,15 @@
       <p class="hint">Upload at least <strong>10</strong> real photos (team, premises, work, details). They are resized to 1600px and 800px JPEG in your browser and never uploaded anywhere until you deploy. Add a short alt description to each: it matters for SEO and accessibility. The first image is the home hero.</p>
       <div class="drop" id="drop"><input type="file" id="img-files" accept="image/*" multiple><p><strong>Drop photos here</strong> or click to choose · <span id="img-count">0</span>/10 minimum</p></div>
       <div class="img-grid" id="img-grid"></div>
+      <details class="stock"><summary>Add free stock photos (Pexels)</summary>
+        <p class="hint">Real photos of the business always come first. Stock is for atmosphere only and must never be captioned as the real team or premises. Get a free API key at <a href="https://www.pexels.com/api/" target="_blank" rel="noopener">pexels.com/api</a>; it stays in this browser.</p>
+        <div class="grid3">
+          <label>Pexels API key<input id="px-key" type="password" autocomplete="off" placeholder="563492ad..."></label>
+          <label>Search<input id="px-q" placeholder="veterinarian examining dog"></label>
+          <label>&nbsp;<button class="primary" id="px-search" type="button">Search</button></label>
+        </div>
+        <div class="img-grid" id="px-results"></div>
+      </details>
       <div class="nav-row"><button class="ghost" data-next="brand">← Back</button><button class="primary" data-next="services">Next: Services →</button></div>
     </section>
 

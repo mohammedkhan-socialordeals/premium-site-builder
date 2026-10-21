@@ -17,6 +17,8 @@
   const telHref = (p) => "tel:" + String(p || "").replace(/[^\d+]/g, "");
   const typo = (s) => String(s || "").replace(/'/g, "\u2019");
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const cutAt = (t, n) => { t = String(t || "").trim(); if (t.length <= n) return t; const c = t.slice(0, n); const i = Math.max(c.lastIndexOf(". "), c.lastIndexOf("! "), c.lastIndexOf("? ")); return i > n * 0.3 ? c.slice(0, i + 1) : c.replace(/\s+\S*$/, "") + "…"; };
+  const paraList = (t) => String(t || "").split(/\n\s*\n/).map(x => x.trim()).filter(Boolean);
   const pick = (arr, i) => arr.length ? arr[((i % arr.length) + arr.length) % arr.length] : null;
 
   /* ---------- defaults ---------- */
@@ -233,11 +235,6 @@
     const company = pages.filter(x => ["about", "team", "reviews", "gallery", "financing", "insurance", "faq", "blog", "careers", "contact", "appointment"].includes(x.kind)).map(x => `<li><a href="${pg.rel}${x.url}">${esc(x.nav || x.title.split("|")[0].trim())}</a></li>`);
     const social = Object.entries(b.social || {}).filter(([, v]) => v).map(([k, v]) => `<a href="${attr(v)}" target="_blank" rel="noopener">${k[0].toUpperCase() + k.slice(1)}</a>`).join("");
     return `<footer class="site-footer">
-  <div class="ft-cta" data-reveal>
-    <h2 data-split>Ready when you are.</h2>
-    <p>Request an appointment online or call us${b.address.city ? ` in ${esc(b.address.city)}` : ""} today.</p>
-    <div class="btn-row"><a class="btn btn-light" data-magnetic href="${pg.rel}appointment/">Request Appointment</a>${b.phone ? `<a class="btn btn-ghost" href="${telHref(b.phone)}">Call ${esc(b.phone)}</a>` : ""}</div>
-  </div>
   <div class="ft-grid">
     <div class="ft-col ft-brand">
       ${logoTag(p, pg, "ft-logo")}
@@ -267,7 +264,7 @@
     <h1 data-split>${h1}</h1>
     ${lead ? `<p class="lead" data-reveal style="--delay:300ms">${lead}</p>` : ""}
     <div class="btn-row" data-reveal>
-      <a class="btn btn-primary" data-magnetic data-cursor="Book" href="${pg.rel}appointment/">Request Appointment</a>
+      ${pg.kind === "appointment" ? `<a class="btn btn-primary" data-magnetic href="#request">Fill in the form ↓</a>` : pg.kind === "contact" ? `<a class="btn btn-primary" data-magnetic href="#visit">Visit &amp; hours ↓</a>` : `<a class="btn btn-primary" data-magnetic data-cursor="Book" href="${pg.rel}appointment/">Request Appointment</a>`}
       ${p.business.phone ? `<a class="btn btn-ghost" href="${telHref(p.business.phone)}">Call ${esc(p.business.phone)}</a>` : ""}
     </div>
     <p class="hero-meta" data-reveal><span data-open-status></span></p>
@@ -290,13 +287,19 @@
     if (!p.brand.fx.bento) return "";
     const b = p.business, cells = [];
     const rated = p.reviews.filter(r => +r.rating);
-    cells.push(`<div class="bento-cell bento-big" data-spotlight><p class="eyebrow">Why ${esc(b.name)}</p><h3>${esc(b.tagline || `Care that feels personal, in ${b.address.city}`)}</h3><p>${esc(b.description.split(/\n/)[0].slice(0, 220))}</p><a class="link-arrow" href="${pg.rel}${p.pages.about ? "about/" : "services/"}">Learn more →</a></div>`);
+    const ps = paraList(b.description); cells.push(`<div class="bento-cell bento-big" data-spotlight><p class="eyebrow">Why ${esc(b.name)}</p><h3>${esc(shortHeadline(p))}</h3><p>${esc(cutAt(ps[1] || ps[0] || "", 230))}</p><a class="link-arrow" href="${pg.rel}${p.pages.about ? "about/" : "services/"}">Learn more →</a></div>`);
     if (rated.length) cells.push(`<div class="bento-cell bento-stat"><strong data-count="${(rated.reduce((a, r) => a + +r.rating, 0) / rated.length).toFixed(1)}">0.0</strong><span>average of ${rated.length} ${words(rated.length, "review")}</span><em class="stars">★★★★★</em></div>`);
     cells.push(`<div class="bento-cell bento-open"><span class="pulse"></span><strong data-open-status>Hours</strong><span>${esc(b.address.street)}, ${esc(b.address.city)}</span>${b.mapLink ? `<a href="${attr(b.mapLink)}" target="_blank" rel="noopener">Directions →</a>` : ""}</div>`);
     if (p.images[1]) cells.push(`<div class="bento-cell bento-img">${imgTag(p, pg, p.images[1].id, { sizes: "(min-width: 900px) 33vw, 100vw" })}</div>`);
     if (p.financing.enabled) cells.push(`<div class="bento-cell bento-fin"><strong>Flexible payment</strong><span>Plans and options that fit real budgets.</span><a href="${pg.rel}financing/">See financing →</a></div>`);
     cells.push(`<div class="bento-cell bento-cta" data-spotlight><strong>Ready to talk?</strong><span>We confirm every request personally.</span><a class="btn btn-primary" data-magnetic href="${pg.rel}appointment/">Request Appointment</a></div>`);
+    if (p.services.length) cells.push(`<div class="bento-cell bento-svc"><strong data-count="${p.services.length}">${p.services.length}</strong><span>${words(p.services.length, "service")} under one roof</span><a href="${pg.rel}services/">All services →</a></div>`);
     return `<section class="bento wrap"><div class="bento-grid" data-reveal="stagger">${cells.join("")}</div></section>`;
+  }
+  function shortHeadline(p) {
+    const t = (p.business.tagline || "").trim();
+    if (t && t.length <= 64) return t;
+    return `Trusted ${primaryKeyword(p).toLowerCase()} in ${p.business.address.city}${p.business.yearFounded ? ` since ${p.business.yearFounded}` : ""}`;
   }
   function tickerSection(p) {
     if (!p.brand.fx.ticker || p.services.length < 3) return "";
@@ -347,7 +350,7 @@
 </section>`;
   }
   function ctaBand(p, pg, text) {
-    return `<section class="cta-band" data-spotlight><div class="wrap"><h2 data-split>${text}</h2><div class="btn-row"><a class="btn btn-light" data-magnetic href="${pg.rel}appointment/">Request Appointment</a>${p.business.phone ? `<a class="btn btn-ghost" href="${telHref(p.business.phone)}">${esc(p.business.phone)}</a>` : ""}</div></div></section>`;
+    return `<section class="cta-band" data-spotlight data-scroll><div class="cta-bg">${imgTag(p, pg, p.images.length > 2 ? p.images[p.images.length - 1].id : 0, { sizes: "100vw", alt: "" })}</div><div class="wrap"><h2 data-split>${text}</h2><div class="btn-row"><a class="btn btn-light" data-magnetic href="${pg.rel}appointment/">Request Appointment</a>${p.business.phone ? `<a class="btn btn-ghost" href="${telHref(p.business.phone)}">${esc(p.business.phone)}</a>` : ""}</div></div></section>`;
   }
   function areasList(p, pg, serviceSlug) {
     if (!p.areas.length) return "";
@@ -377,11 +380,12 @@
   }
   function form(p, pg, kind) {
     const f = p.forms;
-    const action = f.provider === "formspree" && f.endpoint ? f.endpoint : f.provider === "mailto" ? `mailto:${p.business.email}` : "";
+    const action = f.provider === "formspree" && f.endpoint ? f.endpoint : (f.provider === "mailto" || (f.provider === "formspree" && !f.endpoint)) && p.business.email ? `mailto:${p.business.email}` : "";
     const netlify = f.provider === "netlify" ? ` data-netlify="true" name="${kind}"` : "";
     const svcOpts = p.services.map(s => `<option>${esc(s.name)}</option>`).join("");
     const isAppt = kind === "appointment";
-    return `<form class="form" method="POST" action="${attr(action)}"${netlify} data-form>
+    return `<form class="form form-card" id="request" method="POST" action="${attr(action)}"${netlify} data-form>
+  <div class="form-head"><p class="eyebrow">${isAppt ? "Appointment request" : "Message"}</p><h2>${isAppt ? "Tell us when works for you" : "How can we help?"}</h2></div>
   <input type="hidden" name="_subject" value="${attr((isAppt ? "Appointment request" : "Contact") + " — " + p.business.name)}">
   <input type="hidden" name="_next" value="${attr((p.seo.siteUrl || "").replace(/\/+$/, "") + "/thank-you/")}">
   ${netlify ? `<input type="hidden" name="form-name" value="${kind}">` : ""}
@@ -394,7 +398,7 @@
   <label>${isAppt ? "Anything we should know?" : "How can we help?"}<textarea name="message" rows="5"${isAppt ? "" : " required"}></textarea></label>
   <label class="inline consent"><input type="checkbox" name="consent" required> I agree to be contacted about my request. See our <a href="${pg.rel}privacy/">privacy policy</a>.</label>
   <button class="btn btn-primary" data-magnetic type="submit">${isAppt ? "Send appointment request" : "Send message"}</button>
-  <p class="form-note">${action ? "We typically reply within one business day." : "Form delivery is not configured yet — connect Formspree, Netlify Forms or an email address in the builder."}</p>
+  <p class="form-note">${action ? "We typically reply within one business day. Your details are only used to respond to you." : "Demo mode: connect Formspree in the builder to receive submissions."}</p>
 </form>`;
   }
   function statsBand(p) {
@@ -411,10 +415,10 @@
   const bodies = {
     home(p, pg, pages) {
       const b = p.business, city = b.address.city;
-      const manifesto = b.description ? `<section class="manifesto wrap"><p class="scrub" data-scrub>${esc(typo(b.description))}</p></section>` : "";
+      const manifesto = b.description ? `<section class="manifesto wrap"><p class="scrub" data-scrub>${esc(typo(cutAt(paraList(b.description)[0], 260)))}</p></section>` : "";
       const about = p.pages.about ? `<section class="split wrap" id="about">
   <div class="split-media" data-reveal="wipe"><div>${imgTag(p, pg, 1, { alt: "" })}</div></div>
-  <div class="split-text" data-reveal>${eyebrow("About " + b.name)}<h2 data-split>${esc(b.tagline || `Care that feels personal, in ${city}`)}</h2>${paras(b.description.split(/\n\s*\n/).slice(0, 2).join("\n\n"))}<a class="link-arrow" href="${pg.rel}about/">Our story →</a></div>
+  <div class="split-text" data-reveal>${eyebrow("About " + b.name)}<h2 data-split>${esc(shortHeadline(p))}</h2>${paras(paraList(b.description).slice(0, 2).join("\n\n"))}<a class="link-arrow" href="${pg.rel}about/">Our story →</a></div>
 </section>` : "";
       const process = p.services.length >= 3 ? `<section class="process wrap">${eyebrow("How it works")}<h2 data-split>Simple from the first call</h2>
   <ol class="stack" data-stack>
@@ -427,7 +431,7 @@
       return [
         hero(p, pg, { eyebrowText: `${city}, ${b.address.state}`, h1: `${esc(primaryKeyword(p))} in <em>${esc(city)}</em>`, lead: esc(b.tagline || b.description.split(/\n/)[0].slice(0, 180)), imgId: 0 }),
         tickerSection(p), manifesto, statsBand(p), bentoSection(p, pg), servicesGrid(p, pg, p.services.slice(0, 8), { hscroll: true, title: `${words(p.services.length, "Service")} designed around you` }),
-        about, process, hoverList, reviewsSection(p, pg), gallery, areasList(p, pg), faqSection(p.faqs.slice(0, 6)), contactBlock(p, pg), ctaBand(p, pg, `Let’s get started, ${esc(city)}.`)
+        about, process, reviewsSection(p, pg), gallery, areasList(p, pg), faqSection(p.faqs.slice(0, 6)), contactBlock(p, pg), ctaBand(p, pg, `Let’s get started, ${esc(city)}.`)
       ].join("\n");
     },
     about(p, pg) {
@@ -537,7 +541,7 @@
         faqSection(p.faqs.slice(0, 4))].join("\n");
     },
     contact(p, pg) {
-      return [hero(p, pg, { eyebrowText: "Contact", h1: `Let’s <em>talk</em>`, lead: `We’re happy to answer questions by phone, email or in person at our ${esc(p.business.address.city)} office.`, imgId: 3, small: true }), crumbsHtml(p, pg), contactBlock(p, pg), `<section class="wrap form-sec"><h2 data-split>Send a message</h2><div class="form-cols"><div data-reveal>${form(p, pg, "contact")}</div><aside class="form-aside" data-reveal><div class="aside-card" data-spotlight><h3>Prefer to book?</h3><p>Skip the message and request an appointment directly.</p><a class="btn btn-primary" data-magnetic href="${pg.rel}appointment/">Request Appointment</a></div></aside></div></section>`].join("\n");
+      return [hero(p, pg, { eyebrowText: "Contact", h1: `Let’s <em>talk</em>`, lead: `We’re happy to answer questions by phone, email or in person at our ${esc(p.business.address.city)} office.`, imgId: 3, small: true }), crumbsHtml(p, pg), contactBlock(p, pg), `<section class="wrap form-sec"><div class="form-cols"><div data-reveal>${form(p, pg, "contact")}</div><aside class="form-aside" data-reveal><div class="aside-card" data-spotlight><h3>Prefer to book?</h3><p>Skip the message and request an appointment directly.</p><a class="btn btn-primary" data-magnetic href="${pg.rel}appointment/">Request Appointment</a></div></aside></div></section>`].join("\n");
     },
     thanks(p, pg) { return `<section class="hero hero-sm" data-scroll><div class="hero-bg">${imgTag(p, pg, 0, { sizes: "100vw", eager: true, alt: "" })}</div><div class="hero-inner"><h1 data-split>Thank you — we’ve received it.</h1><p class="lead" data-reveal>Expect to hear from us within one business day.${p.business.phone ? ` Need us sooner? Call <a href="${telHref(p.business.phone)}">${esc(p.business.phone)}</a>.` : ""}</p><div class="btn-row" data-reveal><a class="btn btn-primary" data-magnetic href="${pg.rel}">Back to home</a></div></div></section>`; },
     "404"(p, pg) { return `<section class="hero hero-sm" data-scroll><div class="hero-bg">${imgTag(p, pg, 0, { sizes: "100vw", eager: true, alt: "" })}</div><div class="hero-inner"><p class="eyebrow">404</p><h1 data-split>That page moved on.</h1><p class="lead" data-reveal>Try the menu, or start with one of these.</p><div class="btn-row" data-reveal><a class="btn btn-primary" data-magnetic href="${pg.rel}">Home</a><a class="btn btn-ghost" href="${pg.rel}services/">Services</a><a class="btn btn-ghost" href="${pg.rel}contact/">Contact</a></div></div></section>`; },
@@ -684,7 +688,7 @@ h1 em,h2 em{font-style:italic;color:var(--accent)}
 p{margin:0 0 1em}a{color:inherit}
 :focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
 .wrap{width:min(var(--wrap),calc(100% - 2rem));margin-inline:auto}.narrow{max-width:760px}
-section{padding-block:clamp(3.5rem,8vw,7.5rem)}
+section{padding-block:clamp(3rem,7vw,6.5rem)}
 .eyebrow{font:600 .78rem/1 var(--font-b);letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:0 0 1.2rem}
 .lead{font-size:clamp(1.05rem,1.4vw,1.3rem);max-width:60ch;color:var(--muted)}
 .ph{aspect-ratio:3/2;background:linear-gradient(135deg,var(--paper-2),var(--line));border-radius:var(--radius)}
@@ -701,10 +705,10 @@ section{padding-block:clamp(3.5rem,8vw,7.5rem)}
 .hdr-inner{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:.9rem clamp(1rem,3vw,2.5rem);transition:background .4s,box-shadow .4s}
 .brand{display:flex;align-items:center;text-decoration:none}.brand-logo{height:44px;width:auto;object-fit:contain}
 .site-header:not(.is-scrolled) .brand-logo{filter:brightness(0) invert(1)}
-.wordmark{font:600 1.4rem/1 var(--font-d);letter-spacing:-.02em}
-.nav-desktop{display:none;align-items:center;gap:1.6rem;font-weight:500;font-size:.95rem}.has-menu>a{display:inline-block}.nav-desktop a{text-decoration:none;position:relative;padding:.3rem 0}.nav-desktop a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:2px;background:var(--accent);transition:right .4s var(--ease)}.nav-desktop a:hover::after,.nav-desktop a[aria-current]::after{right:0}
+.wordmark{font:600 1.25rem/1 var(--font-d);letter-spacing:-.02em;white-space:nowrap}
+.nav-desktop{display:none;align-items:center;gap:clamp(.9rem,1.6vw,1.6rem);font-weight:500;font-size:.9rem;white-space:nowrap}.has-menu>a{display:inline-block}.nav-desktop a{text-decoration:none;position:relative;padding:.3rem 0}.nav-desktop a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:2px;background:var(--accent);transition:right .4s var(--ease)}.nav-desktop a:hover::after,.nav-desktop a[aria-current]::after{right:0}
 .has-menu{position:relative}.has-menu .menu{position:absolute;top:100%;left:-1rem;min-width:260px;margin:0;padding:.6rem;list-style:none;background:var(--paper);color:var(--ink);border-radius:14px;box-shadow:0 30px 60px -20px rgba(0,0,0,.35);opacity:0;transform:translateY(8px);pointer-events:none;transition:.3s var(--ease)}.has-menu:hover .menu,.has-menu:focus-within .menu{opacity:1;transform:none;pointer-events:auto}.has-menu .menu a{display:block;padding:.55rem .8rem;border-radius:8px}.has-menu .menu a:hover{background:var(--paper-2)}.has-menu .menu a::after{display:none}
-.hdr-actions{display:flex;align-items:center;gap:1rem}.hdr-tel{display:none;text-decoration:none;font-weight:600}.hdr-actions .btn{display:none}
+.hdr-actions{display:flex;align-items:center;gap:1rem;flex:none}.hdr-tel{display:none;text-decoration:none;font-weight:600;white-space:nowrap;font-size:.9rem}.hdr-actions .btn{display:none;white-space:nowrap;padding:.8rem 1.3rem}
 .nav-toggle{width:44px;height:44px;border:0;background:transparent;display:grid;place-items:center;gap:6px;cursor:pointer;color:inherit}.nav-toggle span{width:26px;height:2px;background:currentColor;transition:.35s var(--ease)}
 html.nav-open .nav-toggle span:first-child{transform:translateY(4px) rotate(45deg)}html.nav-open .nav-toggle span:last-child{transform:translateY(-4px) rotate(-45deg)}
 .progress{height:2px;background:var(--accent);margin-top:-2px}
@@ -712,7 +716,7 @@ html.nav-open .nav-toggle span:first-child{transform:translateY(4px) rotate(45de
 html.nav-open .nav-overlay{opacity:1;visibility:visible}html.nav-open .site-header{color:#fff}html.nav-open .hdr-inner{background:transparent!important;box-shadow:none!important}html.nav-open .brand-logo{filter:brightness(0) invert(1)!important}
 .nav-mobile{display:flex;flex-direction:column;gap:.3rem}.nav-mobile a{font:600 clamp(1.6rem,6vw,2.6rem)/1.25 var(--font-d);text-decoration:none;transform:translateY(20px);opacity:0;transition:.6s var(--ease)}html.nav-open .nav-mobile a{opacity:1;transform:none}.nav-mobile a:nth-child(n){transition-delay:calc(var(--n,0)*1ms)}
 .nav-overlay-meta a{color:#fff;font-weight:600}.nav-overlay-meta p{opacity:.8;margin:.3rem 0}
-@media(min-width:1000px){.nav-desktop{display:flex}.nav-toggle{display:none}.hdr-tel,.hdr-actions .btn{display:inline-flex}.nav-overlay{display:none}}
+@media(min-width:1000px){.nav-desktop{display:flex}.nav-toggle{display:none}.hdr-actions .btn{display:inline-flex}.nav-overlay{display:none}}@media(min-width:1280px){.hdr-tel{display:inline-flex}}
 .sticky-cta{position:fixed;left:.75rem;right:.75rem;bottom:calc(.75rem + env(safe-area-inset-bottom,0px));z-index:90;display:flex;background:var(--ink);color:var(--paper);border-radius:999px;padding:.35rem;box-shadow:0 20px 40px -15px rgba(0,0,0,.5)}.sticky-cta a{flex:1;text-align:center;padding:.8rem;text-decoration:none;font-weight:600;border-radius:999px}.sticky-cta .primary{background:var(--accent);color:#111}
 /* hero */
 .hero{position:relative;min-height:100svh;display:grid;align-items:end;padding:8rem 0 5rem;color:#fff;overflow:hidden;isolation:isolate}
@@ -720,7 +724,7 @@ html.nav-open .nav-overlay{opacity:1;visibility:visible}html.nav-open .site-head
 .hero-bg{position:absolute;inset:0;z-index:-1;overflow:hidden}.hero-bg img{width:100%;height:100%;object-fit:cover;transform:scale(calc(1 + var(--exit,0)*.12))}
 .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.15) 40%,rgba(0,0,0,.78))}
 .hero-plain{color:var(--ink);background:var(--paper-2);min-height:40svh}
-.hero-inner{width:min(var(--wrap),calc(100% - 2rem));margin-inline:auto;transform:translateY(calc(var(--exit,0)*-60px));opacity:calc(1 - var(--exit,0)*1.5)}
+.hero-inner{width:min(var(--wrap),calc(100% - 2rem));margin-inline:auto;transform:translateY(calc(var(--exit,0)*-50px));opacity:calc(1 - var(--exit,0)*1.15)}
 .hero .lead{color:rgba(255,255,255,.86)}.hero-plain .lead{color:var(--muted)}.hero .btn-row{margin-top:1.5rem}.hero-meta{margin-top:1.5rem;font-size:.9rem;opacity:.85}
 .hero-sm h1{font-size:clamp(2.2rem,5.4vw,4.4rem)}
 /* crumbs */
@@ -752,7 +756,7 @@ html.nav-open .nav-overlay{opacity:1;visibility:visible}html.nav-open .site-head
 .area-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.2rem}.area-card{display:block;padding:1.8rem;background:var(--paper-2);border-radius:var(--radius);text-decoration:none}.area-card h2{font-size:1.5rem;margin:0 0 .3rem}.area-card p{color:var(--muted);margin:0 0 1rem}.area-card span{color:var(--accent);font-size:1.4rem}
 .faq-list{border-top:1px solid var(--line)}.faq-item{border-bottom:1px solid var(--line)}.faq-item summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 0;font:600 1.15rem/1.3 var(--font-d)}.faq-item summary::-webkit-details-marker{display:none}.faq-item summary i{width:28px;height:28px;flex:none;border-radius:50%;border:1px solid currentColor;position:relative;transition:.4s var(--ease)}.faq-item summary i::before,.faq-item summary i::after{content:"";position:absolute;inset:50% auto auto 50%;width:12px;height:1.5px;background:currentColor;transform:translate(-50%,-50%)}.faq-item summary i::after{transform:translate(-50%,-50%) rotate(90deg)}.faq-item[open] summary i{transform:rotate(45deg);background:var(--accent);color:#111}.faq-a{padding:0 0 1.4rem;color:var(--muted);max-width:70ch}
 /* cta band */
-.cta-band{background:var(--primary);color:#fff;text-align:center}.cta-band h2{max-width:20ch;margin-inline:auto}.cta-band .btn-row{justify-content:center;margin-top:1.5rem}
+.cta-band{position:relative;background:var(--primary);color:#fff;text-align:center;isolation:isolate;overflow:hidden;padding-block:clamp(5rem,12vw,9rem)}.cta-bg{position:absolute;inset:0;z-index:-1}.cta-bg img{width:100%;height:100%;object-fit:cover;transform:translateY(calc((var(--progress,.5) - .5)*-60px)) scale(1.1)}.cta-bg::after{content:"";position:absolute;inset:0;background:color-mix(in srgb,var(--primary) 78%,#000)}.cta-band h2{max-width:20ch;margin-inline:auto}.cta-band .btn-row{justify-content:center;margin-top:1.5rem}
 .note-band{padding-block:1rem}.note-band p{padding:1.2rem 1.5rem;background:var(--paper-2);border-left:4px solid var(--accent);border-radius:8px}
 /* contact */
 .contact-grid{display:grid;gap:2.5rem}@media(min-width:900px){.contact-grid{grid-template-columns:1fr 1fr;gap:5rem}}.contact-block address{font-style:normal;font-size:1.15rem;margin:1rem 0}.big-link{font:600 clamp(1.4rem,3vw,2.2rem)/1.1 var(--font-d);text-decoration:none}.big-link:hover{color:var(--primary)}
@@ -761,7 +765,8 @@ html.nav-open .nav-overlay{opacity:1;visibility:visible}html.nav-open .site-head
 .open-status{font-weight:600;color:var(--primary)}
 /* forms */
 .form-cols{display:grid;gap:2.5rem}@media(min-width:900px){.form-cols{grid-template-columns:1.4fr 1fr;gap:4rem}}
-.form label{display:block;font-weight:500;margin-bottom:1rem}.form label.inline{display:flex;gap:.6rem;align-items:flex-start;font-weight:400}.form input:not([type=checkbox]):not([type=radio]),.form select,.form textarea{display:block;width:100%;margin-top:.35rem;padding:.85rem 1rem;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:inherit;font:inherit}.form input:focus,.form textarea:focus,.form select:focus{border-color:var(--primary);outline:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 25%,transparent)}.form .row2{display:grid;gap:0 1rem}@media(min-width:600px){.form .row2{grid-template-columns:1fr 1fr}}.form fieldset{border:0;padding:0;margin:0 0 1rem;display:flex;flex-wrap:wrap;gap:1rem}.form legend{font-weight:500;margin-bottom:.4rem}.form .hp{position:absolute;left:-9999px}.form-note{font-size:.85rem;color:var(--muted);margin-top:1rem}.consent{font-size:.9rem}
+.form-card{padding:clamp(1.4rem,3vw,2.5rem);background:var(--paper-2);border-radius:var(--radius);box-shadow:0 30px 60px -40px rgba(0,0,0,.35)}.form-head{margin-bottom:1.5rem}.form-head h2{font-size:1.9rem;margin:0}
+.form label{display:block;font-weight:500;margin-bottom:1rem;font-size:.9rem}.form label.inline{display:flex;gap:.6rem;align-items:flex-start;font-weight:400}.form input:not([type=checkbox]):not([type=radio]),.form select,.form textarea{display:block;width:100%;margin-top:.4rem;padding:1rem 1.1rem;border:1px solid var(--line);border-radius:12px;background:var(--paper);color:inherit;font:inherit;transition:border-color .2s,box-shadow .2s}.form .btn{width:100%;justify-content:center;padding:1.1rem}.form input:focus,.form textarea:focus,.form select:focus{border-color:var(--primary);outline:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 25%,transparent)}.form .row2{display:grid;gap:0 1rem}@media(min-width:600px){.form .row2{grid-template-columns:1fr 1fr}}.form fieldset{border:0;padding:0;margin:0 0 1rem;display:flex;flex-wrap:wrap;gap:1rem}.form legend{font-weight:500;margin-bottom:.4rem}.form .hp{position:absolute;left:-9999px}.form-note{font-size:.85rem;color:var(--muted);margin-top:1rem}.consent{font-size:.9rem}
 .aside-card{padding:1.8rem;border-radius:var(--radius);background:var(--paper-2);margin-bottom:1.2rem}.aside-card h3{margin-top:0}.aside-card .btn{width:100%;justify-content:center;margin:.5rem 0}.aside-tel{display:block;text-align:center;font-weight:600;text-decoration:none}.aside-links ul{list-style:none;padding:0;margin:0}.aside-links li{border-top:1px solid var(--line)}.aside-links a{display:block;padding:.7rem 0;text-decoration:none}.aside-links a:hover{color:var(--primary)}
 /* service detail */
 .svc-cols{display:grid;gap:3rem}@media(min-width:960px){.svc-cols{grid-template-columns:1.6fr 1fr;gap:5rem}}.svc-aside{position:sticky;top:calc(var(--header-h,80px) + 1rem);align-self:start}
@@ -776,7 +781,7 @@ html.nav-open .nav-overlay{opacity:1;visibility:visible}html.nav-open .site-head
 .ft-grid{width:min(var(--wrap),calc(100% - 2rem));margin:0 auto;padding:4rem 0 3rem;display:grid;gap:2.5rem;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}.ft-brand{grid-column:1/-1}@media(min-width:900px){.ft-brand{grid-column:auto;grid-row:auto}.ft-grid{grid-template-columns:1.6fr 1fr 1fr 1fr}}
 .ft-logo{height:40px;width:auto;filter:brightness(0) invert(1);margin-bottom:1rem}.ft-brand address{font-style:normal;margin:.5rem 0}.ft-brand a{color:inherit}.social{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1rem}.social a{opacity:.75;text-decoration:none}.social a:hover{opacity:1;color:var(--accent)}
 .ft-col h3{font:600 .8rem/1 var(--font-b);letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}.ft-col ul{list-style:none;padding:0;margin:0}.ft-col li{margin-bottom:.5rem}.ft-col a{text-decoration:none;opacity:.8}.ft-col a:hover{opacity:1}
-.ft-legal{width:min(var(--wrap),calc(100% - 2rem));margin:0 auto;padding:1.5rem 0 calc(1.5rem + 70px);display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;font-size:.85rem;opacity:.7;border-top:1px solid color-mix(in srgb,var(--paper) 15%,transparent)}.ft-legal a{text-decoration:none}@media(min-width:900px){.ft-legal{padding-bottom:1.5rem}}
+.ft-grid{border-top:1px solid color-mix(in srgb,var(--paper) 12%,transparent)}.ft-legal{width:min(var(--wrap),calc(100% - 2rem));margin:0 auto;padding:1.5rem 0 calc(1.5rem + 70px);display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;font-size:.85rem;opacity:.7;border-top:1px solid color-mix(in srgb,var(--paper) 15%,transparent)}.ft-legal a{text-decoration:none}@media(min-width:900px){.ft-legal{padding-bottom:1.5rem}}
 @media(prefers-reduced-motion:reduce){.hero-bg img,.hero-inner{transform:none!important;opacity:1!important}.svc-media img{transition:none}}
 ${fxCss(p)}
 `;
@@ -794,7 +799,7 @@ ${fxCss(p)}
     if (f.glass) out.push(`.site-header.is-scrolled .hdr-inner{background:color-mix(in srgb,var(--paper) 62%,transparent);backdrop-filter:blur(22px) saturate(1.5);-webkit-backdrop-filter:blur(22px) saturate(1.5)}`);
     if (f.blur) out.push(`.js [data-split] .w>span{filter:blur(10px);opacity:0;transition:transform 1.1s cubic-bezier(.16,1,.3,1),filter .9s,opacity .6s;transition-delay:calc(var(--i,0)*55ms + var(--delay,0ms))}.js [data-split].is-in .w>span{filter:blur(0);opacity:1}h1 em,h2 em,h1 em .w>span,h2 em .w>span{background:linear-gradient(100deg,var(--accent),color-mix(in srgb,var(--accent) 55%,#fff),var(--accent));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 5s linear infinite}@keyframes sheen{to{background-position:200% 0}}`);
     if (f.shine) out.push(`.svc-media,.gal-grid figure,.split-media>div,.bento-img{position:relative;overflow:hidden}.svc-media::after,.gal-grid figure::after,.split-media>div::after,.bento-img::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.35) 50%,transparent 65%);transform:translateX(-120%);transition:transform 1.1s var(--ease);pointer-events:none}.svc-card:hover .svc-media::after,.gal-grid figure:hover::after,.split-media:hover>div::after,.bento-img:hover::after{transform:translateX(120%)}`);
-    if (f.dots) out.push(`.cta-band,.ft-cta{position:relative;overflow:hidden}.cta-band::after,.ft-cta::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.22) 1px,transparent 1.5px);background-size:22px 22px;mask-image:radial-gradient(ellipse at center,#000 20%,transparent 75%);opacity:.6}.cta-band .wrap,.ft-cta>*{position:relative;z-index:1}`);
+    if (f.dots) out.push(`.cta-band::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.22) 1px,transparent 1.5px);background-size:22px 22px;mask-image:radial-gradient(ellipse at center,#000 20%,transparent 75%);opacity:.6}.cta-band .wrap{position:relative;z-index:1}`);
     if (f.transitions) out.push(`@view-transition{navigation:auto}::view-transition-old(root){animation:vt-out .35s ease forwards}::view-transition-new(root){animation:vt-in .55s cubic-bezier(.16,1,.3,1) forwards}@keyframes vt-out{to{opacity:0;transform:scale(.985)}}@keyframes vt-in{from{opacity:0;transform:translateY(14px)}}`);
     if (f.bento) out.push(`.bento-grid{display:grid;gap:1rem;grid-template-columns:repeat(2,1fr);grid-auto-rows:minmax(150px,auto)}@media(min-width:900px){.bento-grid{grid-template-columns:repeat(4,1fr)}.bento-big{grid-column:span 2;grid-row:span 2}.bento-img{grid-row:span 2}.bento-cta{grid-column:span 2}}.bento-cell{display:flex;flex-direction:column;gap:.4rem;justify-content:flex-end;padding:1.6rem;border-radius:var(--radius);background:var(--paper-2);overflow:hidden}.bento-cell strong{font:600 1.3rem/1.15 var(--font-d)}.bento-cell>span{color:var(--muted);font-size:.9rem}.bento-cell a:not(.btn){color:var(--primary);font-weight:600;text-decoration:none}.bento-big{background:var(--ink);color:var(--paper);justify-content:center}.bento-big h3{font-size:clamp(1.5rem,2.6vw,2.3rem);margin:.2rem 0 .6rem}.bento-big p{color:color-mix(in srgb,var(--paper) 75%,transparent)}.bento-big .link-arrow{border-color:var(--accent);color:var(--accent)}.bento-stat strong{font-size:clamp(3rem,6vw,4.6rem);color:var(--primary)}.bento-stat .stars{color:var(--accent);font-style:normal}.bento-open{position:relative}.pulse{position:absolute;top:1.3rem;right:1.3rem;width:10px;height:10px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 0 rgba(34,197,94,.6);animation:pulse 2s infinite}@keyframes pulse{70%{box-shadow:0 0 0 12px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}.bento-img{padding:0}.bento-img img{width:100%;height:100%;object-fit:cover}.bento-cta{background:var(--primary);color:#fff;align-items:flex-start}.bento-cta>span{color:rgba(255,255,255,.8)}.bento-cta .btn{margin-top:.6rem;background:#fff;color:#111}.bento-cta .btn::after{background:#fff}.bento-cta .btn:hover::after{background:var(--accent)}`);
     if (st === "snazzy") out.push(`.hero{background:#0b0e12}h1{letter-spacing:-.035em;font-weight:700}.svc-card{background:color-mix(in srgb,var(--paper-2) 70%,var(--paper))}.site-header .btn-primary{box-shadow:0 0 0 1px rgba(255,255,255,.15),0 10px 40px -10px var(--accent)}.reviews{background:radial-gradient(900px 500px at 10% 0%,color-mix(in srgb,var(--primary) 45%,var(--ink)),var(--ink) 60%)}.stats strong{background:linear-gradient(90deg,var(--primary),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}`);

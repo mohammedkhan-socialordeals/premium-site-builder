@@ -85,3 +85,5 @@ details>:not(summary){margin-top:.5rem}
 dialog{border:1px solid var(--line);border-radius:14px;padding:1.5rem;max-width:560px;width:calc(100% - 2rem);background:var(--panel);color:var(--ink)}
 dialog::backdrop{background:rgba(0,0,0,.5)}dialog h3{font:500 1.3rem var(--serif);margin:0 0 .3rem}
 .toast{position:fixed;left:50%;bottom:1.5rem;transform:translateX(-50%);background:var(--brand);color:var(--bg);padding:.7rem 1.2rem;border-radius:999px;z-index:99;font-weight:500;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+
+.stock{margin-top:1.2rem}.px-card{cursor:pointer;position:relative}.px-card:hover img{opacity:.8}.px-card .bar{font-size:.7rem}.px-card.is-added{outline:3px solid var(--ok)}
