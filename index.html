@@ -120,6 +120,21 @@
           </div>
         </div>
       </div>
+      <h2>Layout</h2>
+      <p class="hint">Pick a different layout for each client so no two sites look alike. Layout changes the hero, header, card style, section order and color blocking across every page.</p>
+      <div class="layout-grid" id="layout-grid">
+        <label class="layout-opt"><input type="radio" name="layout" value="cinematic" data-bind="brand.layout"><span class="lo lo-cin"><i></i><i></i><i></i></span><strong>Cinematic</strong><small>Full-bleed photo hero, dark overlay, horizontal service scroller</small></label>
+        <label class="layout-opt"><input type="radio" name="layout" value="split" data-bind="brand.layout"><span class="lo lo-split"><i></i><i></i></span><strong>Split</strong><small>Light hero, text left / tall photo right, outlined cards</small></label>
+        <label class="layout-opt"><input type="radio" name="layout" value="editorial" data-bind="brand.layout"><span class="lo lo-ed"><i></i><i></i><i></i></span><strong>Editorial</strong><small>Huge centered headline, photo strip, square corners, magazine feel</small></label>
+        <label class="layout-opt"><input type="radio" name="layout" value="collage" data-bind="brand.layout"><span class="lo lo-col"><i></i><i></i><i></i></span><strong>Collage</strong><small>Three tilted photos, very rounded, soft and friendly</small></label>
+        <label class="layout-opt"><input type="radio" name="layout" value="bold" data-bind="brand.layout"><span class="lo lo-bold"><i></i><i></i></span><strong>Bold</strong><small>Dark hero, giant type, color-block service cards</small></label>
+      </div>
+      <h2>Palette &amp; type presets</h2>
+      <div class="toolbar">
+        <select id="palette-preset"><option value="">Palette preset…</option></select>
+        <select id="font-preset"><option value="">Font pairing…</option></select>
+        <button class="ghost" id="btn-random" type="button">🎲 Randomize look</button>
+      </div>
       <h2>Style &amp; effects</h2>
       <p class="hint">Snazzy = modern motion-rich look (gradient mesh hero, shimmer buttons, border beams, bento grid, floating chips, service ticker). Editorial = the same effects, quieter typography. Minimal = effects off for conservative clients. Every effect is removed automatically for visitors with "reduce motion" turned on.</p>
       <label>Design style<select data-bind="brand.style"><option value="snazzy">Snazzy — bold, modern, animated</option><option value="editorial">Editorial — premium and calm</option><option value="minimal">Minimal — effects off</option></select></label>

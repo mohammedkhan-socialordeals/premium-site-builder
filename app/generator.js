@@ -31,7 +31,7 @@
       booking: "",
     },
     brand: { logo: null, primary: "#0f5f5a", accent: "#d8a85b", ink: "#101417", paper: "#f7f4ee", theme: "light",
-      fontDisplay: "Fraunces", fontBody: "Inter", style: "snazzy", radius: "18",
+      fontDisplay: "Fraunces", fontBody: "Inter", style: "snazzy", radius: "18", layout: "cinematic",
       fx: { mesh: true, grain: true, shimmer: true, beam: true, bento: true, chips: true, ticker: true, glass: true, blur: true, shine: true, dots: true, transitions: true } },
     images: [],
     services: [],
@@ -256,17 +256,61 @@
 
   /* ---------- reusable section builders ---------- */
   const eyebrow = (t) => `<p class="eyebrow">${esc(t)}</p>`;
-  function hero(p, pg, { eyebrowText, h1, lead, imgId, small }) {
+  function hero(p, pg, o) {
+    const L = p.brand.layout || "cinematic";
+    if (!o.small && L === "split") return heroSplit(p, pg, o);
+    if (!o.small && L === "editorial") return heroEditorial(p, pg, o);
+    if (!o.small && L === "collage") return heroCollage(p, pg, o);
+    if (!o.small && L === "bold") return heroBold(p, pg, o);
+    return heroCinematic(p, pg, o);
+  }
+  function ctaButtons(p, pg) {
+    return `<div class="btn-row" data-reveal>
+      ${pg.kind === "appointment" ? `<a class="btn btn-primary" data-magnetic href="#request">Fill in the form ↓</a>` : pg.kind === "contact" ? `<a class="btn btn-primary" data-magnetic href="#visit">Visit &amp; hours ↓</a>` : `<a class="btn btn-primary" data-magnetic data-cursor="Book" href="${pg.rel}appointment/">Request Appointment</a>`}
+      ${p.business.phone ? `<a class="btn btn-ghost" href="${telHref(p.business.phone)}">Call ${esc(p.business.phone)}</a>` : ""}
+    </div>`;
+  }
+  function heroSplit(p, pg, { eyebrowText, h1, lead, imgId }) {
+    return `<section class="hero hero-split" data-scroll>
+  <div class="hero-inner hero-split-grid">
+    <div>${eyebrowText ? eyebrow(eyebrowText) : ""}<h1 data-split>${h1}</h1>${lead ? `<p class="lead" data-reveal>${lead}</p>` : ""}${ctaButtons(p, pg)}<p class="hero-meta" data-reveal><span data-open-status></span></p></div>
+    <div class="hero-split-media" data-reveal="wipe"><div data-tilt>${imgTag(p, pg, imgId, { sizes: "(min-width:900px) 50vw, 100vw", eager: true, alt: "" })}</div>${p.brand.fx.chips ? heroChips(p) : ""}</div>
+  </div>
+  ${p.brand.fx.mesh ? `<div class="mesh mesh-soft" aria-hidden="true"><i></i><i></i><i></i></div>` : ""}
+</section>`;
+  }
+  function heroEditorial(p, pg, { eyebrowText, h1, lead, imgId }) {
+    const strip = p.images.slice(0, 6).map(im => `<figure>${imgTag(p, pg, im.id, { sizes: "30vw", alt: "" })}</figure>`).join("");
+    return `<section class="hero hero-editorial" data-scroll>
+  <div class="hero-inner">${eyebrowText ? eyebrow(eyebrowText) : ""}<h1 data-split>${h1}</h1><div class="hero-ed-row"><p class="lead" data-reveal>${lead || ""}</p>${ctaButtons(p, pg)}</div><p class="hero-meta" data-reveal><span data-open-status></span></p></div>
+  <div class="marquee hero-strip" data-marquee data-marquee-scroll aria-hidden="true"><div>${strip}</div></div>
+</section>`;
+  }
+  function heroCollage(p, pg, { eyebrowText, h1, lead, imgId }) {
+    const ims = [0, 1, 2].map(i => `<figure class="col-${i}" data-tilt>${imgTag(p, pg, p.images[i] ? p.images[i].id : 0, { sizes: "40vw", eager: i === 0, alt: "" })}</figure>`).join("");
+    return `<section class="hero hero-collage" data-scroll>
+  <div class="hero-inner hero-split-grid">
+    <div>${eyebrowText ? eyebrow(eyebrowText) : ""}<h1 data-split>${h1}</h1>${lead ? `<p class="lead" data-reveal>${lead}</p>` : ""}${ctaButtons(p, pg)}<p class="hero-meta" data-reveal><span data-open-status></span></p></div>
+    <div class="collage" data-reveal="stagger">${ims}</div>
+  </div>
+  ${p.brand.fx.mesh ? `<div class="mesh mesh-soft" aria-hidden="true"><i></i><i></i><i></i></div>` : ""}
+</section>`;
+  }
+  function heroBold(p, pg, { eyebrowText, h1, lead, imgId }) {
+    return `<section class="hero hero-bold" data-scroll>
+  <div class="hero-inner">${eyebrowText ? eyebrow(eyebrowText) : ""}<h1 data-split>${h1}</h1>${lead ? `<p class="lead" data-reveal>${lead}</p>` : ""}${ctaButtons(p, pg)}<p class="hero-meta" data-reveal><span data-open-status></span></p></div>
+  <div class="hero-bold-media" data-reveal="wipe"><div>${imgTag(p, pg, imgId, { sizes: "100vw", eager: true, alt: "" })}</div>${p.brand.fx.chips ? heroChips(p) : ""}</div>
+  ${p.brand.fx.mesh ? `<div class="mesh" aria-hidden="true"><i></i><i></i><i></i></div>` : ""}
+</section>`;
+  }
+  function heroCinematic(p, pg, { eyebrowText, h1, lead, imgId, small }) {
     return `<section class="hero${small ? " hero-sm" : ""}" data-scroll>
   <div class="hero-bg">${imgTag(p, pg, imgId, { sizes: "100vw", eager: true, alt: "" })}</div>
   <div class="hero-inner">
     ${eyebrowText ? eyebrow(eyebrowText) : ""}
     <h1 data-split>${h1}</h1>
     ${lead ? `<p class="lead" data-reveal style="--delay:300ms">${lead}</p>` : ""}
-    <div class="btn-row" data-reveal>
-      ${pg.kind === "appointment" ? `<a class="btn btn-primary" data-magnetic href="#request">Fill in the form ↓</a>` : pg.kind === "contact" ? `<a class="btn btn-primary" data-magnetic href="#visit">Visit &amp; hours ↓</a>` : `<a class="btn btn-primary" data-magnetic data-cursor="Book" href="${pg.rel}appointment/">Request Appointment</a>`}
-      ${p.business.phone ? `<a class="btn btn-ghost" href="${telHref(p.business.phone)}">Call ${esc(p.business.phone)}</a>` : ""}
-    </div>
+    ${ctaButtons(p, pg)}
     <p class="hero-meta" data-reveal><span data-open-status></span></p>
   </div>
   ${(!small && p.brand.fx.chips) ? heroChips(p) : ""}
@@ -428,11 +472,18 @@
   </ol></section>` : "";
       const gallery = p.images.length >= 4 ? `<section class="gallery-strip" data-lightbox><div class="wrap">${eyebrow("Gallery")}<h2 data-split>A look inside</h2></div><div class="marquee" data-marquee data-marquee-scroll><div>${p.images.slice(0, 8).map((im, i) => `<figure>${imgTag(p, pg, im.id, { sizes: "40vw" })}</figure>`).join("")}</div></div></section>` : "";
       const hoverList = p.services.length ? `<section class="hover-list wrap">${eyebrow("Explore")}<h2 data-split>Find the right service</h2><ul data-hover-reveal>${p.services.slice(0, 8).map((s, i) => `<li><a href="${pg.rel}services/${s.slug}/"><span>${esc(s.name)}</span><small>${esc(s.short)}</small></a>${imgTag(p, pg, s.image || i + 1, { extra: ' data-hover-media', sizes: "320px", alt: "" })}</li>`).join("")}</ul></section>` : "";
-      return [
-        hero(p, pg, { eyebrowText: `${city}, ${b.address.state}`, h1: `${esc(primaryKeyword(p))} in <em>${esc(city)}</em>`, lead: esc(b.tagline || b.description.split(/\n/)[0].slice(0, 180)), imgId: 0 }),
-        tickerSection(p), manifesto, statsBand(p), bentoSection(p, pg), servicesGrid(p, pg, p.services.slice(0, 8), { hscroll: true, title: `${words(p.services.length, "Service")} designed around you` }),
-        about, process, reviewsSection(p, pg), gallery, areasList(p, pg), faqSection(p.faqs.slice(0, 6)), contactBlock(p, pg), ctaBand(p, pg, `Let’s get started, ${esc(city)}.`)
-      ].join("\n");
+      const H = hero(p, pg, { eyebrowText: `${city}, ${b.address.state}`, h1: `${esc(primaryKeyword(p))} in <em>${esc(city)}</em>`, lead: esc(b.tagline || b.description.split(/\n/)[0].slice(0, 180)), imgId: 0 });
+      const cards = servicesGrid(p, pg, p.services.slice(0, 8), { hscroll: true, title: `${words(p.services.length, "Service")} designed around you` });
+      const grid = servicesGrid(p, pg, p.services.slice(0, 9), { title: `What we do in ${esc(city)}` });
+      const L = p.brand.layout || "cinematic", cta = ctaBand(p, pg, `Let’s get started, ${esc(city)}.`);
+      const orders = {
+        cinematic: [H, tickerSection(p), manifesto, statsBand(p), bentoSection(p, pg), cards, about, process, reviewsSection(p, pg), gallery, areasList(p, pg), faqSection(p.faqs.slice(0, 6)), contactBlock(p, pg), cta],
+        split: [H, statsBand(p), grid, about, reviewsSection(p, pg), bentoSection(p, pg), process, gallery, faqSection(p.faqs.slice(0, 6)), areasList(p, pg), contactBlock(p, pg), cta],
+        editorial: [H, manifesto, hoverList, about, statsBand(p), reviewsSection(p, pg), process, faqSection(p.faqs.slice(0, 6)), areasList(p, pg), contactBlock(p, pg), cta],
+        collage: [H, tickerSection(p), bentoSection(p, pg), cards, about, gallery, reviewsSection(p, pg), process, faqSection(p.faqs.slice(0, 6)), areasList(p, pg), contactBlock(p, pg), cta],
+        bold: [H, statsBand(p), tickerSection(p), grid, bentoSection(p, pg), reviewsSection(p, pg), about, process, gallery, faqSection(p.faqs.slice(0, 6)), areasList(p, pg), contactBlock(p, pg), cta],
+      };
+      return (orders[L] || orders.cinematic).join("\n");
     },
     about(p, pg) {
       const b = p.business;
@@ -638,7 +689,7 @@ ${p.seo.googleVerification ? `<meta name="google-site-verification" content="${a
 ${schema(p, pg, extra)}
 ${ga}
 </head>
-<body class="page-${pg.kind}">
+<body class="page-${pg.kind} layout-${p.brand.layout || "cinematic"} style-${p.brand.style}">
 ${header(p, pg, pages)}
 <main id="main"><span id="main-content"></span>
 ${body}
@@ -784,7 +835,22 @@ html.nav-open .nav-overlay{opacity:1;visibility:visible}html.nav-open .site-head
 .ft-grid{border-top:1px solid color-mix(in srgb,var(--paper) 12%,transparent)}.ft-legal{width:min(var(--wrap),calc(100% - 2rem));margin:0 auto;padding:1.5rem 0 calc(1.5rem + 70px);display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;font-size:.85rem;opacity:.7;border-top:1px solid color-mix(in srgb,var(--paper) 15%,transparent)}.ft-legal a{text-decoration:none}@media(min-width:900px){.ft-legal{padding-bottom:1.5rem}}
 @media(prefers-reduced-motion:reduce){.hero-bg img,.hero-inner{transform:none!important;opacity:1!important}.svc-media img{transition:none}}
 ${fxCss(p)}
+${layoutCss(p)}
 `;
+  }
+  function layoutCss(p) {
+    const L = p.brand.layout || "cinematic", o = [];
+    o.push(`.hero-split,.hero-collage{min-height:auto;color:var(--ink);background:var(--paper);padding:9rem 0 4rem;align-items:center}.hero-split .lead,.hero-collage .lead{color:var(--muted)}.hero-split-grid{display:grid;gap:3rem;align-items:center;transform:none;opacity:1}@media(min-width:900px){.hero-split-grid{grid-template-columns:1.05fr 1fr;gap:4rem}}.hero-split-media{position:relative}.hero-split-media>div{border-radius:calc(var(--radius) + 10px);overflow:hidden;aspect-ratio:4/5;box-shadow:0 40px 80px -40px rgba(0,0,0,.45)}.hero-split-media img{width:100%;height:100%;object-fit:cover}.hero-split .chips,.hero-bold .chips{left:-1.5rem;right:auto;top:auto;bottom:2rem;transform:none}.mesh-soft{opacity:.35}
+.layout-split .site-header,.layout-collage .site-header,.layout-editorial .site-header{color:var(--ink)}.layout-split .site-header:not(.is-scrolled) .brand-logo,.layout-collage .site-header:not(.is-scrolled) .brand-logo,.layout-editorial .site-header:not(.is-scrolled) .brand-logo{filter:none}
+.hero-editorial{min-height:auto;color:var(--ink);background:var(--paper);padding:10rem 0 0;text-align:center;overflow:visible;display:block}.hero-editorial h1{font-size:clamp(3rem,9vw,8rem);max-width:14ch;margin-inline:auto;font-weight:500}.hero-editorial .lead{color:var(--muted);margin-inline:auto}.hero-ed-row{display:grid;gap:1.5rem;justify-items:center;margin-top:1rem}.hero-ed-row .btn-row{justify-content:center}.hero-editorial .hero-inner{transform:none;opacity:1}.hero-strip{margin-top:3rem;padding-bottom:0}.hero-strip figure{margin:0;width:min(42vw,340px);aspect-ratio:4/3;overflow:hidden;border-radius:6px}.hero-strip img{width:100%;height:100%;object-fit:cover;filter:saturate(.9)}
+.collage{position:relative;aspect-ratio:1;max-width:560px;margin-inline:auto;width:100%}.collage figure{position:absolute;margin:0;border-radius:var(--radius);overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.5)}.collage img{width:100%;height:100%;object-fit:cover}.collage .col-0{left:0;top:6%;width:62%;aspect-ratio:4/5;z-index:2}.collage .col-1{right:0;top:0;width:44%;aspect-ratio:1;transform:rotate(4deg)}.collage .col-2{right:4%;bottom:0;width:52%;aspect-ratio:4/3;transform:rotate(-3deg);z-index:3}
+.hero-bold{min-height:auto;background:var(--ink);color:var(--paper);padding:9rem 0 0;display:block}.hero-bold h1{font-size:clamp(3rem,10vw,9rem);letter-spacing:-.04em;line-height:.95}.hero-bold .lead{color:color-mix(in srgb,var(--paper) 70%,transparent)}.hero-bold .hero-inner{transform:none;opacity:1;padding-bottom:3rem}.hero-bold-media{position:relative;width:min(var(--wrap),calc(100% - 2rem));margin:0 auto -6rem}.hero-bold-media>div{aspect-ratio:16/8;border-radius:var(--radius);overflow:hidden}.hero-bold-media img{width:100%;height:100%;object-fit:cover}.hero-bold+section,.hero-bold+div{padding-top:9rem}.hero-bold .mesh{opacity:.5}`);
+    if (L === "editorial") o.push(`:root{--radius:4px}h1,h2,h3{font-weight:500;letter-spacing:-.015em}.svc-card,.bento-cell,.area-card,.member,.post-card,.aside-card,.fin-card,.form-card{box-shadow:none;border:1px solid var(--line);background:var(--paper)}.btn,.chip,.site-header .btn-primary{border-radius:4px}.sticky-cta,.sticky-cta a{border-radius:8px}.eyebrow{color:var(--ink);opacity:.6}.stats ul{border:0}.stats li{border-top:1px solid var(--ink);padding-top:1rem}.cta-band{background:var(--ink)}.cta-bg::after{background:color-mix(in srgb,var(--ink) 80%,#000)}.reviews{background:var(--paper-2);color:var(--ink)}.review{background:var(--paper);border-color:var(--line)}.carousel-ctl button{border-color:var(--ink)}.manifesto .scrub{font-style:italic}`);
+    if (L === "split") o.push(`.svc-grid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}.svc-card{background:var(--paper);border:1px solid var(--line)}.svc-card:hover{border-color:var(--primary)}.reviews{background:var(--primary)}.review{background:rgba(255,255,255,.1)}.cta-band{background:var(--ink)}.split-media img{aspect-ratio:1;border-radius:50% var(--radius) 50% var(--radius)}`);
+    if (L === "collage") o.push(`:root{--radius:28px}.svc-card{background:var(--paper);box-shadow:0 20px 50px -30px rgba(0,0,0,.35)}.btn{padding:1.05rem 1.8rem}.ticker{background:var(--accent);color:#111}.ticker i{color:#111}.reviews{background:var(--paper-2);color:var(--ink)}.review{background:var(--paper);border-color:var(--line)}.carousel-ctl button{border-color:var(--ink)}.stack li{border-radius:28px}.cta-band{border-radius:var(--radius);margin:0 1rem 1rem}`);
+    if (L === "bold") o.push(`h2{font-size:clamp(2.2rem,5vw,4.2rem);letter-spacing:-.03em}.svc-grid{grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.8rem}.svc-card{background:var(--primary);color:#fff;border-radius:calc(var(--radius) + 8px)}.svc-card p{color:rgba(255,255,255,.75)}.svc-card .arrow{background:var(--ink);color:#fff}.svc-card:nth-child(3n+2){background:var(--ink);color:var(--paper)}.svc-card:nth-child(3n){background:var(--accent);color:#111}.svc-card:nth-child(3n) p{color:rgba(0,0,0,.65)}.svc-card:nth-child(3n) .num{color:#111}.stats{background:var(--primary);color:#fff;padding-block:0}.stats ul{border:0}.stats strong{color:#fff;-webkit-text-fill-color:#fff;background:none}.stats span{color:rgba(255,255,255,.7)}.ticker{background:var(--accent);color:#111}.ticker i{color:#111}.bento-cell{border-radius:calc(var(--radius) + 8px)}.cta-band{background:var(--accent);color:#111}.cta-band .btn-light{background:#111;color:#fff}.cta-band .btn-ghost{border-color:#111;color:#111}.cta-bg::after{background:color-mix(in srgb,var(--accent) 85%,#000)}`);
+    o.push(`@media(max-width:899px){.collage{aspect-ratio:1.1}.hero-bold-media{margin-bottom:-3rem}.hero-bold+section,.hero-bold+div{padding-top:5rem}}`);
+    return o.join("\n");
   }
   function fxCss(p) {
     const f = p.brand.fx || {}, st = p.brand.style, out = [];

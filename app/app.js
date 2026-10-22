@@ -43,8 +43,9 @@
     $$("[data-bind]").forEach(el => {
       const path = el.dataset.bind;
       const v = get(project, path);
-      if (el.type === "checkbox") el.checked = !!v; else if (v != null) el.value = v;
-      el.addEventListener(el.tagName === "SELECT" || el.type === "checkbox" || el.type === "color" ? "change" : "input", () => {
+      if (el.type === "checkbox") el.checked = !!v; else if (el.type === "radio") el.checked = el.value === v; else if (v != null) el.value = v;
+      el.addEventListener(el.tagName === "SELECT" || el.type === "checkbox" || el.type === "radio" || el.type === "color" ? "change" : "input", () => {
+        if (el.type === "radio" && !el.checked) return;
         set(project, path, el.type === "checkbox" ? el.checked : el.value);
         if (path.startsWith("brand")) swatch();
         updateCounts(); persist();
@@ -52,7 +53,7 @@
     });
     swatch();
   }
-  function refreshBinds() { $$("[data-bind]").forEach(el => { const v = get(project, el.dataset.bind); if (el.type === "checkbox") el.checked = !!v; else el.value = v ?? ""; }); swatch(); }
+  function refreshBinds() { $$("[data-bind]").forEach(el => { const v = get(project, el.dataset.bind); if (el.type === "checkbox") el.checked = !!v; else if (el.type === "radio") el.checked = el.value === v; else el.value = v ?? ""; }); swatch(); }
   function swatch() {
     const b = project.brand, s = $("#swatch");
     s.style.setProperty("--sw-primary", b.primary); s.style.setProperty("--sw-accent", b.accent);
@@ -60,6 +61,28 @@
     const link = $("#swatch-fonts") || Object.assign(document.head.appendChild(document.createElement("link")), { id: "swatch-fonts", rel: "stylesheet" });
     link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(b.fontDisplay).replace(/%20/g, "+")}:wght@600&family=${encodeURIComponent(b.fontBody).replace(/%20/g, "+")}:wght@600&display=swap`;
   }
+
+  /* ---------- presets ---------- */
+  const PALETTES = [
+    ["Ocean & amber", "#1f6f8b", "#f2b950", "#13202a", "#f7f5ef"], ["Forest & honey", "#2f5d50", "#e3a93a", "#15201b", "#f6f3ec"], ["Plum & blush", "#5b2a86", "#f0a6a6", "#1d1526", "#faf5f7"],
+    ["Navy & coral", "#1b2a4a", "#ff6b57", "#0f1626", "#f5f6f8"], ["Terracotta & sage", "#b85c38", "#9bb28a", "#2a1d17", "#fbf4ec"], ["Charcoal & lime", "#23262b", "#b9f04a", "#121417", "#f4f4f1"],
+    ["Teal & sand", "#0f5f5a", "#d8a85b", "#101417", "#f7f4ee"], ["Berry & gold", "#8a1c4a", "#e6c45c", "#24101a", "#fbf6f4"], ["Slate & sky", "#3a4a5c", "#7cc4ff", "#171d24", "#f3f5f8"], ["Olive & cream", "#5f6b3a", "#f0d58c", "#1f2218", "#faf8f0"],
+  ];
+  const FONTS = [["Fraunces + Inter", "Fraunces", "Inter"], ["Playfair Display + DM Sans", "Playfair Display", "DM Sans"], ["Cormorant Garamond + Work Sans", "Cormorant Garamond", "Work Sans"], ["DM Serif Display + Figtree", "DM Serif Display", "Figtree"], ["Space Grotesk + Inter", "Space Grotesk", "Inter"], ["Syne + Manrope", "Syne", "Manrope"], ["Bricolage Grotesque + Nunito Sans", "Bricolage Grotesque", "Nunito Sans"], ["Instrument Serif + Source Sans 3", "Instrument Serif", "Source Sans 3"], ["Outfit + Inter", "Outfit", "Inter"], ["Libre Caslon Text + IBM Plex Sans", "Libre Caslon Text", "IBM Plex Sans"]];
+  PALETTES.forEach((x, i) => $("#palette-preset").add(new Option(x[0], i)));
+  FONTS.forEach((x, i) => $("#font-preset").add(new Option(x[0], i)));
+  function applyPalette(i) { const x = PALETTES[i]; Object.assign(project.brand, { primary: x[1], accent: x[2], ink: x[3], paper: x[4] }); }
+  function applyFonts(i) { const x = FONTS[i]; project.brand.fontDisplay = x[1]; project.brand.fontBody = x[2]; }
+  $("#palette-preset").addEventListener("change", e => { if (e.target.value !== "") { applyPalette(+e.target.value); refreshBinds(); persist(); } });
+  $("#font-preset").addEventListener("change", e => { if (e.target.value !== "") { applyFonts(+e.target.value); refreshBinds(); persist(); } });
+  $("#btn-random").addEventListener("click", () => {
+    const r = (n) => Math.floor(Math.random() * n);
+    applyPalette(r(PALETTES.length)); applyFonts(r(FONTS.length));
+    project.brand.layout = ["cinematic", "split", "editorial", "collage", "bold"][r(5)];
+    project.brand.radius = String([4, 12, 18, 24, 32][r(5)]);
+    project.brand.style = Math.random() < 0.7 ? "snazzy" : "editorial";
+    refreshBinds(); persist(); toast(`Look: ${project.brand.layout} · ${project.brand.fontDisplay} · ${PALETTES.find(x => x[1] === project.brand.primary)[0]}`);
+  });
 
   /* ---------- steps ---------- */
   function go(step) {
